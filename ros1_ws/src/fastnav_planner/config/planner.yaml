@@ -1,0 +1,56 @@
+# fastnav_planner 只消费 FastNav 标准接口，不直接订阅 GZ / PX4 / MAVROS 专有 topic。
+local_planner:
+  odom_topic: "/fastnav/state/odom"
+  cloud_topic: "/fastnav/perception/cloud_filtered"
+  goal_topic: "/move_base_simple/goal"
+  extra_goal_topic: "/fastnav/planner/goal"
+
+  path_topic: "/fastnav/planner/path"
+  searched_nodes_topic: "/fastnav/planner/searched_nodes"
+  debug_occupied_cloud_topic: "/fastnav/planner/debug_occupied_cloud"
+  debug_inflated_cloud_topic: "/fastnav/planner/debug_inflated_cloud"
+
+  # PlannerFSM 只管理规划状态和路径输出，不构造控制量；控制模块后续只消费路径或轨迹。
+  fsm:
+    exec_rate: 20.0
+    safety_rate: 10.0
+    have_trigger: true
+    sequential_start_enable: false
+
+  # PathOptimizer 是 FSM 持有的优化器实例，当前第一版做 A* path shortcut。
+  optimizer:
+    enable: true
+    shortcut: true
+    line_check_step: 0.1
+
+  frame_id: "odom"
+  # 收到目标点后，每次局部点云刷新都重新尝试一次规划。
+  # 这样即使 goal 先于第一帧地图到达，地图准备好之后也会自动补一次 A*。
+  replan_on_cloud: true
+
+  # planner 内部持有自己的 VoxelMap，地图中心跟随无人机位置 $c$。
+  map:
+    resolution: 0.2
+    local_x_size: 20.0
+    local_y_size: 20.0
+    local_z_size: 6.0
+    local_z_min: -2.0
+    local_z_max: 4.0
+    drone_radius: 0.35
+    safety_margin: 0.15
+    # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
+    # 当前没有 raycasting free-space，p_miss 先作为后续接口保留；旧障碍通过 temporal_decay_log 缓慢回到未知 $l=0$。
+    p_hit: 0.70
+    p_miss: 0.45
+    p_min: 0.12
+    p_max: 0.97
+    p_occ: 0.65
+    temporal_decay_log: 0.05
+
+  # A* 直接内存查询 VoxelMap，不通过 ROS service 高频查询地图。
+  astar:
+    allow_diagonal: true
+    heuristic_weight: 1.2
+    max_search_nodes: 50000
+    check_line_collision: true
+    line_check_step: 0.1

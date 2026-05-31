@@ -1,0 +1,8 @@
+prefix=/home/shukun/Project/FastNav/ros1_ws/install
+
+Name: fastnav_perception
+Description: Description of fastnav_perception
+Version: 0.0.1
+Cflags: -I/usr/include/pcl-1.12 -I/usr/include/eigen3 -I/usr/include
+Libs: -L${prefix}/lib /usr/lib/x86_64-linux-gnu/libpcl_common.so /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so /usr/lib/x86_64-linux-gnu/libpcl_octree.so /usr/lib/x86_64-linux-gnu/libpcl_search.so /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so /usr/lib/x86_64-linux-gnu/libpcl_filters.so /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0 /usr/lib/x86_64-linux-gnu/libflann_cpp.so
+Requires: geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs tf2 tf2_ros tf2_sensor_msgs

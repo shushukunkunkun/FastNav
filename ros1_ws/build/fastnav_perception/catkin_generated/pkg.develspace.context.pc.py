@@ -1,0 +1,8 @@
+# generated from catkin/cmake/template/pkg.context.pc.in
+CATKIN_PACKAGE_PREFIX = ""
+PROJECT_PKG_CONFIG_INCLUDE_DIRS = "/usr/include/pcl-1.12;/usr/include/eigen3;/usr/include".split(';') if "/usr/include/pcl-1.12;/usr/include/eigen3;/usr/include" != "" else []
+PROJECT_CATKIN_DEPENDS = "geometry_msgs;nav_msgs;pcl_conversions;pcl_ros;roscpp;sensor_msgs;tf2;tf2_ros;tf2_sensor_msgs".replace(';', ' ')
+PKG_CONFIG_LIBRARIES_WITH_PREFIX = "/usr/lib/x86_64-linux-gnu/libpcl_common.so;/usr/lib/x86_64-linux-gnu/libpcl_kdtree.so;/usr/lib/x86_64-linux-gnu/libpcl_octree.so;/usr/lib/x86_64-linux-gnu/libpcl_search.so;/usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so;/usr/lib/x86_64-linux-gnu/libpcl_filters.so;/usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0;/usr/lib/x86_64-linux-gnu/libflann_cpp.so".split(';') if "/usr/lib/x86_64-linux-gnu/libpcl_common.so;/usr/lib/x86_64-linux-gnu/libpcl_kdtree.so;/usr/lib/x86_64-linux-gnu/libpcl_octree.so;/usr/lib/x86_64-linux-gnu/libpcl_search.so;/usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so;/usr/lib/x86_64-linux-gnu/libpcl_filters.so;/usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.74.0;/usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0;/usr/lib/x86_64-linux-gnu/libflann_cpp.so" != "" else []
+PROJECT_NAME = "fastnav_perception"
+PROJECT_SPACE_DIR = "/home/shukun/Project/FastNav/ros1_ws/devel"
+PROJECT_VERSION = "0.0.1"

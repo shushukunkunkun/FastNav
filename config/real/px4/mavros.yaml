@@ -1,0 +1,11 @@
+# 真机 PX4 / MAVROS 连接参数。
+px4:
+  mode: real
+  params_file: config/real/px4/multicopter_limits.params
+  fcu_url: serial:///dev/ttyACM0:57600
+  gcs_url: ""
+  tgt_system: 1
+  tgt_component: 1
+
+state_sources:
+  odom_topic: /mavros/local_position/odom

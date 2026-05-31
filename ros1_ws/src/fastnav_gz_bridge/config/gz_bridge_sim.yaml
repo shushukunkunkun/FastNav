@@ -1,0 +1,12 @@
+pointcloud:
+  gz_topic: /lidar_points/points
+  ros_topic: /fastnav/lidar/points
+  frame_id: mid360_link
+  use_sim_time_stamp: false
+
+odom:
+  gz_topic: /model/x500_mid360_0/odometry_with_covariance
+  ros_topic: /fastnav/state/odom
+  frame_id: odom
+  child_frame_id: base_link
+  use_sim_time_stamp: false

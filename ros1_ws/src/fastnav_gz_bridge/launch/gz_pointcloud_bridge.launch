@@ -1,0 +1,17 @@
+<launch>
+    <node pkg="fastnav_gz_bridge"
+          type="gz_pointcloud_bridge_node"
+          name="fastnav_gz_pointcloud_bridge_node"
+          output="screen">
+        <rosparam file="$(find fastnav_gz_bridge)/config/gz_bridge_sim.yaml"
+                  command="load"/>
+    </node>
+
+    <node pkg="fastnav_gz_bridge"
+          type="gz_odom_bridge_node"
+          name="fastnav_gz_odom_bridge_node"
+          output="screen">
+        <rosparam file="$(find fastnav_gz_bridge)/config/gz_bridge_sim.yaml"
+                  command="load"/>
+    </node>
+</launch>

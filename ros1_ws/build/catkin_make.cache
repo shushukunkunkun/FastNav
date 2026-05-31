@@ -1,0 +1,2 @@
+fastnav_bringup:fastnav_control:fastnav_gz_bridge:fastnav_mapping:fastnav_msgs:fastnav_perception:fastnav_planner:fastnav_tf
+-DCATKIN_DEVEL_PREFIX=/home/shukun/Project/FastNav/ros1_ws/devel -DCMAKE_INSTALL_PREFIX=/home/shukun/Project/FastNav/ros1_ws/install -G Unix Makefiles

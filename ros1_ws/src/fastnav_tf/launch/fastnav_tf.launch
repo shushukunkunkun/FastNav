@@ -1,0 +1,27 @@
+<launch>
+    <arg name="odom_topic" default="/fastnav/state/odom"/>
+    <arg name="odom_frame" default="odom"/>
+    <arg name="base_frame" default="base_link"/>
+    <arg name="lidar_frame" default="mid360_link"/>
+
+    <arg name="lidar_x" default="0"/>
+    <arg name="lidar_y" default="0"/>
+    <arg name="lidar_z" default="0.18"/>
+    <arg name="lidar_yaw" default="0"/>
+    <arg name="lidar_pitch" default="0"/>
+    <arg name="lidar_roll" default="0"/>
+
+    <node pkg="fastnav_tf"
+          type="fastnav_tf_broadcaster_node"
+          name="fastnav_tf_broadcaster_node"
+          output="screen">
+        <param name="odom_topic" value="$(arg odom_topic)"/>
+        <param name="parent_frame" value="$(arg odom_frame)"/>
+        <param name="child_frame" value="$(arg base_frame)"/>
+    </node>
+
+    <node pkg="tf"
+          type="static_transform_publisher"
+          name="fastnav_mid360_static_tf"
+          args="$(arg lidar_x) $(arg lidar_y) $(arg lidar_z) $(arg lidar_yaw) $(arg lidar_pitch) $(arg lidar_roll) $(arg base_frame) $(arg lidar_frame) 100"/>
+</launch>

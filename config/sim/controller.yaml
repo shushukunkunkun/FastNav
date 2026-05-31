@@ -1,0 +1,6 @@
+# 仿真控制器参数。控制层可以在 sim bringup 中加载这些值。
+controller:
+  mode: offboard
+  control_cmd_topic: /fastnav/control_cmd
+  kp: 1.0
+  command_timeout: 0.5

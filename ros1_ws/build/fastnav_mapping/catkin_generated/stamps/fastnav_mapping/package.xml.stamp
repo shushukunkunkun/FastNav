@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>fastnav_mapping</name>
+  <version>0.0.1</version>
+  <description>FastNav local voxel mapping package.</description>
+
+  <maintainer email="shukun@example.com">shukun</maintainer>
+  <license>MIT</license>
+
+  <!-- catkin 是 ROS1 构建工具，本包生成 voxel_map 库和 local_voxel_map_node 节点。 -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- geometry_msgs 保留给后续地图可视化和查询接口扩展。 -->
+  <depend>geometry_msgs</depend>
+  <!-- nav_msgs 提供 FastNav 标准状态输入 $/fastnav/state/odom$。 -->
+  <depend>nav_msgs</depend>
+  <!-- pcl_conversions 负责把体素中心点集转换为 sensor_msgs/PointCloud2。 -->
+  <depend>pcl_conversions</depend>
+  <!-- pcl_ros 提供 PCL 与 ROS 的集成能力。 -->
+  <depend>pcl_ros</depend>
+  <!-- roscpp 提供 ROS1 C++ 节点、订阅、发布、参数读取等基础功能。 -->
+  <depend>roscpp</depend>
+  <!-- sensor_msgs 提供输入输出 PointCloud2 消息。 -->
+  <depend>sensor_msgs</depend>
+  <!-- visualization_msgs 提供 Marker CUBE_LIST，用于在 RViz 中以立方体显示体素。 -->
+  <depend>visualization_msgs</depend>
+</package>

@@ -1,0 +1,6 @@
+# 真机控制器参数。建议比仿真更保守，并配合 RC / failsafe。
+controller:
+  kp: 1.2
+  mode: offboard
+  control_cmd_topic: /fastnav/control_cmd
+  command_timeout: 0.3

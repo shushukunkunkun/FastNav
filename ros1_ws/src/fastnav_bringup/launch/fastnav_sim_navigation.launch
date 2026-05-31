@@ -1,0 +1,67 @@
+<!--
+    FastNav simulation navigation bringup.
+
+    使用方式：
+      1. 先单独启动 PX4 + Gazebo Sim：make px4_sitl gz_x500_mid360_single_obstacle
+      2. 再启动本 launch：roslaunch fastnav_bringup fastnav_sim_navigation.launch
+      3. 最后单独打开 RViz，将 Fixed Frame 设置为 odom。
+
+    本 launch 不启动 PX4/GZ，也不启动 RViz；它只启动 FastNav 侧 ROS 链路。
+-->
+<launch>
+    <!--
+        当前链路还没有 GZ -> ROS /clock bridge，因此默认使用 ROS wall time。
+        若设置 use_sim_time:=true 但 ROS 中没有 /clock，ros::Time::now() 会保持为 0，
+        fastnav_tf_broadcaster_node 会持续发布同一时间戳的 odom -> base_link，触发 TF_REPEATED_DATA。
+    -->
+    <arg name="use_sim_time" default="false"/>
+
+    <!-- 每个子模块都保留开关，便于单独调试其中一层。 -->
+    <arg name="start_gz_bridge" default="true"/>
+    <arg name="start_tf" default="true"/>
+    <arg name="start_perception" default="true"/>
+    <arg name="start_mapping" default="true"/>
+    <arg name="start_planner" default="true"/>
+
+    <!-- 全局仿真时间参数，TF、RViz、PointCloud2 时间戳都会受它影响。 -->
+    <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+    <!--
+        GZ bridge 层：
+        GZ Mid360 点云 -> /fastnav/lidar/points，frame_id = mid360_link；
+        GZ odom -> /fastnav/state/odom，header.frame_id = odom，child_frame_id = base_link。
+    -->
+    <include if="$(arg start_gz_bridge)"
+             file="$(find fastnav_gz_bridge)/launch/gz_pointcloud_bridge.launch"/>
+
+    <!--
+        TF 层：
+        /fastnav/state/odom -> odom 到 base_link 的动态 TF；
+        base_link -> mid360_link 的静态 TF。
+    -->
+    <include if="$(arg start_tf)"
+             file="$(find fastnav_tf)/launch/fastnav_tf.launch"/>
+
+    <!--
+        感知层：
+        /fastnav/lidar/points -> /fastnav/perception/cloud_odom -> /fastnav/perception/cloud_filtered。
+    -->
+    <include if="$(arg start_perception)"
+             file="$(find fastnav_perception)/launch/perception.launch"/>
+
+    <!--
+        mapping 独立调试层：
+        /fastnav/perception/cloud_filtered -> /fastnav/map/occupied_cloud 和 /fastnav/map/inflated_cloud。
+        planner 内部也会持有自己的 VoxelMap，这里的 mapping 输出主要用于 RViz 对照验证。
+    -->
+    <include if="$(arg start_mapping)"
+             file="$(find fastnav_mapping)/launch/mapping.launch"/>
+
+    <!--
+        planner 层：
+        订阅 /fastnav/state/odom、/fastnav/perception/cloud_filtered、/move_base_simple/goal，
+        内部直接复用 VoxelMap 和 AStarPlanner，输出 /fastnav/planner/path 等调试话题。
+    -->
+    <include if="$(arg start_planner)"
+             file="$(find fastnav_planner)/launch/planner.launch"/>
+</launch>

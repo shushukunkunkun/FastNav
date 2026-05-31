@@ -1,0 +1,12 @@
+# 真机机体参数。根据实际机架、载荷、电池和飞控调参更新。
+uav:
+  name: real_quad
+  base_frame: base_link
+  geometry:
+    radius: 0.35
+    height: 0.20
+  physical_limits:
+    max_vel: 0.5
+    max_acc: 1.5
+    max_jerk: 3.0
+    feasibility_tolerance: 0.05

@@ -1,0 +1,14 @@
+# 机体基础参数。这里放 sim / real 都共用的几何和默认动力学上限。
+uav:
+  name: x500_mid360
+  base_frame: base_link
+
+  geometry:
+    radius: 0.35
+    height: 0.20
+
+  physical_limits:
+    max_vel: 1.5
+    max_acc: 2.5
+    max_jerk: 4.0
+    feasibility_tolerance: 0.05

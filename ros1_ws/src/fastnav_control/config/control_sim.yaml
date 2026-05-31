@@ -1,0 +1,27 @@
+control:
+  rate: 20.0
+
+takeoff:
+  x: 0.0
+  y: 0.0
+  z: 1.5
+  yaw: 0.0
+  position_tolerance: 0.15
+
+offboard:
+  init_setpoint_count: 100
+  request_interval: 5.0
+
+control_cmd:
+  timeout: 0.5
+
+topic:
+  state: /mavros/state
+  odom: /mavros/local_position/odom
+  position_setpoint: /mavros/setpoint_position/local
+  velocity_setpoint: /mavros/setpoint_velocity/cmd_vel
+  control_cmd: /fastnav/control_cmd
+
+service:
+  arming: /mavros/cmd/arming
+  set_mode: /mavros/set_mode

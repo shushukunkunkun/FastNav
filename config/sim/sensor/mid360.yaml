@@ -1,0 +1,9 @@
+# 仿真 Mid360 参数。SDF 中的 gpu_lidar 负责生成原始 GZ 点云。
+sensor:
+  mid360:
+    ros_topic: /fastnav/lidar/points
+    gz_topic: /lidar_points
+    frame_id: mid360_link
+    range_min: 0.2
+    range_max: 40.0
+    noise_stddev: 0.01

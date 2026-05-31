@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>fastnav_perception</name>
+  <version>0.0.1</version>
+  <description>FastNav point cloud transform and filtering package.</description>
+
+  <maintainer email="shukun@example.com">shukun</maintainer>
+  <license>MIT</license>
+
+  <!-- catkin 是 ROS1 包的构建工具，本包最终生成两个节点：cloud_transform_node 和 cloud_filter_node。 -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- geometry_msgs 提供 TransformStamped，TF 变换可写成 $p_o = R_ol p_l + t_ol$。 -->
+  <depend>geometry_msgs</depend>
+  <!-- nav_msgs 当前不是感知节点直接订阅项，但保留为 FastNav 标准状态接口 $/fastnav/state/odom$ 的工程依赖。 -->
+  <depend>nav_msgs</depend>
+  <!-- pcl_conversions 负责在 sensor_msgs/PointCloud2 和 pcl::PointCloud 之间转换点集 $S = {p_i}$。 -->
+  <depend>pcl_conversions</depend>
+  <!-- pcl_ros 提供 PCL 与 ROS 的集成能力，后续 local voxel map 也会继续复用。 -->
+  <depend>pcl_ros</depend>
+  <!-- roscpp 提供 ROS1 C++ 节点、订阅、发布、参数读取等基础能力。 -->
+  <depend>roscpp</depend>
+  <!-- sensor_msgs 提供输入输出点云消息，当前使用 sensor_msgs/PointCloud2。 -->
+  <depend>sensor_msgs</depend>
+  <!-- tf2 表示坐标变换关系，核心约束是 $odom -> base_link -> mid360_link$ 必须连通。 -->
+  <depend>tf2</depend>
+  <!-- tf2_ros 提供 Buffer 和 TransformListener，用于查询 $T_odom_mid360$。 -->
+  <depend>tf2_ros</depend>
+  <!-- tf2_sensor_msgs 提供 PointCloud2 的整体坐标变换函数，相当于对每个点应用 $p_o = R p_l + t$。 -->
+  <depend>tf2_sensor_msgs</depend>
+</package>

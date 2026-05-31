@@ -1,0 +1,11 @@
+# 通用安全边界。真实飞行时建议在 real/safety.yaml 中进一步收紧。
+safety:
+  geofence:
+    enable: false
+    radius: 50.0
+    z_min: -0.2
+    z_max: 5.0
+
+  obstacle:
+    drone_radius: 0.35
+    safety_margin: 0.15

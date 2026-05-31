@@ -1,0 +1,10 @@
+# 仿真 mapping 默认参数。
+mapping:
+  local_voxel_map:
+    resolution: 0.2
+    local_x_size: 20.0
+    local_y_size: 20.0
+    local_z_min: -2.0
+    local_z_max: 4.0
+    drone_radius: 0.35
+    safety_margin: 0.15

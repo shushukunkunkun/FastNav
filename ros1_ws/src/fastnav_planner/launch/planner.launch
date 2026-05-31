@@ -1,0 +1,11 @@
+<launch>
+    <!-- 加载 planner 参数；planner 内部自己用 /fastnav/perception/cloud_filtered 更新 VoxelMap。 -->
+    <rosparam file="$(find fastnav_planner)/config/planner.yaml"
+              command="load"/>
+
+    <!-- ROS node 只负责启动 PlannerFSM；FSM 再组织 LocalPlannerManager 和 PathOptimizer。 -->
+    <node pkg="fastnav_planner"
+          type="fastnav_local_planner_node"
+          name="fastnav_local_planner_node"
+          output="screen"/>
+</launch>

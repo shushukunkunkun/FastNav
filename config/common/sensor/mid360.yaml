@@ -1,0 +1,10 @@
+# Mid360 / LiDAR 通用参数。仿真和真机可以在各自 sensor/mid360.yaml 中覆盖 topic 或噪声参数。
+sensor:
+  mid360:
+    frame_id: mid360_link
+    parent_frame: base_link
+    mount_xyz: [0.0, 0.0, 0.1]
+    mount_rpy: [0.0, 0.0, 0.0]
+    range_min: 0.2
+    range_max: 40.0
+    update_rate: 10.0

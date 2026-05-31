@@ -1,0 +1,46 @@
+<!--
+    Load FastNav project-level configuration.
+
+    这些参数加载到 /fastnav_config 命名空间，用作 sim / real 的统一配置描述。
+    节点运行时参数仍可以由各自 package 的 launch/yaml 加载；后续逐步迁移时，
+    可以让节点从 /fastnav_config 读取公共配置，避免仿真和真机各写一套硬编码。
+-->
+<launch>
+    <arg name="mode" default="sim"/>
+    <arg name="ns" default="/fastnav_config"/>
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
+
+    <group ns="$(arg ns)">
+        <!-- Common config shared by sim and real. -->
+        <rosparam file="$(arg config_root)/common/frames.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/topics.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/mission.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/safety.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/uav/x500_mid360.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/sensor/mid360.yaml" command="load"/>
+
+        <!-- Simulation-specific overrides and assets references. -->
+        <group if="$(eval arg('mode') == 'sim')">
+            <rosparam file="$(arg config_root)/sim/uav/x500_mid360.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/px4/sitl.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/gz/x500_mid360_single_obstacle.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/sensor/mid360.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/planner.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/controller.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/perception.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/mapping.yaml" command="load"/>
+        </group>
+
+        <!-- Real-flight-specific overrides. -->
+        <group if="$(eval arg('mode') == 'real')">
+            <rosparam file="$(arg config_root)/real/uav/real_quad.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/px4/mavros.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/sensor/mid360.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/planner.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/controller.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/perception.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/mapping.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/real/safety.yaml" command="load"/>
+        </group>
+    </group>
+</launch>

@@ -1,0 +1,11 @@
+# 真机安全参数覆盖。
+safety:
+  geofence:
+    enable: true
+    radius: 20.0
+    z_min: -0.1
+    z_max: 3.0
+
+  obstacle:
+    drone_radius: 0.35
+    safety_margin: 0.25

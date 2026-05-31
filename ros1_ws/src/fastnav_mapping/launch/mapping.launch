@@ -1,0 +1,11 @@
+<launch>
+    <!-- 加载局部体素地图参数，地图边界跟随无人机 odom 位置 $c$。 -->
+    <rosparam file="$(find fastnav_mapping)/config/mapping.yaml"
+              command="load"/>
+
+    <!-- local_voxel_map_node 只消费 /fastnav/perception/cloud_filtered 和 /fastnav/state/odom。 -->
+    <node pkg="fastnav_mapping"
+          type="local_voxel_map_node"
+          name="local_voxel_map_node"
+          output="screen"/>
+</launch>

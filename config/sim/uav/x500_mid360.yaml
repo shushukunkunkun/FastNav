@@ -1,0 +1,9 @@
+# 仿真使用的无人机模型描述。真实的 SDF / airframe / PX4 params 仍放在 simulation/。
+uav:
+  name: x500_mid360
+  model_name: x500_mid360
+  instance_name: x500_mid360_0
+  px4_airframe: 4010_gz_x500_mid360
+  px4_params:
+    - simulation/px4/params/sitl_x500_mid360.params
+    - simulation/px4/params/sitl_offboard.params

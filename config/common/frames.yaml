@@ -1,0 +1,16 @@
+# FastNav 内部统一坐标系。仿真和真机算法层都只依赖这套 frame 名称。
+frames:
+  map: map
+  odom: odom
+  base_link: base_link
+  lidar: mid360_link
+
+  # Gazebo / PX4 内部可能使用 world，但后端算法不直接依赖 world。
+  sim_world: world
+
+static_tf:
+  base_link_to_lidar:
+    parent: base_link
+    child: mid360_link
+    xyz: [0.0, 0.0, 0.1]
+    rpy: [0.0, 0.0, 0.0]

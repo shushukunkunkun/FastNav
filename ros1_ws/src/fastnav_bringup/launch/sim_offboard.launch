@@ -1,0 +1,79 @@
+<!--
+    ROS launch 文件本质上是一个 XML 文件，用来一次性启动多个 ROS 节点、加载参数，或包含其他 launch 文件。
+    本文件用于 FastNav 仿真 offboard 模式启动：先启动 MAVROS 与 PX4 SITL 通信，再启动 FastNav 的控制模块。
+-->
+<launch>
+    <!-- <launch> 是每个 ROS1 launch 文件的根标签，所有 <arg>、<node>、<include>、<param> 等标签都必须写在它内部。 -->
+    <!-- ========================= -->
+    <!-- FastNav simulation bringup -->
+    <!-- ========================= -->
+
+    <!--
+        <arg> 用来声明 launch 参数，name 是参数名，default 是默认值。
+        启动时可以用 roslaunch fastnav_bringup sim_offboard.launch fcu_url:=xxx 覆盖默认值。
+        fcu_url 是 MAVROS 连接飞控/PX4 SITL 的 URL。
+        udp://:14540@127.0.0.1:14557 表示本机 UDP 通信：本地监听 14540，并向 127.0.0.1:14557 发送数据。
+    -->
+    <arg name="fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+
+    <!--
+        gcs_url 是 MAVROS 转发给地面站 QGroundControl/Mission Planner 的连接地址。
+        默认空字符串表示这里不额外配置 GCS 转发。
+    -->
+    <arg name="gcs_url" default=""/>
+
+    <!--
+        tgt_system 是 MAVLink 目标系统 ID，通常 PX4 单机仿真使用 1。
+        MAVROS 会用它确认自己连接的是哪一个飞控系统。
+    -->
+    <arg name="tgt_system" default="1"/>
+
+    <!--
+        tgt_component 是 MAVLink 目标组件 ID，通常 autopilot 组件使用 1。
+        多组件系统中可用它区分 autopilot、camera、gimbal 等不同组件。
+    -->
+    <arg name="tgt_component" default="1"/>
+
+    <!-- ========================= -->
+    <!-- MAVROS -->
+    <!-- ========================= -->
+
+    <!--
+        <include> 表示包含并执行另一个 launch 文件。
+        $(find mavros) 是 ROS launch 的 substitution arg，运行时会被替换成 mavros 包的路径。
+        因此 file="$(find mavros)/launch/px4.launch" 会找到 MAVROS 自带的 px4.launch。
+        这个 px4.launch 会启动 MAVROS 节点，并加载 PX4 相关插件配置。
+    -->
+    <include file="$(find mavros)/launch/px4.launch">
+
+        <!--
+            include 内部的 <arg> 用来给被包含的 px4.launch 传参。
+            value="$(arg fcu_url)" 表示读取本文件前面声明的 fcu_url 参数，并传给子 launch。
+            这样外部覆盖 sim_offboard.launch 的 fcu_url 时，MAVROS 子 launch 也会同步使用新值。
+        -->
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+
+        <!-- 把本文件的 gcs_url 参数继续传递给 MAVROS 的 px4.launch。 -->
+        <arg name="gcs_url" value="$(arg gcs_url)"/>
+
+        <!-- 把本文件的 tgt_system 参数继续传递给 MAVROS，用于设置 MAVLink 目标系统 ID。 -->
+        <arg name="tgt_system" value="$(arg tgt_system)"/>
+
+        <!-- 把本文件的 tgt_component 参数继续传递给 MAVROS，用于设置 MAVLink 目标组件 ID。 -->
+        <arg name="tgt_component" value="$(arg tgt_component)"/>
+    </include>
+
+    <!-- ========================= -->
+    <!-- FastNav control -->
+    <!-- ========================= -->
+
+    <!--
+        这里继续包含 FastNav 控制模块自己的 offboard_control.launch。
+        $(find fastnav_control) 会被替换成 fastnav_control 包路径。
+        该子 launch 通常负责启动 offboard 控制节点、控制参数、话题接口等 FastNav 自己的控制逻辑。
+        因为这里没有在 <include> 内传入 <arg>，所以 offboard_control.launch 会使用它内部定义的默认参数。
+    -->
+    <include file="$(find fastnav_control)/launch/offboard_control.launch"/>
+
+    <!-- </launch> 结束根标签，表示这个 launch 文件的所有启动项声明完毕。 -->
+</launch>

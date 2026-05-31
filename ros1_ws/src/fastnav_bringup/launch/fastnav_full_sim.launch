@@ -1,0 +1,89 @@
+<!--
+    FastNav full simulation bringup.
+
+    启动前先在 PX4 目录运行：
+      make px4_sitl gz_x500_mid360_single_obstacle
+
+    然后运行本 launch：
+      roslaunch fastnav_bringup fastnav_full_sim.launch
+
+    本 launch 负责拉起完整 ROS 侧链路：
+      MAVROS + FastNav control + GZ bridge + TF + perception + mapping + planner。
+
+    RViz 仍建议单独打开，方便你根据调试阶段选择显示内容。
+-->
+<launch>
+    <!-- ========================= -->
+    <!-- Global switches -->
+    <!-- ========================= -->
+
+    <!--
+        当前 FastNav 的 GZ bridge 还没有发布 ROS /clock，因此默认使用 ROS wall time。
+        如果后续补上 /clock bridge，再启动时传 use_sim_time:=true 即可切换到仿真时间。
+        否则 ros::Time::now() 会一直是 0，进而导致 odom -> base_link TF 重复发布 stamp=0。
+    -->
+    <arg name="use_sim_time" default="false"/>
+
+    <!-- 模块开关：需要单独调试某一层时，可以在命令行关闭对应模块。 -->
+    <arg name="start_mavros_control" default="true"/>
+    <arg name="start_navigation" default="true"/>
+
+    <arg name="start_gz_bridge" default="true"/>
+    <arg name="start_tf" default="true"/>
+    <arg name="start_perception" default="true"/>
+    <arg name="start_mapping" default="true"/>
+    <arg name="start_planner" default="true"/>
+
+    <!-- MAVROS 连接参数，默认匹配 PX4 SITL 的 UDP 端口。 -->
+    <arg name="fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+    <arg name="gcs_url" default=""/>
+    <arg name="tgt_system" default="1"/>
+    <arg name="tgt_component" default="1"/>
+
+    <!-- /use_sim_time 是全局参数，TF、RViz、PointCloud2 时间戳都会受它影响。 -->
+    <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+    <!--
+        加载项目级配置到 /fastnav_config。
+        这层配置用于描述 sim / real 差异、机体、传感器和标准 topic，不直接替代各节点当前运行参数。
+    -->
+    <include file="$(find fastnav_bringup)/launch/load_fastnav_config.launch">
+        <arg name="mode" value="sim"/>
+    </include>
+
+    <!-- ========================= -->
+    <!-- MAVROS + FastNav control -->
+    <!-- ========================= -->
+
+    <!--
+        复用已有 sim_offboard.launch：
+        1. 启动 MAVROS，与 PX4 SITL 建立 MAVLink 通信；
+        2. 启动 fastnav_control/offboard_control.launch。
+    -->
+    <include if="$(arg start_mavros_control)"
+             file="$(find fastnav_bringup)/launch/sim_offboard.launch">
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="gcs_url" value="$(arg gcs_url)"/>
+        <arg name="tgt_system" value="$(arg tgt_system)"/>
+        <arg name="tgt_component" value="$(arg tgt_component)"/>
+    </include>
+
+    <!-- ========================= -->
+    <!-- FastNav navigation stack -->
+    <!-- ========================= -->
+
+    <!--
+        复用已有 fastnav_sim_navigation.launch：
+        GZ bridge -> TF -> perception -> mapping -> planner。
+        这个链路只依赖 FastNav 标准接口，不直接依赖 PX4/GZ 专有 topic。
+    -->
+    <include if="$(arg start_navigation)"
+             file="$(find fastnav_bringup)/launch/fastnav_sim_navigation.launch">
+        <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="start_gz_bridge" value="$(arg start_gz_bridge)"/>
+        <arg name="start_tf" value="$(arg start_tf)"/>
+        <arg name="start_perception" value="$(arg start_perception)"/>
+        <arg name="start_mapping" value="$(arg start_mapping)"/>
+        <arg name="start_planner" value="$(arg start_planner)"/>
+    </include>
+</launch>

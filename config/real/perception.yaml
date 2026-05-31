@@ -1,0 +1,13 @@
+# 真机感知参数，默认比仿真保守。
+perception:
+  cloud_transform:
+    input_topic: /fastnav/lidar/points
+    output_topic: /fastnav/perception/cloud_odom
+    target_frame: odom
+
+  cloud_filter:
+    input_topic: /fastnav/perception/cloud_odom
+    output_topic: /fastnav/perception/cloud_filtered
+    range_min: 0.3
+    range_max: 15.0
+    voxel_leaf_size: 0.12

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>fastnav_planner</name>
+  <version>0.0.1</version>
+  <description>FastNav local planner package.</description>
+
+  <maintainer email="shukun@example.com">shukun</maintainer>
+  <license>MIT</license>
+
+  <!-- catkin 是 ROS1 构建工具；本包当前只保留 FSM 架构下的 fastnav_local_planner_node。 -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- fastnav_mapping 导出 VoxelMap，planner 在同一进程内直接调用 $isInflatedOccupied(p)$ 和 $isLineFree(p0,p1)$。 -->
+  <depend>fastnav_mapping</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>pcl_conversions</depend>
+  <depend>pcl_ros</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+</package>

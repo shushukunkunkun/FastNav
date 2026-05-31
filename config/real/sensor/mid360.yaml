@@ -1,0 +1,8 @@
+# 真机 Mid360 参数。topic 名称后续按 Livox 驱动实际输出修改。
+sensor:
+  mid360:
+    ros_topic: /livox/lidar
+    imu_topic: /livox/imu
+    frame_id: mid360_link
+    range_min: 0.2
+    range_max: 40.0

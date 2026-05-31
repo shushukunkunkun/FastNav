@@ -1,0 +1,8 @@
+prefix=/home/shukun/Project/FastNav/ros1_ws/devel
+
+Name: fastnav_control
+Description: Description of fastnav_control
+Version: 0.0.0
+Cflags: -I/home/shukun/Project/FastNav/ros1_ws/src/fastnav_control/include
+Libs: -L${prefix}/lib -lfastnav_control_core
+Requires: roscpp geometry_msgs nav_msgs std_msgs mavros_msgs fastnav_msgs

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sdf version="1.9">
+  <model name="x500_mid360">
+
+    <!--
+      Keep the original PX4 x500 model.
+      This preserves the x500 base frame, inertia, rotors, motor plugins,
+      and PX4-Gazebo control interface.
+    -->
+    <include merge="true">
+      <uri>model://x500</uri>
+    </include>
+
+    <!--
+      FastNav Mid-360 style lidar link.
+
+      Coordinate assumption:
+      - parent frame: base_link
+      - lidar mounted above the center of the drone
+      - x forward, y left, z up
+    -->
+    <link name="mid360_link">
+      <pose relative_to="base_link">0.0 0.0 0.18 0 0 0</pose>
+
+      <inertial>
+        <mass>0.265</mass>
+        <inertia>
+          <ixx>0.0004</ixx>
+          <iyy>0.0004</iyy>
+          <izz>0.0004</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+
+      <!-- Simple visual body for the lidar -->
+      <visual name="mid360_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.045</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1.0</ambient>
+          <diffuse>0.05 0.05 0.05 1.0</diffuse>
+          <specular>0.2 0.2 0.2 1.0</specular>
+        </material>
+      </visual>
+
+      <collision name="mid360_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.045</length>
+          </cylinder>
+        </geometry>
+      </collision>
+
+      <!--
+        Mid-360 style 3D lidar.
+
+        This is not a true Livox non-repetitive scanning model.
+        It approximates Mid-360 as a dense 360-degree gpu_lidar.
+
+        Mid-360 approximate FoV:
+        - horizontal: 360 deg
+        - vertical: -7 deg to +52 deg
+        - range: 0.1 m to 40 m
+        - update rate: 10 Hz
+      -->
+      <sensor name="mid360_lidar" type="gpu_lidar">
+        <pose>0 0 0 0 0 0</pose>
+        <topic>mid360/points</topic>
+
+        <update_rate>10</update_rate>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>720</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.141592653589793</min_angle>
+              <max_angle>3.141592653589793</max_angle>
+            </horizontal>
+
+            <vertical>
+              <samples>64</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.1221730476</min_angle>
+              <max_angle>0.9075712110</max_angle>
+            </vertical>
+          </scan>
+
+          <range>
+            <min>0.1</min>
+            <max>40.0</max>
+            <resolution>0.01</resolution>
+          </range>
+
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </ray>
+      </sensor>
+    </link>
+
+    <!-- Fixed joint between x500 body and Mid-360 lidar -->
+    <joint name="mid360_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>mid360_link</child>
+      <pose relative_to="base_link">0.0 0.0 0.18 0 0 0</pose>
+    </joint>
+
+  </model>
+</sdf>

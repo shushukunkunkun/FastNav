@@ -1,0 +1,8 @@
+prefix=/home/shukun/Project/FastNav/ros1_ws/install
+
+Name: fastnav_bringup
+Description: Description of fastnav_bringup
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

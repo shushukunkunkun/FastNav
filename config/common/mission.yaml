@@ -1,0 +1,4 @@
+# 任务级配置，供 bringup 或上层任务管理器读取。
+mission:
+  default_goal_frame: odom
+  waypoints: []

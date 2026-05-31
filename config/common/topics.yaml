@@ -1,0 +1,21 @@
+# FastNav 标准接口 topic。后端模块只依赖这些 topic，sim / real 差异留在 bridge 或 adapter 层。
+topics:
+  state_odom: /fastnav/state/odom
+  lidar_points: /fastnav/lidar/points
+
+  cloud_odom: /fastnav/perception/cloud_odom
+  cloud_filtered: /fastnav/perception/cloud_filtered
+
+  occupied_cloud: /fastnav/map/occupied_cloud
+  inflated_cloud: /fastnav/map/inflated_cloud
+  occupied_voxels: /fastnav/map/occupied_voxels
+  inflated_voxels: /fastnav/map/inflated_voxels
+
+  planner_goal: /fastnav/planner/goal
+  rviz_goal: /move_base_simple/goal
+  planner_path: /fastnav/planner/path
+  planner_searched_nodes: /fastnav/planner/searched_nodes
+  planner_debug_occupied_cloud: /fastnav/planner/debug_occupied_cloud
+  planner_debug_inflated_cloud: /fastnav/planner/debug_inflated_cloud
+
+  control_cmd: /fastnav/control_cmd

@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<sdf version="1.9">
+  <world name="forest_easy">
+    <magnetic_field>6.0e-06 2.3e-05 -4.2e-05</magnetic_field><spherical_coordinates><surface_model>EARTH_WGS84</surface_model><world_frame_orientation>ENU</world_frame_orientation><latitude_deg>47.397742</latitude_deg><longitude_deg>8.545594</longitude_deg><elevation>488.0</elevation></spherical_coordinates><gravity>0 0 -9.8</gravity><plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"><render_engine>ogre2</render_engine></plugin><plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/><plugin filename="gz-sim-air-pressure-system" name="gz::sim::systems::AirPressure"/><plugin filename="gz-sim-magnetometer-system" name="gz::sim::systems::Magnetometer"/><plugin filename="gz-sim-navsat-system" name="gz::sim::systems::NavSat"/><scene>
+      <shadows>0</shadows>
+    </scene>
+    <model name="forest">
+      <static>true</static>
+      <link name="tree0">
+        <pose>-5.505808335893532 2.3525673395098874 0 0 0 4.71350467484291 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.5338749571486303 0.5338749571486303 0.5338749571486303</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.5338749571486303 0.5338749571486303 0.5338749571486303</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree1">
+        <pose>-4.780900415223613 0.3390935959507875 0 0 0 4.063913422465059 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree4.dae</uri>
+              <scale>0.604545842836927 0.604545842836927 0.604545842836927</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree4.dae</uri>
+              <scale>0.604545842836927 0.604545842836927 0.604545842836927</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree2">
+        <pose>6.27508039843927 -0.6829045519927579 0 0 0 1.7996373483955583 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.6898056100014598 0.6898056100014598 0.6898056100014598</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.6898056100014598 0.6898056100014598 0.6898056100014598</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree3">
+        <pose>6.795603716943754 -0.31347804954834224 0 0 0 5.105306647605208 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree1.dae</uri>
+              <scale>0.9006314620931779 0.9006314620931779 0.9006314620931779</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree1.dae</uri>
+              <scale>0.9006314620931779 0.9006314620931779 0.9006314620931779</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree4">
+        <pose>4.803096772815378 2.485565532938084 0 0 0 4.847742670036488 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.7019160690347124 0.7019160690347124 0.7019160690347124</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree3.dae</uri>
+              <scale>0.7019160690347124 0.7019160690347124 0.7019160690347124</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree5">
+        <pose>6.028338845225949 4.696439515574905 0 0 0 3.8964648944627185 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree2.dae</uri>
+              <scale>0.46082268352212535 0.46082268352212535 0.46082268352212535</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree2.dae</uri>
+              <scale>0.46082268352212535 0.46082268352212535 0.46082268352212535</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree6">
+        <pose>5.310810670903365 -6.634546871783259 0 0 0 6.066358198129433 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree6.dae</uri>
+              <scale>0.9624576936321947 0.9624576936321947 0.9624576936321947</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree6.dae</uri>
+              <scale>0.9624576936321947 0.9624576936321947 0.9624576936321947</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree7">
+        <pose>-4.3883214851646635 -0.8563482415561436 0 0 0 3.352415300130343 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree5.dae</uri>
+              <scale>0.9556563689364073 0.9556563689364073 0.9556563689364073</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree5.dae</uri>
+              <scale>0.9556563689364073 0.9556563689364073 0.9556563689364073</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+      <link name="tree8">
+        <pose>-6.830928414638278 2.891592873061942 0 0 0 0.9200725205999317 </pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree4.dae</uri>
+              <scale>0.7665072997656799 0.7665072997656799 0.7665072997656799</scale>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/shukun/docker_ws/ros1_ws/ForestGen/models_low_res_fixed/Tree4.dae</uri>
+              <scale>0.7665072997656799 0.7665072997656799 0.7665072997656799</scale>
+            </mesh>
+          </geometry>
+          <max_contacts>0</max_contacts>
+        </collision>
+      </link>
+    </model>
+    <!-- Plugins -->
+    <!-- Physics -->
+    <physics name="default_physics" default="0" type="ode">
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>1000</iters>
+          <sor>1.3</sor>
+          <use_dynamic_moi_rescaling>0</use_dynamic_moi_rescaling>
+        </solver>
+        <constraints>
+          <cfm>0</cfm>
+          <erp>0.2</erp>
+          <contact_max_correcting_vel>100</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
+    </physics>
+  <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/><plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/><plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/><light name="sun" type="directional"><pose>0 0 10 0 0 0</pose><cast_shadows>true</cast_shadows><diffuse>0.8 0.8 0.8 1</diffuse><specular>0.2 0.2 0.2 1</specular><attenuation/><direction>-0.5 0.1 -0.9</direction></light><model name="ground_plane"><static>true</static><link name="link"><collision name="collision"><geometry><plane><normal>0 0 1</normal><size>100.0 100.0</size></plane></geometry></collision><visual name="visual"><geometry><plane><normal>0 0 1</normal><size>100.0 100.0</size></plane></geometry><material><ambient>0.35 0.45 0.35 1</ambient><diffuse>0.35 0.45 0.35 1</diffuse></material></visual></link></model></world>
+</sdf>
