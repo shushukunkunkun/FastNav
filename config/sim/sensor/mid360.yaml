@@ -2,7 +2,7 @@
 sensor:
   mid360:
     ros_topic: /fastnav/lidar/points
-    gz_topic: /lidar_points
+    gz_topic: /mid360/points/points
     frame_id: mid360_link
     range_min: 0.2
     range_max: 40.0

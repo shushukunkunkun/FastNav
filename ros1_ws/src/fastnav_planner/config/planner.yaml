@@ -4,24 +4,34 @@ local_planner:
   cloud_topic: "/fastnav/perception/cloud_filtered"
   goal_topic: "/move_base_simple/goal"
   extra_goal_topic: "/fastnav/planner/goal"
+  trigger_topic: "/traj_start_trigger"
 
   path_topic: "/fastnav/planner/path"
   searched_nodes_topic: "/fastnav/planner/searched_nodes"
   debug_occupied_cloud_topic: "/fastnav/planner/debug_occupied_cloud"
   debug_inflated_cloud_topic: "/fastnav/planner/debug_inflated_cloud"
+  # planner 内部 debug map 使用独立 timer 固定频率发布，类似 EGO 的 GridMap::visCallback。
+  # cloud 回调只更新 VoxelMap，不直接触发 RViz 地图发布。
+  debug_map_publish_rate: 5.0
 
   # PlannerFSM 只管理规划状态和路径输出，不构造控制量；控制模块后续只消费路径或轨迹。
   fsm:
     exec_rate: 20.0
     safety_rate: 10.0
+    collision_check_step: 0.1
     have_trigger: true
-    sequential_start_enable: false
 
-  # PathOptimizer 是 FSM 持有的优化器实例，当前第一版做 A* path shortcut。
+  # PathOptimizer 由 LocalPlannerManager 持有，当前第一版做 A* path shortcut。
   optimizer:
     enable: true
     shortcut: true
     line_check_step: 0.1
+
+  # manager 内部用轻量 B-spline 维护 global_data_ / local_data_。
+  # 当前阶段先用路径点作为控制点，时间按 $T=\sum_i\|p_{i+1}-p_i\|/v_{nom}$ 估计。
+  trajectory:
+    bspline_degree: 3
+    nominal_velocity: 1.0
 
   frame_id: "odom"
   # 收到目标点后，每次局部点云刷新都重新尝试一次规划。
@@ -31,11 +41,14 @@ local_planner:
   # planner 内部持有自己的 VoxelMap，地图中心跟随无人机位置 $c$。
   map:
     resolution: 0.2
-    local_x_size: 20.0
-    local_y_size: 20.0
-    local_z_size: 6.0
-    local_z_min: -2.0
-    local_z_max: 4.0
+    # 三张 forest 地图的障碍主要落在 $x,y in [-7,7]$，24m 局部窗口让目标点可以放在森林边缘或穿越到对侧。
+    local_x_size: 24.0
+    local_y_size: 24.0
+    # z 方向使用相对无人机高度的窗口 $z in [c_z + local_z_min, c_z + local_z_max]$。
+    # 对当前仿真飞行高度，4.2m 高度跨度足够覆盖树干点云和绕障搜索，同时避免 A* 在无意义高度上膨胀搜索量。
+    local_z_size: 4.2
+    local_z_min: -1.2
+    local_z_max: 3.0
     drone_radius: 0.35
     safety_margin: 0.15
     # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
@@ -51,6 +64,8 @@ local_planner:
   astar:
     allow_diagonal: true
     heuristic_weight: 1.2
-    max_search_nodes: 50000
+    # 24m x 24m x 4.2m 在 $0.2m$ 分辨率下约为 $120 * 120 * 21$ 个体素。
+    # hard forest 中通道更弯，允许更多展开节点，避免过早触发 max_search_nodes。
+    max_search_nodes: 180000
     check_line_collision: true
     line_check_step: 0.1

@@ -34,6 +34,12 @@ public:
                         local_z_max_,
                         drone_radius_,
                         safety_margin_);
+        voxel_map_.setOccupancyUpdateParams(map_p_hit_,
+                                             map_p_miss_,
+                                             map_p_min_,
+                                             map_p_max_,
+                                             map_p_occ_,
+                                             map_temporal_decay_log_);
 
         cloud_sub_ = nh_.subscribe(input_cloud_topic_, 2,
                                    &LocalVoxelMapNode::cloudCallback,
@@ -44,8 +50,11 @@ public:
 
         occupied_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(occupied_cloud_topic_, 2);
         inflated_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(inflated_cloud_topic_, 2);
-        occupied_voxel_pub_ = nh_.advertise<visualization_msgs::Marker>(occupied_voxel_topic_, 2);
-        inflated_voxel_pub_ = nh_.advertise<visualization_msgs::Marker>(inflated_voxel_topic_, 2);
+        if (publish_voxel_markers_)
+        {
+            occupied_voxel_pub_ = nh_.advertise<visualization_msgs::Marker>(occupied_voxel_topic_, 2);
+            inflated_voxel_pub_ = nh_.advertise<visualization_msgs::Marker>(inflated_voxel_topic_, 2);
+        }
 
         if (publish_rate_ > 0.0)
         {
@@ -80,6 +89,13 @@ private:
         nh_.param<double>("/local_voxel_map/drone_radius", drone_radius_, drone_radius_);
         nh_.param<double>("/local_voxel_map/safety_margin", safety_margin_, safety_margin_);
         nh_.param<double>("/local_voxel_map/publish_rate", publish_rate_, publish_rate_);
+        nh_.param<bool>("/local_voxel_map/publish_voxel_markers", publish_voxel_markers_, publish_voxel_markers_);
+        nh_.param<double>("/local_voxel_map/p_hit", map_p_hit_, map_p_hit_);
+        nh_.param<double>("/local_voxel_map/p_miss", map_p_miss_, map_p_miss_);
+        nh_.param<double>("/local_voxel_map/p_min", map_p_min_, map_p_min_);
+        nh_.param<double>("/local_voxel_map/p_max", map_p_max_, map_p_max_);
+        nh_.param<double>("/local_voxel_map/p_occ", map_p_occ_, map_p_occ_);
+        nh_.param<double>("/local_voxel_map/temporal_decay_log", map_temporal_decay_log_, map_temporal_decay_log_);
 
         // 私有参数提供局部覆盖入口，方便未来 launch 多地图节点或实验不同 $resolution$。
         pnh_.param<std::string>("input_cloud_topic", input_cloud_topic_, input_cloud_topic_);
@@ -98,6 +114,13 @@ private:
         pnh_.param<double>("drone_radius", drone_radius_, drone_radius_);
         pnh_.param<double>("safety_margin", safety_margin_, safety_margin_);
         pnh_.param<double>("publish_rate", publish_rate_, publish_rate_);
+        pnh_.param<bool>("publish_voxel_markers", publish_voxel_markers_, publish_voxel_markers_);
+        pnh_.param<double>("p_hit", map_p_hit_, map_p_hit_);
+        pnh_.param<double>("p_miss", map_p_miss_, map_p_miss_);
+        pnh_.param<double>("p_min", map_p_min_, map_p_min_);
+        pnh_.param<double>("p_max", map_p_max_, map_p_max_);
+        pnh_.param<double>("p_occ", map_p_occ_, map_p_occ_);
+        pnh_.param<double>("temporal_decay_log", map_temporal_decay_log_, map_temporal_decay_log_);
     }
 
     void odomCallback(const nav_msgs::OdometryConstPtr& msg)
@@ -128,9 +151,11 @@ private:
         pcl::PointCloud<pcl::PointXYZ> cloud;
         pcl::fromROSMsg(*msg, cloud);
 
-        // 每一帧重建局部地图：中心为当前无人机位置 $c$，不做多帧融合和 raycasting free-space update。
+        // 点云回调只负责更新地图缓存，不直接作为一帧地图发布。
+        // 地图中心跟随无人机位置 $c$，VoxelMap 会在跨过体素边界时平移内部 buffer。
+        // 与 EGO-Planner 类似，地图长期维护 log-odds 缓存；这里不 reset，避免 RViz 中障碍物一帧有一帧无。
         voxel_map_.setMapCenter(latest_center_);
-        voxel_map_.reset();
+        voxel_map_.decayOccupancy();
 
         for (const pcl::PointXYZ& point : cloud.points)
         {
@@ -146,22 +171,25 @@ private:
 
         latest_occupied_msg_ = centersToCloud(occupied_centers, msg->header.stamp);
         latest_inflated_msg_ = centersToCloud(inflated_centers, msg->header.stamp);
-        latest_occupied_marker_ = centersToCubeList(occupied_centers,
-                                                    msg->header.stamp,
-                                                    "occupied_voxels",
-                                                    0,
-                                                    1.0,
-                                                    0.08,
-                                                    0.02,
-                                                    0.85);
-        latest_inflated_marker_ = centersToCubeList(inflated_centers,
-                                                    msg->header.stamp,
-                                                    "inflated_voxels",
-                                                    1,
-                                                    0.1,
-                                                    0.45,
-                                                    1.0,
-                                                    0.32);
+        if (publish_voxel_markers_)
+        {
+            latest_occupied_marker_ = centersToCubeList(occupied_centers,
+                                                        msg->header.stamp,
+                                                        "occupied_voxels",
+                                                        0,
+                                                        1.0,
+                                                        0.08,
+                                                        0.02,
+                                                        0.85);
+            latest_inflated_marker_ = centersToCubeList(inflated_centers,
+                                                        msg->header.stamp,
+                                                        "inflated_voxels",
+                                                        1,
+                                                        0.1,
+                                                        0.45,
+                                                        1.0,
+                                                        0.32);
+        }
         has_map_ = true;
 
         if (publish_rate_ <= 0.0)
@@ -254,8 +282,11 @@ private:
 
         occupied_pub_.publish(latest_occupied_msg_);
         inflated_pub_.publish(latest_inflated_msg_);
-        occupied_voxel_pub_.publish(latest_occupied_marker_);
-        inflated_voxel_pub_.publish(latest_inflated_marker_);
+        if (publish_voxel_markers_)
+        {
+            occupied_voxel_pub_.publish(latest_occupied_marker_);
+            inflated_voxel_pub_.publish(latest_inflated_marker_);
+        }
     }
 
 private:
@@ -288,6 +319,13 @@ private:
     double drone_radius_{0.35};
     double safety_margin_{0.15};
     double publish_rate_{10.0};
+    bool publish_voxel_markers_{false};
+    double map_p_hit_{0.70};
+    double map_p_miss_{0.45};
+    double map_p_min_{0.12};
+    double map_p_max_{0.97};
+    double map_p_occ_{0.65};
+    double map_temporal_decay_log_{0.05};
 
     bool has_odom_{false};
     bool has_map_{false};

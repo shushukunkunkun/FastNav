@@ -1,5 +1,5 @@
 pointcloud:
-  gz_topic: /lidar_points/points
+  gz_topic: /mid360/points/points
   ros_topic: /fastnav/lidar/points
   frame_id: mid360_link
   use_sim_time_stamp: false

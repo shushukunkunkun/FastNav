@@ -23,7 +23,7 @@
         <group if="$(eval arg('mode') == 'sim')">
             <rosparam file="$(arg config_root)/sim/uav/x500_mid360.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/px4/sitl.yaml" command="load"/>
-            <rosparam file="$(arg config_root)/sim/gz/x500_mid360_single_obstacle.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/gz/gz.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/sensor/mid360.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/planner.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/controller.yaml" command="load"/>

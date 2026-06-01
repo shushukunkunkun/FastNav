@@ -8,11 +8,12 @@ planner:
 
   local_map:
     resolution: 0.2
-    local_x_size: 20.0
-    local_y_size: 20.0
-    local_z_min: -2.0
-    local_z_max: 4.0
+    local_x_size: 24.0
+    local_y_size: 24.0
+    local_z_size: 4.2
+    local_z_min: -1.2
+    local_z_max: 3.0
 
   astar:
     heuristic_weight: 1.2
-    max_search_nodes: 50000
+    max_search_nodes: 180000

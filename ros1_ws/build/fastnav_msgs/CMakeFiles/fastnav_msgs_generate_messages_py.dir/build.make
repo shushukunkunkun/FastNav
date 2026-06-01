@@ -73,9 +73,9 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/
 
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG fastnav_msgs/ControlCommand"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg -Ifastnav_msgs:/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p fastnav_msgs -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg
 

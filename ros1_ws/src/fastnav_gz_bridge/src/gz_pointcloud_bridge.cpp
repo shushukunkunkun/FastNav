@@ -9,7 +9,7 @@ GzPointCloudBridge::GzPointCloudBridge(ros::NodeHandle& nh,
                                        ros::NodeHandle& pnh)
     : nh_(nh),
       pnh_(pnh),
-      gz_topic_("/lidar_points/points"),
+      gz_topic_("/mid360/points/points"),
       ros_topic_("/fastnav/lidar/points"),
       frame_id_("mid360_link"),
       use_sim_time_stamp_(false)

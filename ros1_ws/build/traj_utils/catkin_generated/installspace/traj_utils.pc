@@ -1,0 +1,8 @@
+prefix=/home/shukun/Project/FastNav/ros1_ws/install
+
+Name: traj_utils
+Description: Description of traj_utils
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -ltraj_utils
+Requires: roscpp std_msgs geometry_msgs message_runtime

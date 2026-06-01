@@ -217,6 +217,7 @@ fastnav_planner_core_EXTERNAL_OBJECTS =
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /opt/ros/noetic/lib/libactionlib.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /opt/ros/noetic/lib/libmessage_filters.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /opt/ros/noetic/lib/libtf2.so
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /opt/ros/noetic/lib/libroscpp.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0

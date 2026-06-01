@@ -13,6 +13,18 @@
     </include>
 
     <!--
+      Publish Gazebo model odometry for the FastNav GZ -> ROS bridge.
+      fastnav_gz_bridge subscribes to $/model/x500_mid360_0/odometry_with_covariance$
+      and rewrites it as the FastNav standard state topic $/fastnav/state/odom$,
+      which then drives the TF $odom -> base_link$.
+    -->
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+      <dimensions>3</dimensions>
+    </plugin>
+
+    <!--
       FastNav Mid-360 style lidar link.
 
       Coordinate assumption:

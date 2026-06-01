@@ -1394,6 +1394,51 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /usr/include/eigen3/Eigen/src/Core/StlIterators.h \
   /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
   /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
+  /usr/include/eigen3/Eigen/Geometry \
+  /usr/include/eigen3/Eigen/Core \
+  /usr/include/eigen3/Eigen/SVD \
+  /usr/include/eigen3/Eigen/QR \
+  /usr/include/eigen3/Eigen/Cholesky \
+  /usr/include/eigen3/Eigen/Jacobi \
+  /usr/include/eigen3/Eigen/src/Jacobi/Jacobi.h \
+  /usr/include/eigen3/Eigen/src/Cholesky/LLT.h \
+  /usr/include/eigen3/Eigen/src/Cholesky/LDLT.h \
+  /usr/include/eigen3/Eigen/Householder \
+  /usr/include/eigen3/Eigen/src/Householder/Householder.h \
+  /usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h \
+  /usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h \
+  /usr/include/eigen3/Eigen/src/QR/HouseholderQR.h \
+  /usr/include/eigen3/Eigen/src/QR/FullPivHouseholderQR.h \
+  /usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h \
+  /usr/include/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h \
+  /usr/include/eigen3/Eigen/src/misc/RealSvd2x2.h \
+  /usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h \
+  /usr/include/eigen3/Eigen/src/SVD/SVDBase.h \
+  /usr/include/eigen3/Eigen/src/SVD/JacobiSVD.h \
+  /usr/include/eigen3/Eigen/src/SVD/BDCSVD.h \
+  /usr/include/eigen3/Eigen/LU \
+  /usr/include/eigen3/Eigen/src/misc/Kernel.h \
+  /usr/include/eigen3/Eigen/src/misc/Image.h \
+  /usr/include/eigen3/Eigen/src/LU/FullPivLU.h \
+  /usr/include/eigen3/Eigen/src/LU/PartialPivLU.h \
+  /usr/include/eigen3/Eigen/src/LU/Determinant.h \
+  /usr/include/eigen3/Eigen/src/LU/InverseImpl.h \
+  /usr/include/eigen3/Eigen/src/LU/arch/InverseSize4.h \
+  /usr/include/eigen3/Eigen/src/Geometry/OrthoMethods.h \
+  /usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Homogeneous.h \
+  /usr/include/eigen3/Eigen/src/Geometry/RotationBase.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Quaternion.h \
+  /usr/include/eigen3/Eigen/src/Geometry/AngleAxis.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Transform.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Translation.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Scaling.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Hyperplane.h \
+  /usr/include/eigen3/Eigen/src/Geometry/ParametrizedLine.h \
+  /usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h \
+  /usr/include/eigen3/Eigen/src/Geometry/Umeyama.h \
+  /usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h \
   /opt/ros/noetic/include/geometry_msgs/PoseStamped.h \
   /opt/ros/noetic/include/ros/message_operations.h \
   /opt/ros/noetic/include/std_msgs/Header.h \
@@ -1409,7 +1454,104 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
   /opt/ros/noetic/include/sensor_msgs/PointField.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/local_planner_manager.h \
+  /usr/include/eigen3/Eigen/Dense \
+  /usr/include/eigen3/Eigen/Geometry \
+  /usr/include/eigen3/Eigen/Eigenvalues \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/RealSchur.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/EigenSolver.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/RealSchur.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h \
+  /usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_mapping/include/fastnav_mapping/voxel_map.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/plan_container.hpp \
+  /usr/include/eigen3/Eigen/Eigen \
+  /usr/include/eigen3/Eigen/Dense \
+  /usr/include/eigen3/Eigen/Sparse \
+  /usr/include/eigen3/Eigen/SparseCore \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseUtil.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseMatrixBase.h \
+  /usr/include/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h \
+  /usr/include/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h \
+  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
+  /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h \
+  /usr/include/eigen3/Eigen/src/plugins/BlockMethods.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseAssign.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/CompressedStorage.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/AmbiVector.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseCompressedBase.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseMatrix.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseMap.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/MappedSparseMatrix.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseVector.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseRef.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseUnaryOp.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseBinaryOp.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseTranspose.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseBlock.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseDot.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseRedux.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseView.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseDiagonalProduct.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseProduct.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseDenseProduct.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseSelfAdjointView.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseTriangularView.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/TriangularSolver.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparsePermutation.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseFuzzy.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseSolverBase.h \
+  /usr/include/eigen3/Eigen/OrderingMethods \
+  /usr/include/eigen3/Eigen/src/OrderingMethods/Amd.h \
+  /usr/include/eigen3/Eigen/src/OrderingMethods/Ordering.h \
+  /usr/include/eigen3/Eigen/src/OrderingMethods/Eigen_Colamd.h \
+  /usr/include/eigen3/Eigen/SparseCholesky \
+  /usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky.h \
+  /usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h \
+  /usr/include/eigen3/Eigen/SparseLU \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_gemm_kernel.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Structs.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLUImpl.h \
+  /usr/include/eigen3/Eigen/src/SparseCore/SparseColEtree.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Memory.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_relax_snode.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pivotL.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_dfs.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_kernel_bmod.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_bmod.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_dfs.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_bmod.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pruneL.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Utils.h \
+  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU.h \
+  /usr/include/eigen3/Eigen/SparseQR \
+  /usr/include/eigen3/Eigen/src/SparseQR/SparseQR.h \
+  /usr/include/eigen3/Eigen/IterativeLinearSolvers \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h \
+  /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/uniform_bspline.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/polynomial_traj.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/astar_planner.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/path_optimizer.h
 
@@ -1417,6 +1559,90 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/path_optimizer.h:
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/astar_planner.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/polynomial_traj.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/uniform_bspline.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h:
+
+/usr/include/eigen3/Eigen/SparseQR:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_bmod.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_bmod.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_panel_dfs.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_relax_snode.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Structs.h:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h:
+
+/usr/include/eigen3/Eigen/SparseLU:
+
+/usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h:
+
+/usr/include/eigen3/Eigen/SparseCholesky:
+
+/usr/include/eigen3/Eigen/src/OrderingMethods/Amd.h:
+
+/usr/include/eigen3/Eigen/OrderingMethods:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseSolverBase.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparsePermutation.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/TriangularSolver.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseDenseProduct.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseProduct.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseSparseProductWithPruning.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseRedux.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseDot.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseVector.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/MappedSparseMatrix.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseMatrix.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseCompressedBase.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/CompressedStorage.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseMatrixBase.h:
+
+/usr/include/eigen3/Eigen/Sparse:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/plan_container.hpp:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/EigenSolver.h:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/HessenbergDecomposition.h:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/Tridiagonalization.h:
+
+/usr/include/eigen3/Eigen/Eigenvalues:
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/local_planner_manager.h:
 
@@ -1433,6 +1659,62 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /opt/ros/noetic/include/geometry_msgs/Pose.h:
 
 /opt/ros/noetic/include/std_msgs/Header.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/ParametrizedLine.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/Scaling.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/Transform.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/AngleAxis.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/Quaternion.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
+
+/usr/include/eigen3/Eigen/src/LU/InverseImpl.h:
+
+/usr/include/eigen3/Eigen/src/LU/Determinant.h:
+
+/usr/include/eigen3/Eigen/src/LU/PartialPivLU.h:
+
+/usr/include/eigen3/Eigen/src/LU/FullPivLU.h:
+
+/usr/include/eigen3/Eigen/src/misc/Image.h:
+
+/usr/include/eigen3/Eigen/src/misc/Kernel.h:
+
+/usr/include/eigen3/Eigen/src/SVD/BDCSVD.h:
+
+/usr/include/eigen3/Eigen/src/SVD/JacobiSVD.h:
+
+/usr/include/eigen3/Eigen/src/SVD/SVDBase.h:
+
+/usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h:
+
+/usr/include/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
+
+/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h:
+
+/usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h:
+
+/usr/include/eigen3/Eigen/src/Householder/Householder.h:
+
+/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h:
+
+/usr/include/eigen3/Eigen/src/Jacobi/Jacobi.h:
+
+/usr/include/eigen3/Eigen/Jacobi:
+
+/usr/include/eigen3/Eigen/QR:
+
+/usr/include/eigen3/Eigen/SVD:
+
+/usr/include/eigen3/Eigen/SparseCore:
+
+/usr/include/eigen3/Eigen/Geometry:
 
 /usr/include/eigen3/Eigen/src/Core/Reverse.h:
 
@@ -1498,6 +1780,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/eigen3/Eigen/src/Core/ReturnByValue.h:
 
+/usr/include/eigen3/Eigen/src/SparseQR/SparseQR.h:
+
 /usr/include/eigen3/Eigen/src/Core/DenseStorage.h:
 
 /usr/include/eigen3/Eigen/src/Core/ArrayBase.h:
@@ -1524,6 +1808,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/eigen3/Eigen/src/Core/IO.h:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseTriangularView.h:
+
 /usr/include/eigen3/Eigen/src/Core/functors/AssignmentFunctors.h:
 
 /usr/include/eigen3/Eigen/src/Core/functors/NullaryFunctors.h:
@@ -1531,6 +1817,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/functors/BinaryFunctors.h:
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_kernel_bmod.h:
 
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/Complex.h:
 
@@ -1547,6 +1835,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/MathFunctions.h:
 
 /usr/include/eigen3/Eigen/src/Core/NumTraits.h:
+
+/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
 
@@ -1662,6 +1952,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/preprocessor/repetition/repeat_from_to.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseUnaryOp.h:
+
 /usr/include/boost/preprocessor/repetition/enum_binary_params.hpp:
 
 /usr/include/boost/utility/base_from_member.hpp:
@@ -1698,6 +1990,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/type_traits/conversion_traits.hpp:
 
+/usr/include/eigen3/Eigen/Householder:
+
 /usr/include/boost/concept/detail/has_constraints.hpp:
 
 /usr/include/boost/concept/detail/backward_compatibility.hpp:
@@ -1721,6 +2015,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/range/size.hpp:
 
 /usr/include/boost/range/detail/sfinae.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCholesky/SimplicialCholesky.h:
 
 /usr/include/boost/range/detail/common.hpp:
 
@@ -1747,6 +2043,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/type_traits/remove_pointer.hpp:
 
 /usr/include/boost/iterator/detail/facade_iterator_category.hpp:
+
+/usr/include/eigen3/Eigen/src/misc/RealSvd2x2.h:
 
 /usr/include/boost/iterator/interoperable.hpp:
 
@@ -1838,6 +2136,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/aux_/has_type.hpp:
 
+/usr/include/eigen3/Eigen/src/Geometry/Umeyama.h:
+
 /usr/include/c++/11/bits/stringfwd.h:
 
 /usr/include/boost/mpl/aux_/full_lambda.hpp:
@@ -1874,6 +2174,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseUtil.h:
+
 /usr/include/eigen3/Eigen/src/Core/CwiseUnaryOp.h:
 
 /usr/include/boost/mpl/list/aux_/empty.hpp:
@@ -1885,6 +2187,10 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/detail/select_type.hpp:
 
 /usr/include/boost/config/detail/select_compiler_config.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseRef.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h:
 
 /usr/include/boost/range/rend.hpp:
 
@@ -1934,6 +2240,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/empty_fwd.hpp:
 
+/usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h:
+
 /usr/include/eigen3/Eigen/src/Core/IndexedView.h:
 
 /usr/include/boost/mpl/iterator_tags.hpp:
@@ -1951,6 +2259,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/mpl/aux_/at_impl.hpp:
 
 /usr/include/boost/mpl/O1_size_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Hyperplane.h:
 
 /usr/include/boost/preprocessor/tuple/elem.hpp:
 
@@ -1971,6 +2281,10 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/type_traits/alignment_of.hpp:
 
 /usr/include/boost/predef/compiler/compaq.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_column_dfs.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseDiagonalProduct.h:
 
 /usr/include/c++/11/bits/stl_list.h:
 
@@ -2004,6 +2318,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/predef/os/vms.h:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseSelfAdjointView.h:
+
 /usr/include/boost/preprocessor/detail/check.hpp:
 
 /usr/include/boost/preprocessor/list/adt.hpp:
@@ -2011,6 +2327,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/mpl/aux_/type_wrapper.hpp:
 
 /usr/include/boost/chrono/duration.hpp:
+
+/usr/include/eigen3/Eigen/Cholesky:
 
 /usr/include/boost/preprocessor/control/expr_iif.hpp:
 
@@ -2092,6 +2410,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/aux_/na_spec.hpp:
 
+/usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
+
 /usr/include/boost/predef/compiler/llvm.h:
 
 /usr/include/boost/mpl/next_prior.hpp:
@@ -2102,7 +2422,11 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/date_time/gregorian/greg_month.hpp:
 
+/usr/include/eigen3/Eigen/src/QR/FullPivHouseholderQR.h:
+
 /usr/include/boost/mpl/aux_/integral_wrapper.hpp:
+
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h:
 
 /usr/include/boost/mpl/placeholders.hpp:
 
@@ -2136,6 +2460,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/lambda_fwd.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pruneL.h:
+
 /usr/include/boost/mpl/aux_/config/static_constant.hpp:
 
 /usr/include/boost/thread/pthread/mutex.hpp:
@@ -2163,6 +2489,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/util/BlasUtil.h:
 
 /usr/include/c++/11/tr1/ell_integral.tcc:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Utils.h:
 
 /usr/include/eigen3/Eigen/src/Core/util/SymbolicIndex.h:
 
@@ -2193,6 +2521,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/mpl/aux_/arity_spec.hpp:
 
 /usr/include/c++/11/cxxabi.h:
+
+/usr/include/eigen3/Eigen/LU:
 
 /usr/include/c++/11/bits/locale_facets_nonio.tcc:
 
@@ -2330,6 +2660,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
+/usr/include/eigen3/Eigen/src/LU/arch/InverseSize4.h:
+
 /usr/include/boost/predef/compiler/pgi.h:
 
 /usr/include/locale.h:
@@ -2366,6 +2698,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/date_time/time_defs.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/AmbiVector.h:
+
 /usr/include/c++/11/cstddef:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
@@ -2380,6 +2714,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/aux_/lambda_spec.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseBlock.h:
+
 /usr/include/boost/math/policies/error_handling.hpp:
 
 /usr/include/boost/type_traits/is_complete.hpp:
@@ -2387,6 +2723,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/arch/Default/ConjHelper.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Memory.h:
 
 /usr/include/boost/mpl/aux_/lambda_arity_param.hpp:
 
@@ -2420,6 +2758,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/predef/architecture/pyramid.h:
 
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h:
+
 /usr/include/boost/mpl/aux_/config/arrays.hpp:
 
 /usr/include/boost/exception/exception.hpp:
@@ -2447,6 +2787,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/full_lambda.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseView.h:
 
 /usr/include/c++/11/debug/assertions.h:
 
@@ -2706,6 +3048,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/c++/11/math.h:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseColEtree.h:
+
 /usr/include/boost/mpl/vector/aux_/size.hpp:
 
 /usr/include/boost/ref.hpp:
@@ -2745,6 +3089,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/c++/11/initializer_list:
 
 /usr/include/c++/11/iosfwd:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h:
 
 /usr/include/alloca.h:
 
@@ -2888,7 +3234,11 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h:
 
+/usr/include/eigen3/Eigen/Eigen:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
+
+/usr/include/eigen3/Eigen/Dense:
 
 /usr/include/asm-generic/errno.h:
 
@@ -2936,11 +3286,15 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/function_equal.hpp:
 
+/usr/include/eigen3/Eigen/src/OrderingMethods/Eigen_Colamd.h:
+
 /usr/include/boost/preprocessor/tuple/eat.hpp:
 
 /usr/include/boost/math/tools/user.hpp:
 
 /usr/include/boost/type_traits/decay.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Translation.h:
 
 /usr/include/boost/mpl/aux_/config/gcc.hpp:
 
@@ -3030,6 +3384,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/c++/11/istream:
 
+/usr/include/eigen3/Eigen/src/Eigenvalues/RealQZ.h:
+
 /usr/include/boost/mpl/sequence_tag.hpp:
 
 /usr/include/boost/date_time/time_resolution_traits.hpp:
@@ -3086,6 +3442,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/aux_/nested_type_wknd.hpp:
 
+/usr/include/eigen3/Eigen/src/Geometry/RotationBase.h:
+
 /usr/include/c++/11/tr1/poly_laguerre.tcc:
 
 /usr/include/c++/11/array:
@@ -3131,6 +3489,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/c++/11/string:
 
 /usr/include/boost/type_traits/is_pod.hpp:
+
+/usr/include/eigen3/Eigen/IterativeLinearSolvers:
 
 /opt/ros/noetic/include/ros/macros.h:
 
@@ -3220,6 +3580,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/detail/workaround.hpp:
 
+/usr/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur.h:
+
 /usr/include/boost/date_time/gregorian_calendar.ipp:
 
 /usr/include/boost/mpl/vector/vector0.hpp:
@@ -3228,6 +3590,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/c++/11/bit:
 
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_gemm_kernel.h:
+
 /usr/include/boost/bind/bind_cc.hpp:
 
 /usr/include/boost/mpl/aux_/config/typeof.hpp:
@@ -3235,6 +3599,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/preprocessor/variadic/elem.hpp:
 
 /usr/include/boost/type_traits/has_trivial_copy.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/OrthoMethods.h:
 
 /usr/include/boost/date_time/gregorian/greg_duration.hpp:
 
@@ -3272,6 +3638,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/thread/lockable_traits.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLUImpl.h:
+
 /usr/include/c++/11/cwchar:
 
 /usr/include/boost/mpl/vector/aux_/clear.hpp:
@@ -3283,6 +3651,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/range/rbegin.hpp:
 
 /usr/include/boost/mpl/vector/aux_/vector0.hpp:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h:
 
 /usr/include/boost/mpl/vector/aux_/iterator.hpp:
 
@@ -3370,6 +3740,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/mpl/size.hpp:
 
+/usr/include/eigen3/Eigen/src/QR/HouseholderQR.h:
+
 /usr/include/boost/mpl/distance.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/BFloat16.h:
@@ -3440,6 +3812,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/type_traits/intrinsics.hpp:
 
+/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h:
+
 /usr/include/boost/version.hpp:
 
 /usr/include/boost/type_traits/is_destructible.hpp:
@@ -3500,7 +3874,11 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/predef/library/c/_prefix.h:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseAssign.h:
+
 /usr/include/boost/core/alloc_construct.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseFuzzy.h:
 
 /usr/include/boost/predef/detail/_cassert.h:
 
@@ -3584,6 +3962,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/predef/hardware/simd.h:
 
+/usr/include/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h:
+
 /usr/include/c++/11/bits/atomic_base.h:
 
 /usr/include/c++/11/bits/atomic_lockfree_defines.h:
@@ -3621,6 +4001,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/cstdint.hpp:
 
 /opt/ros/noetic/include/ros/common.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h:
 
 /usr/include/boost/numeric/conversion/converter.hpp:
 
@@ -3792,6 +4174,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/bind/mem_fn_template.hpp:
 
+/usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
 /usr/include/boost/date_time/date_clock_device.hpp:
@@ -3876,6 +4260,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/bind/storage.hpp:
 
+/usr/include/eigen3/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h:
+
 /usr/include/boost/mpl/aux_/preprocessor/enum.hpp:
 
 /usr/include/boost/config/workaround.hpp:
@@ -3940,7 +4326,11 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/type_traits/add_pointer.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseTranspose.h:
+
 /usr/include/boost/move/utility.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Homogeneous.h:
 
 /usr/include/boost/move/detail/type_traits.hpp:
 
@@ -3955,6 +4345,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/predef.h:
 
 /usr/include/boost/date_time/c_time.hpp:
+
+/usr/include/eigen3/Eigen/src/OrderingMethods/Ordering.h:
 
 /usr/include/eigen3/Eigen/src/Core/CoreIterators.h:
 
@@ -4015,6 +4407,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/type_index/stl_type_index.hpp:
 
 /usr/include/boost/date_time/wrapping_int.hpp:
+
+/usr/include/eigen3/Eigen/src/Eigenvalues/RealSchur.h:
 
 /usr/include/boost/date_time/time_system_split.hpp:
 
@@ -4174,6 +4568,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/predef/other.h:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseCwiseBinaryOp.h:
+
 /usr/include/boost/predef/platform/cloudabi.h:
 
 /usr/include/boost/predef/platform/mingw64.h:
@@ -4183,6 +4579,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/predef/platform/windows_system.h:
 
 /usr/include/boost/predef/platform/ios.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseMap.h:
 
 /usr/include/boost/predef/hardware.h:
 
@@ -4211,6 +4609,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/predef/detail/test.h:
 
 /usr/include/boost/chrono/detail/system.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pivotL.h:
 
 /usr/include/boost/chrono/clock_string.hpp:
 

@@ -8,3 +8,11 @@ mapping:
     local_z_max: 3.0
     drone_radius: 0.35
     safety_margin: 0.25
+    p_hit: 0.70
+    p_miss: 0.45
+    p_min: 0.12
+    p_max: 0.97
+    p_occ: 0.65
+    temporal_decay_log: 0.04
+    publish_rate: 10.0
+    publish_voxel_markers: false

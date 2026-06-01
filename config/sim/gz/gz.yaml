@@ -1,0 +1,25 @@
+# Gazebo Sim 资源索引。
+# 这里只记录 FastNav 维护的仿真资源位置，真实的模型和世界文件放在同级 models/ 与 worlds/ 下。
+gz:
+  model_resource_path: config/sim/gz/models
+  world_resource_path: config/sim/gz/worlds
+
+  default_model: x500_mid360
+  default_world: forest_easy
+
+  models:
+    x500_mid360:
+      model_dir: config/sim/gz/models/x500_mid360
+      model_sdf: config/sim/gz/models/x500_mid360/model.sdf
+      model_config: config/sim/gz/models/x500_mid360/model.config
+
+  worlds:
+    forest_easy:
+      name: forest_easy
+      file: config/sim/gz/worlds/forest_easy.sdf
+    forest_medium:
+      name: forest_medium
+      file: config/sim/gz/worlds/forest_medium.sdf
+    forest_hard:
+      name: forest_hard
+      file: config/sim/gz/worlds/forest_hard.sdf

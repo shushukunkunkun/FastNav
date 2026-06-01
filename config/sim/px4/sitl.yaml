@@ -2,8 +2,10 @@
 px4:
   mode: sitl
   model: x500_mid360
-  world: single_obstacle
-  make_target: gz_x500_mid360_single_obstacle
+  world: forest_easy
+  make_target: gz_x500
+  gz_model_resource_path: config/sim/gz/models
+  gz_world_resource_path: config/sim/gz/worlds
   params_file: config/sim/px4/multicopter_limits.params
   fcu_url: udp://:14540@127.0.0.1:14557
   gcs_url: ""

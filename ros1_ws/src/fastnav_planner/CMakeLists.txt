@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  traj_utils
 )
 
 find_package(PCL REQUIRED COMPONENTS common)
@@ -20,7 +21,7 @@ find_package(Eigen3 REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES fastnav_planner_core
-  CATKIN_DEPENDS fastnav_mapping geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs std_msgs
+  CATKIN_DEPENDS fastnav_mapping geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs std_msgs traj_utils
   DEPENDS EIGEN3 PCL
 )
 
