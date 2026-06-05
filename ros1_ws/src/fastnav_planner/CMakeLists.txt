@@ -5,6 +5,7 @@ add_compile_options(-std=c++17)
 
 find_package(catkin REQUIRED COMPONENTS
   fastnav_mapping
+  fastnav_msgs
   geometry_msgs
   nav_msgs
   pcl_conversions
@@ -21,7 +22,7 @@ find_package(Eigen3 REQUIRED)
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES fastnav_planner_core
-  CATKIN_DEPENDS fastnav_mapping geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs std_msgs traj_utils
+  CATKIN_DEPENDS fastnav_mapping fastnav_msgs geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs std_msgs traj_utils
   DEPENDS EIGEN3 PCL
 )
 
@@ -35,10 +36,11 @@ include_directories(
 add_definitions(${PCL_DEFINITIONS})
 
 add_library(fastnav_planner_core
-  src/astar_planner.cpp
-  src/local_planner_manager.cpp
-  src/path_optimizer.cpp
-  src/planner_fsm.cpp
+  src/frontend/astar_planner.cpp
+  src/manager/local_planner_manager.cpp
+  src/optimizer/path_optimizer.cpp
+  src/optimizer/trajectory_feasibility_checker.cpp
+  src/fsm/planner_fsm.cpp
 )
 
 add_dependencies(fastnav_planner_core

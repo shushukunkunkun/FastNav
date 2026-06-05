@@ -213,53 +213,53 @@ fastnav_local_planner_node/fast:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/build.make fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/build
 .PHONY : fastnav_local_planner_node/fast
 
-src/astar_planner.o: src/astar_planner.cpp.o
-.PHONY : src/astar_planner.o
+src/frontend/astar_planner.o: src/frontend/astar_planner.cpp.o
+.PHONY : src/frontend/astar_planner.o
 
 # target to build an object file
-src/astar_planner.cpp.o:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o
-.PHONY : src/astar_planner.cpp.o
+src/frontend/astar_planner.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o
+.PHONY : src/frontend/astar_planner.cpp.o
 
-src/astar_planner.i: src/astar_planner.cpp.i
-.PHONY : src/astar_planner.i
+src/frontend/astar_planner.i: src/frontend/astar_planner.cpp.i
+.PHONY : src/frontend/astar_planner.i
 
 # target to preprocess a source file
-src/astar_planner.cpp.i:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.i
-.PHONY : src/astar_planner.cpp.i
+src/frontend/astar_planner.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.i
+.PHONY : src/frontend/astar_planner.cpp.i
 
-src/astar_planner.s: src/astar_planner.cpp.s
-.PHONY : src/astar_planner.s
+src/frontend/astar_planner.s: src/frontend/astar_planner.cpp.s
+.PHONY : src/frontend/astar_planner.s
 
 # target to generate assembly for a file
-src/astar_planner.cpp.s:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.s
-.PHONY : src/astar_planner.cpp.s
+src/frontend/astar_planner.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.s
+.PHONY : src/frontend/astar_planner.cpp.s
 
-src/local_planner_manager.o: src/local_planner_manager.cpp.o
-.PHONY : src/local_planner_manager.o
+src/fsm/planner_fsm.o: src/fsm/planner_fsm.cpp.o
+.PHONY : src/fsm/planner_fsm.o
 
 # target to build an object file
-src/local_planner_manager.cpp.o:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o
-.PHONY : src/local_planner_manager.cpp.o
+src/fsm/planner_fsm.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o
+.PHONY : src/fsm/planner_fsm.cpp.o
 
-src/local_planner_manager.i: src/local_planner_manager.cpp.i
-.PHONY : src/local_planner_manager.i
+src/fsm/planner_fsm.i: src/fsm/planner_fsm.cpp.i
+.PHONY : src/fsm/planner_fsm.i
 
 # target to preprocess a source file
-src/local_planner_manager.cpp.i:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.i
-.PHONY : src/local_planner_manager.cpp.i
+src/fsm/planner_fsm.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.i
+.PHONY : src/fsm/planner_fsm.cpp.i
 
-src/local_planner_manager.s: src/local_planner_manager.cpp.s
-.PHONY : src/local_planner_manager.s
+src/fsm/planner_fsm.s: src/fsm/planner_fsm.cpp.s
+.PHONY : src/fsm/planner_fsm.s
 
 # target to generate assembly for a file
-src/local_planner_manager.cpp.s:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.s
-.PHONY : src/local_planner_manager.cpp.s
+src/fsm/planner_fsm.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.s
+.PHONY : src/fsm/planner_fsm.cpp.s
 
 src/local_planner_node.o: src/local_planner_node.cpp.o
 .PHONY : src/local_planner_node.o
@@ -285,53 +285,77 @@ src/local_planner_node.cpp.s:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/build.make fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node.cpp.s
 .PHONY : src/local_planner_node.cpp.s
 
-src/path_optimizer.o: src/path_optimizer.cpp.o
-.PHONY : src/path_optimizer.o
+src/manager/local_planner_manager.o: src/manager/local_planner_manager.cpp.o
+.PHONY : src/manager/local_planner_manager.o
 
 # target to build an object file
-src/path_optimizer.cpp.o:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o
-.PHONY : src/path_optimizer.cpp.o
+src/manager/local_planner_manager.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o
+.PHONY : src/manager/local_planner_manager.cpp.o
 
-src/path_optimizer.i: src/path_optimizer.cpp.i
-.PHONY : src/path_optimizer.i
+src/manager/local_planner_manager.i: src/manager/local_planner_manager.cpp.i
+.PHONY : src/manager/local_planner_manager.i
 
 # target to preprocess a source file
-src/path_optimizer.cpp.i:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.i
-.PHONY : src/path_optimizer.cpp.i
+src/manager/local_planner_manager.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.i
+.PHONY : src/manager/local_planner_manager.cpp.i
 
-src/path_optimizer.s: src/path_optimizer.cpp.s
-.PHONY : src/path_optimizer.s
+src/manager/local_planner_manager.s: src/manager/local_planner_manager.cpp.s
+.PHONY : src/manager/local_planner_manager.s
 
 # target to generate assembly for a file
-src/path_optimizer.cpp.s:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.s
-.PHONY : src/path_optimizer.cpp.s
+src/manager/local_planner_manager.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.s
+.PHONY : src/manager/local_planner_manager.cpp.s
 
-src/planner_fsm.o: src/planner_fsm.cpp.o
-.PHONY : src/planner_fsm.o
+src/optimizer/path_optimizer.o: src/optimizer/path_optimizer.cpp.o
+.PHONY : src/optimizer/path_optimizer.o
 
 # target to build an object file
-src/planner_fsm.cpp.o:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o
-.PHONY : src/planner_fsm.cpp.o
+src/optimizer/path_optimizer.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o
+.PHONY : src/optimizer/path_optimizer.cpp.o
 
-src/planner_fsm.i: src/planner_fsm.cpp.i
-.PHONY : src/planner_fsm.i
+src/optimizer/path_optimizer.i: src/optimizer/path_optimizer.cpp.i
+.PHONY : src/optimizer/path_optimizer.i
 
 # target to preprocess a source file
-src/planner_fsm.cpp.i:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.i
-.PHONY : src/planner_fsm.cpp.i
+src/optimizer/path_optimizer.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.i
+.PHONY : src/optimizer/path_optimizer.cpp.i
 
-src/planner_fsm.s: src/planner_fsm.cpp.s
-.PHONY : src/planner_fsm.s
+src/optimizer/path_optimizer.s: src/optimizer/path_optimizer.cpp.s
+.PHONY : src/optimizer/path_optimizer.s
 
 # target to generate assembly for a file
-src/planner_fsm.cpp.s:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.s
-.PHONY : src/planner_fsm.cpp.s
+src/optimizer/path_optimizer.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.s
+.PHONY : src/optimizer/path_optimizer.cpp.s
+
+src/optimizer/trajectory_feasibility_checker.o: src/optimizer/trajectory_feasibility_checker.cpp.o
+.PHONY : src/optimizer/trajectory_feasibility_checker.o
+
+# target to build an object file
+src/optimizer/trajectory_feasibility_checker.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o
+.PHONY : src/optimizer/trajectory_feasibility_checker.cpp.o
+
+src/optimizer/trajectory_feasibility_checker.i: src/optimizer/trajectory_feasibility_checker.cpp.i
+.PHONY : src/optimizer/trajectory_feasibility_checker.i
+
+# target to preprocess a source file
+src/optimizer/trajectory_feasibility_checker.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.i
+.PHONY : src/optimizer/trajectory_feasibility_checker.cpp.i
+
+src/optimizer/trajectory_feasibility_checker.s: src/optimizer/trajectory_feasibility_checker.cpp.s
+.PHONY : src/optimizer/trajectory_feasibility_checker.s
+
+# target to generate assembly for a file
+src/optimizer/trajectory_feasibility_checker.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.s
+.PHONY : src/optimizer/trajectory_feasibility_checker.cpp.s
 
 # Help Target
 help:
@@ -349,21 +373,24 @@ help:
 	@echo "... _catkin_empty_exported_target"
 	@echo "... fastnav_local_planner_node"
 	@echo "... fastnav_planner_core"
-	@echo "... src/astar_planner.o"
-	@echo "... src/astar_planner.i"
-	@echo "... src/astar_planner.s"
-	@echo "... src/local_planner_manager.o"
-	@echo "... src/local_planner_manager.i"
-	@echo "... src/local_planner_manager.s"
+	@echo "... src/frontend/astar_planner.o"
+	@echo "... src/frontend/astar_planner.i"
+	@echo "... src/frontend/astar_planner.s"
+	@echo "... src/fsm/planner_fsm.o"
+	@echo "... src/fsm/planner_fsm.i"
+	@echo "... src/fsm/planner_fsm.s"
 	@echo "... src/local_planner_node.o"
 	@echo "... src/local_planner_node.i"
 	@echo "... src/local_planner_node.s"
-	@echo "... src/path_optimizer.o"
-	@echo "... src/path_optimizer.i"
-	@echo "... src/path_optimizer.s"
-	@echo "... src/planner_fsm.o"
-	@echo "... src/planner_fsm.i"
-	@echo "... src/planner_fsm.s"
+	@echo "... src/manager/local_planner_manager.o"
+	@echo "... src/manager/local_planner_manager.i"
+	@echo "... src/manager/local_planner_manager.s"
+	@echo "... src/optimizer/path_optimizer.o"
+	@echo "... src/optimizer/path_optimizer.i"
+	@echo "... src/optimizer/path_optimizer.s"
+	@echo "... src/optimizer/trajectory_feasibility_checker.o"
+	@echo "... src/optimizer/trajectory_feasibility_checker.i"
+	@echo "... src/optimizer/trajectory_feasibility_checker.s"
 .PHONY : help
 
 

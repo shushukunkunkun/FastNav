@@ -10,6 +10,7 @@ Panels:
         - /PointCloud22
         - /Path1
         - /Axes1
+        - /Pose1
       Splitter Ratio: 0.5
     Tree Height: 1492
   - Class: rviz/Selection
@@ -144,6 +145,22 @@ Visualization Manager:
       Reference Frame: odom
       Show Trail: false
       Value: true
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.10000000149011612
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Arrow
+      Topic: /fastnav/planner/goal
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -172,7 +189,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 21.924644470214844
+      Distance: 20.0487003326416
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -188,9 +205,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.47479724884033203
+      Pitch: 0.10979689657688141
       Target Frame: <Fixed Frame>
-      Yaw: 1.607283353805542
+      Yaw: 1.3341689109802246
     Saved: ~
 Window Geometry:
   Displays:

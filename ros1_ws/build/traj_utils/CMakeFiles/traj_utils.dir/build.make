@@ -111,11 +111,41 @@ traj_utils/CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.s"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/polynomial_traj.cpp -o CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.s
 
+traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o: traj_utils/CMakeFiles/traj_utils.dir/flags.make
+traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/corridor/safe_corridor_generator.cpp
+traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o: traj_utils/CMakeFiles/traj_utils.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o -MF CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o.d -o CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/corridor/safe_corridor_generator.cpp
+
+traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/corridor/safe_corridor_generator.cpp > CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.i
+
+traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/corridor/safe_corridor_generator.cpp -o CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.s
+
+traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o: traj_utils/CMakeFiles/traj_utils.dir/flags.make
+traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/minco/minco_gcopter_optimizer.cpp
+traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o: traj_utils/CMakeFiles/traj_utils.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o -MF CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o.d -o CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/minco/minco_gcopter_optimizer.cpp
+
+traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/minco/minco_gcopter_optimizer.cpp > CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.i
+
+traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/minco/minco_gcopter_optimizer.cpp -o CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.s
+
 # Object files for target traj_utils
 traj_utils_OBJECTS = \
 "CMakeFiles/traj_utils.dir/src/uniform_bspline.cpp.o" \
 "CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o" \
-"CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o"
+"CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o" \
+"CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o" \
+"CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o"
 
 # External object files for target traj_utils
 traj_utils_EXTERNAL_OBJECTS =
@@ -123,6 +153,8 @@ traj_utils_EXTERNAL_OBJECTS =
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/src/uniform_bspline.cpp.o
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/build.make
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: /opt/ros/noetic/lib/libroscpp.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.74.0
@@ -141,7 +173,7 @@ traj_utils_EXTERNAL_OBJECTS =
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.74.0
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.1.0
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so: traj_utils/CMakeFiles/traj_utils.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX shared library /home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/traj_utils.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

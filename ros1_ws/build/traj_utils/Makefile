@@ -381,6 +381,54 @@ traj_utils/fast:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/build
 .PHONY : traj_utils/fast
 
+src/corridor/safe_corridor_generator.o: src/corridor/safe_corridor_generator.cpp.o
+.PHONY : src/corridor/safe_corridor_generator.o
+
+# target to build an object file
+src/corridor/safe_corridor_generator.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o
+.PHONY : src/corridor/safe_corridor_generator.cpp.o
+
+src/corridor/safe_corridor_generator.i: src/corridor/safe_corridor_generator.cpp.i
+.PHONY : src/corridor/safe_corridor_generator.i
+
+# target to preprocess a source file
+src/corridor/safe_corridor_generator.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.i
+.PHONY : src/corridor/safe_corridor_generator.cpp.i
+
+src/corridor/safe_corridor_generator.s: src/corridor/safe_corridor_generator.cpp.s
+.PHONY : src/corridor/safe_corridor_generator.s
+
+# target to generate assembly for a file
+src/corridor/safe_corridor_generator.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.s
+.PHONY : src/corridor/safe_corridor_generator.cpp.s
+
+src/minco/minco_gcopter_optimizer.o: src/minco/minco_gcopter_optimizer.cpp.o
+.PHONY : src/minco/minco_gcopter_optimizer.o
+
+# target to build an object file
+src/minco/minco_gcopter_optimizer.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o
+.PHONY : src/minco/minco_gcopter_optimizer.cpp.o
+
+src/minco/minco_gcopter_optimizer.i: src/minco/minco_gcopter_optimizer.cpp.i
+.PHONY : src/minco/minco_gcopter_optimizer.i
+
+# target to preprocess a source file
+src/minco/minco_gcopter_optimizer.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.i
+.PHONY : src/minco/minco_gcopter_optimizer.cpp.i
+
+src/minco/minco_gcopter_optimizer.s: src/minco/minco_gcopter_optimizer.cpp.s
+.PHONY : src/minco/minco_gcopter_optimizer.s
+
+# target to generate assembly for a file
+src/minco/minco_gcopter_optimizer.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.s
+.PHONY : src/minco/minco_gcopter_optimizer.cpp.s
+
 src/planning_visualization.o: src/planning_visualization.cpp.o
 .PHONY : src/planning_visualization.o
 
@@ -481,6 +529,12 @@ help:
 	@echo "... traj_utils_gennodejs"
 	@echo "... traj_utils_genpy"
 	@echo "... traj_utils"
+	@echo "... src/corridor/safe_corridor_generator.o"
+	@echo "... src/corridor/safe_corridor_generator.i"
+	@echo "... src/corridor/safe_corridor_generator.s"
+	@echo "... src/minco/minco_gcopter_optimizer.o"
+	@echo "... src/minco/minco_gcopter_optimizer.i"
+	@echo "... src/minco/minco_gcopter_optimizer.s"
 	@echo "... src/planning_visualization.o"
 	@echo "... src/planning_visualization.i"
 	@echo "... src/planning_visualization.s"

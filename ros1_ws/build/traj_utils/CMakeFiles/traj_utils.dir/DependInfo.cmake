@@ -8,6 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/corridor/safe_corridor_generator.cpp" "traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o" "gcc" "traj_utils/CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o.d"
+  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/minco/minco_gcopter_optimizer.cpp" "traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o" "gcc" "traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o.d"
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/planning_visualization.cpp" "traj_utils/CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o" "gcc" "traj_utils/CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o.d"
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/polynomial_traj.cpp" "traj_utils/CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o" "gcc" "traj_utils/CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o.d"
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/src/uniform_bspline.cpp" "traj_utils/CMakeFiles/traj_utils.dir/src/uniform_bspline.cpp.o" "gcc" "traj_utils/CMakeFiles/traj_utils.dir/src/uniform_bspline.cpp.o.d"

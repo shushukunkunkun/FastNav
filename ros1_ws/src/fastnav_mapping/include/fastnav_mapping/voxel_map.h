@@ -72,6 +72,22 @@ public:
     std::vector<Eigen::Vector3d> getOccupiedVoxelCenters() const;
     std::vector<Eigen::Vector3d> getInflatedVoxelCenters(bool include_occupied) const;
 
+    // GCOPTER/MINCO safe corridor 兼容接口：后续 sfc_gen 可直接读取地图范围和分辨率。
+    // getCorner() 返回局部地图最大角点 $corner = origin + dim * resolution$。
+    Eigen::Vector3i getSize() const { return dim_; }
+    double getScale() const { return resolution_; }
+    Eigen::Vector3d getOrigin() const { return origin_; }
+    Eigen::Vector3d getCorner() const { return origin_ + dim_.cast<double>() * resolution_; }
+
+    // GCOPTER 风格碰撞查询：返回 false 表示 free，返回 true 表示 occupied / inflated / out of map。
+    // 因此 sfc_gen 中的 $query(p)==0$ 仍然代表点 $p$ 可通行。
+    bool query(const Eigen::Vector3d& pos) const;
+
+    // 输出膨胀障碍的表面体素中心点。FIRI 用这些点构造分离平面 $n^T x + d \le 0$。
+    // points 采用追加语义，调用方如果需要空集合应先 clear()。
+    void getSurf(std::vector<Eigen::Vector3d>& points,
+                 bool include_occupied = true) const;
+
     const Eigen::Vector3i& dimensions() const { return dim_; }
     const Eigen::Vector3d& origin() const { return origin_; }
     double resolution() const { return resolution_; }
@@ -81,6 +97,8 @@ private:
     int toAddress(const Eigen::Vector3i& idx) const;
     Eigen::Vector3i addressToIndex(int address) const;
     bool isLogOccupied(int address) const;
+    bool isBlockedAddress(int address, bool include_occupied) const;
+    bool isSurfaceIndex(const Eigen::Vector3i& idx, bool include_occupied) const;
     void shiftBuffersForNewOrigin(const Eigen::Vector3d& new_origin);
 
 private:

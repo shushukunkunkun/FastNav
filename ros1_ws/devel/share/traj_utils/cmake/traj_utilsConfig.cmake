@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(traj_utils_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/shukun/Project/FastNav/ros1_ws/devel/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include " STREQUAL " ")
+if(NOT "/home/shukun/Project/FastNav/ros1_ws/devel/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco " STREQUAL " ")
   set(traj_utils_INCLUDE_DIRS "")
-  set(_include_dirs "/home/shukun/Project/FastNav/ros1_ws/devel/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include")
+  set(_include_dirs "/home/shukun/Project/FastNav/ros1_ws/devel/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")

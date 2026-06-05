@@ -10,6 +10,9 @@ local_planner:
   searched_nodes_topic: "/fastnav/planner/searched_nodes"
   debug_occupied_cloud_topic: "/fastnav/planner/debug_occupied_cloud"
   debug_inflated_cloud_topic: "/fastnav/planner/debug_inflated_cloud"
+  control_cmd_topic: "/fastnav/control_cmd"
+  publish_control_cmd: true
+  command_yaw: 0.0
   # planner 内部 debug map 使用独立 timer 固定频率发布，类似 EGO 的 GridMap::visCallback。
   # cloud 回调只更新 VoxelMap，不直接触发 RViz 地图发布。
   debug_map_publish_rate: 5.0
@@ -21,17 +24,69 @@ local_planner:
     collision_check_step: 0.1
     have_trigger: true
 
-  # PathOptimizer 由 LocalPlannerManager 持有，当前第一版做 A* path shortcut。
+  # PathOptimizer 由 LocalPlannerManager 持有：A* path -> shortcut -> safe corridor -> GCOPTER/MINCO。
   optimizer:
     enable: true
     shortcut: true
     line_check_step: 0.1
+    minco_enable: true
+    require_minco: true
+    # MINCO 采样路径只用于 RViz 和 path topic；真正轨迹保存在 LocalTrajData 的 $p(t)$ 中。
+    minco_sample_dt: 0.05
+    # EGO-v2 风格 retry：MINCO 返回后若 fine check 失败，则调整走廊/代价重新优化。
+    max_retry: 3
 
-  # manager 内部用轻量 B-spline 维护 global_data_ / local_data_。
-  # 当前阶段先用路径点作为控制点，时间按 $T=\sum_i\|p_{i+1}-p_i\|/v_{nom}$ 估计。
-  trajectory:
-    bspline_degree: 3
-    nominal_velocity: 1.0
+    retry:
+      corridor_range_scale: 1.2
+      corridor_progress_scale: 1.0
+      weight_time_scale: 1.0
+      penalty_pos_scale: 2.0
+      penalty_vel_scale: 1.5
+      penalty_body_rate_scale: 1.0
+      penalty_tilt_scale: 1.0
+      penalty_thrust_scale: 1.0
+
+    corridor:
+      # 每段走廊沿 A* shortcut 路径最多推进 progress 米，越小越稳但多面体数量更多。
+      progress: 3.0
+      # 每段路径周围 range 米内的障碍表面点会参与 FIRI，形成 $H_i[x^T,1]^T\le0$。
+      range: 3.0
+      eps: 1.0e-6
+      enable_shortcut: true
+
+    minco:
+      weight_time: 1.0
+      smoothing_eps: 0.01
+      integral_intervals: 16
+      rel_cost_tol: 1.0e-5
+      length_per_piece: 1.0
+      max_vel: 2.0
+      max_body_rate: 2.0
+      max_tilt_angle: 0.52
+      min_thrust: 2.0
+      max_thrust: 20.0
+      mass: 1.5
+      gravity: 9.81
+      horiz_drag: 0.0
+      vert_drag: 0.0
+      paras_drag: 0.0
+      speed_eps: 0.01
+      penalty_pos: 10000.0
+      penalty_vel: 1000.0
+      penalty_body_rate: 1000.0
+      penalty_tilt: 1000.0
+      penalty_thrust: 1000.0
+
+    feasibility:
+      check_collision: true
+      check_dynamics: true
+      sample_dt: 0.03
+      collision_check_step: 0.1
+      check_horizon_ratio: 1.0
+      max_vel: 2.0
+      max_acc: 3.0
+      max_jerk: 4.0
+      tolerance: 0.05
 
   frame_id: "odom"
   # 收到目标点后，每次局部点云刷新都重新尝试一次规划。

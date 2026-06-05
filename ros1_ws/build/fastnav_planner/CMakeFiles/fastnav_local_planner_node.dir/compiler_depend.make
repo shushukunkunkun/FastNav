@@ -1260,7 +1260,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/ros/param.h \
   /opt/ros/noetic/include/ros/topic.h \
   /opt/ros/noetic/include/ros/node_handle.h \
-  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/planner_fsm.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h \
   /usr/include/eigen3/Eigen/Core \
   /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -1453,7 +1453,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/nav_msgs/Path.h \
   /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
   /opt/ros/noetic/include/sensor_msgs/PointField.h \
-  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/local_planner_manager.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
   /usr/include/eigen3/Eigen/Dense \
   /usr/include/eigen3/Eigen/Geometry \
   /usr/include/eigen3/Eigen/Eigenvalues \
@@ -1552,13 +1552,25 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /usr/include/eigen3/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h \
   /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/uniform_bspline.h \
   /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/polynomial_traj.h \
-  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/astar_planner.h \
-  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/path_optimizer.h
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/minco_traj.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/trajectory.hpp \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/root_finder.hpp \
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/frontend/astar_planner.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/path_optimizer.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/corridor/safe_corridor_generator.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/minco_gcopter_optimizer.h \
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/trajectory_feasibility_checker.h
 
 
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/path_optimizer.h:
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/trajectory_feasibility_checker.h:
 
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/astar_planner.h:
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/minco_gcopter_optimizer.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/path_optimizer.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/trajectory.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/minco_traj.h:
 
 /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/polynomial_traj.h:
 
@@ -1644,7 +1656,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/eigen3/Eigen/Eigenvalues:
 
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/local_planner_manager.h:
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h:
 
 /opt/ros/noetic/include/sensor_msgs/PointField.h:
 
@@ -1865,6 +1877,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h:
 
 /usr/include/eigen3/Eigen/Core:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h:
 
 /opt/ros/noetic/include/ros/this_node.h:
 
@@ -2443,6 +2457,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/preprocessor/arithmetic/inc.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/corridor/safe_corridor_generator.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp:
 
@@ -4368,6 +4384,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/date_time/year_month_day.hpp:
 
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/frontend/astar_planner.h:
+
 /usr/include/pthread.h:
 
 /usr/include/boost/date_time/period.hpp:
@@ -4441,6 +4459,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/numeric/conversion/detail/converter.hpp:
 
 /usr/include/boost/numeric/conversion/detail/bounds.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/root_finder.hpp:
 
 /usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_common.hpp:
 
@@ -4527,8 +4547,6 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/predef/library/std/libcomo.h:
 
 /usr/include/boost/predef/library/std/modena.h:
-
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/planner_fsm.h:
 
 /usr/include/boost/mpl/aux_/inserter_algorithm.hpp:
 

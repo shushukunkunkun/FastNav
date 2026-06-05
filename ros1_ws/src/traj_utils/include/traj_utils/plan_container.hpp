@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <string>
 #include <ros/ros.h>
 
 #include <traj_utils/uniform_bspline.h>
 #include <traj_utils/polynomial_traj.h>
+#include <traj_utils/minco/minco_traj.h>
 
 using std::vector;
 
@@ -253,5 +255,147 @@ namespace ego_planner
   typedef std::vector<OneTrajDataOfSwarm> SwarmTrajData;
 
 } // namespace ego_planner
+
+
+namespace fastnav
+{
+
+  /*
+   * GlobalTrajData 保存 FastNav 的全局 MINCO 参考轨迹。
+   * 它对应任务级参考线：FSM 可以沿 $p_g(t)$ 选择局部目标，manager 可以用它判断任务是否接近终点。
+   * 注意这里保存的是工程运行时数据，底层数学轨迹仍然由 MincoTraj 内部的 Trajectory<5> 表示。
+   */
+  struct GlobalTrajData
+  {
+    int traj_id_{0};
+    bool valid_{false};
+    std::string frame_id_{"odom"};
+
+    ros::Time start_time_{0};
+    double duration_{0.0};
+    double last_progress_time_{0.0};
+
+    MincoTraj position_traj_;
+    std::vector<Eigen::Vector3d> waypoints_;
+    std::vector<Eigen::MatrixX4d> corridor_;
+
+    void reset()
+    {
+      valid_ = false;
+      duration_ = 0.0;
+      last_progress_time_ = 0.0;
+      start_time_ = ros::Time(0);
+      position_traj_.clear();
+      waypoints_.clear();
+      corridor_.clear();
+    }
+
+    void setGlobalTraj(const MincoTraj::TrajectoryType& traj,
+                       const ros::Time& time,
+                       const std::string& frame_id = "odom")
+    {
+      position_traj_.setTrajectory(traj);
+      valid_ = position_traj_.valid();
+      duration_ = position_traj_.getDuration();
+      start_time_ = time;
+      frame_id_ = frame_id;
+      last_progress_time_ = 0.0;
+      traj_id_ += valid_ ? 1 : 0;
+    }
+
+    double elapsedTime(const ros::Time& now) const
+    {
+      if (!valid_ || start_time_.isZero())
+      {
+        return 0.0;
+      }
+      return std::max(0.0, (now - start_time_).toSec());
+    }
+
+    bool isExpired(const ros::Time& now) const
+    {
+      return valid_ && elapsedTime(now) >= duration_ - 1.0e-3;
+    }
+
+    Eigen::Vector3d getPosition(double t) const { return position_traj_.getPosition(t); }
+    Eigen::Vector3d getVelocity(double t) const { return position_traj_.getVelocity(t); }
+    Eigen::Vector3d getAcceleration(double t) const { return position_traj_.getAcceleration(t); }
+    Eigen::Vector3d getJerk(double t) const { return position_traj_.getJerk(t); }
+
+    Eigen::Vector3d getPosition(const ros::Time& now) const { return getPosition(elapsedTime(now)); }
+    Eigen::Vector3d getVelocity(const ros::Time& now) const { return getVelocity(elapsedTime(now)); }
+    Eigen::Vector3d getAcceleration(const ros::Time& now) const { return getAcceleration(elapsedTime(now)); }
+  };
+
+  /*
+   * LocalTrajData 保存当前已经接受的局部 MINCO 轨迹。
+   * planner 每次成功重规划后更新该结构；FSM / controller 可以根据 ROS 时间采样 $p(t),v(t),a(t)$。
+   */
+  struct LocalTrajData
+  {
+    int traj_id_{0};
+    bool valid_{false};
+    std::string frame_id_{"odom"};
+
+    ros::Time start_time_{0};
+    double duration_{0.0};
+    Eigen::Vector3d start_pos_{Eigen::Vector3d::Zero()};
+
+    MincoTraj position_traj_;
+    std::vector<Eigen::Vector3d> sampled_path_;
+    std::vector<Eigen::MatrixX4d> corridor_;
+
+    void reset()
+    {
+      valid_ = false;
+      duration_ = 0.0;
+      start_time_ = ros::Time(0);
+      start_pos_.setZero();
+      position_traj_.clear();
+      sampled_path_.clear();
+      corridor_.clear();
+    }
+
+    void setLocalTraj(const MincoTraj::TrajectoryType& traj,
+                      const ros::Time& time,
+                      const std::string& frame_id = "odom",
+                      double sample_dt = 0.05)
+    {
+      position_traj_.setTrajectory(traj);
+      valid_ = position_traj_.valid();
+      duration_ = position_traj_.getDuration();
+      start_time_ = time;
+      frame_id_ = frame_id;
+      sampled_path_ = position_traj_.samplePositions(sample_dt);
+      start_pos_ = valid_ ? position_traj_.getPosition(0.0) : Eigen::Vector3d::Zero();
+      traj_id_ += valid_ ? 1 : 0;
+    }
+
+    double elapsedTime(const ros::Time& now) const
+    {
+      if (!valid_ || start_time_.isZero())
+      {
+        return 0.0;
+      }
+      return std::max(0.0, (now - start_time_).toSec());
+    }
+
+    bool isExpired(const ros::Time& now) const
+    {
+      return valid_ && elapsedTime(now) >= duration_ - 1.0e-3;
+    }
+
+    Eigen::Vector3d getPosition(double t) const { return position_traj_.getPosition(t); }
+    Eigen::Vector3d getVelocity(double t) const { return position_traj_.getVelocity(t); }
+    Eigen::Vector3d getAcceleration(double t) const { return position_traj_.getAcceleration(t); }
+    Eigen::Vector3d getJerk(double t) const { return position_traj_.getJerk(t); }
+
+    Eigen::Vector3d getPosition(const ros::Time& now) const { return getPosition(elapsedTime(now)); }
+    Eigen::Vector3d getVelocity(const ros::Time& now) const { return getVelocity(elapsedTime(now)); }
+    Eigen::Vector3d getAcceleration(const ros::Time& now) const { return getAcceleration(elapsedTime(now)); }
+    Eigen::Vector3d getJerk(const ros::Time& now) const { return getJerk(elapsedTime(now)); }
+  };
+
+} // namespace fastnav
 
 #endif

@@ -34,7 +34,7 @@ generate_messages(
 )
 
 catkin_package(
- INCLUDE_DIRS include
+ INCLUDE_DIRS include include/traj_utils/minco
  LIBRARIES traj_utils 
  CATKIN_DEPENDS roscpp std_msgs geometry_msgs message_runtime
 #  DEPENDS system_lib
@@ -46,6 +46,7 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${EIGEN3_INCLUDE_DIRS}
     ${PCL_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/traj_utils/minco
 )
 
 link_directories(${PCL_LIBRARY_DIRS})
@@ -53,7 +54,9 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_library( traj_utils
     src/uniform_bspline.cpp
     src/planning_visualization.cpp 
-    src/polynomial_traj.cpp 
+    src/polynomial_traj.cpp
+    src/corridor/safe_corridor_generator.cpp
+    src/minco/minco_gcopter_optimizer.cpp
     )
 target_link_libraries( traj_utils
     ${catkin_LIBRARIES} 

@@ -67,7 +67,7 @@ include fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_Obsta
 include fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/progress.make
 
 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo:
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py fastnav_msgs /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg geometry_msgs/Point:std_msgs/Header
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py fastnav_msgs /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg std_msgs/Header:geometry_msgs/Point
 
 _fastnav_msgs_generate_messages_check_deps_ObstacleInfo: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo
 _fastnav_msgs_generate_messages_check_deps_ObstacleInfo: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/build.make

@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.pdb"
   "/home/shukun/Project/FastNav/ros1_ws/devel/lib/libtraj_utils.so"
+  "CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o"
+  "CMakeFiles/traj_utils.dir/src/corridor/safe_corridor_generator.cpp.o.d"
+  "CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o"
+  "CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.o.d"
   "CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o"
   "CMakeFiles/traj_utils.dir/src/planning_visualization.cpp.o.d"
   "CMakeFiles/traj_utils.dir/src/polynomial_traj.cpp.o"

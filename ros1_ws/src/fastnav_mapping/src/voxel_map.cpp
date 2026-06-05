@@ -7,6 +7,11 @@
 namespace fastnav_mapping
 {
 
+// C++14 下 static constexpr 成员若被 std::fill/assign 等以引用形式 odr-use，需要在类外提供定义。
+constexpr int8_t VoxelMap::FREE;
+constexpr int8_t VoxelMap::OCCUPIED;
+constexpr int8_t VoxelMap::INFLATED;
+
 namespace
 {
 double clampProbability(double p)
@@ -301,6 +306,44 @@ std::vector<Eigen::Vector3d> VoxelMap::getInflatedVoxelCenters(bool include_occu
     return centers;
 }
 
+bool VoxelMap::query(const Eigen::Vector3d& pos) const
+{
+    Eigen::Vector3i idx;
+    if (!posToIndex(pos, idx))
+    {
+        // 对 GCOPTER/FIRI 走廊生成来说，局部地图外部按 blocked 处理，避免轨迹越过当前可感知范围。
+        return true;
+    }
+
+    return isBlockedAddress(toAddress(idx), true);
+}
+
+void VoxelMap::getSurf(std::vector<Eigen::Vector3d>& points,
+                       bool include_occupied) const
+{
+    if (!initialized_)
+    {
+        return;
+    }
+
+    // GCOPTER 原始地图只把最后一层 dilated wavefront 作为 surf。
+    // FastNav 使用欧氏半径膨胀，因此这里提取 blocked 集合的边界：若体素 $v$ 的 6 邻域中存在 free / out-of-map，则 $v$ 是表面体素。
+    points.reserve(points.size() + inflated_buffer_.size() / 10);
+    for (int address = 0; address < static_cast<int>(inflated_buffer_.size()); ++address)
+    {
+        if (!isBlockedAddress(address, include_occupied))
+        {
+            continue;
+        }
+
+        const Eigen::Vector3i idx = addressToIndex(address);
+        if (isSurfaceIndex(idx, include_occupied))
+        {
+            points.push_back(indexToPos(idx));
+        }
+    }
+}
+
 int VoxelMap::toAddress(const Eigen::Vector3i& idx) const
 {
     // 三维索引按 $address = ix * dim_y * dim_z + iy * dim_z + iz$ 压成一维数组下标。
@@ -322,6 +365,45 @@ bool VoxelMap::isLogOccupied(int address) const
     return address >= 0 &&
            address < static_cast<int>(occupancy_log_buffer_.size()) &&
            occupancy_log_buffer_[address] > min_occupancy_log_;
+}
+
+bool VoxelMap::isBlockedAddress(int address, bool include_occupied) const
+{
+    if (address < 0 || address >= static_cast<int>(inflated_buffer_.size()))
+    {
+        return true;
+    }
+
+    return inflated_buffer_[address] == INFLATED ||
+           (include_occupied && isLogOccupied(address));
+}
+
+bool VoxelMap::isSurfaceIndex(const Eigen::Vector3i& idx, bool include_occupied) const
+{
+    static const Eigen::Vector3i kNeighbors[6] = {
+        Eigen::Vector3i(1, 0, 0),
+        Eigen::Vector3i(-1, 0, 0),
+        Eigen::Vector3i(0, 1, 0),
+        Eigen::Vector3i(0, -1, 0),
+        Eigen::Vector3i(0, 0, 1),
+        Eigen::Vector3i(0, 0, -1),
+    };
+
+    for (const Eigen::Vector3i& delta : kNeighbors)
+    {
+        const Eigen::Vector3i neighbor = idx + delta;
+        if (!isInMap(neighbor))
+        {
+            return true;
+        }
+
+        if (!isBlockedAddress(toAddress(neighbor), include_occupied))
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void VoxelMap::shiftBuffersForNewOrigin(const Eigen::Vector3d& new_origin)

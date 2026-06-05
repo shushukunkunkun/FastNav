@@ -185,7 +185,7 @@ foreach(t ${fastnav_planner_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "fastnav_mapping;geometry_msgs;nav_msgs;pcl_conversions;pcl_ros;roscpp;sensor_msgs;std_msgs;traj_utils")
+set(depends "fastnav_mapping;fastnav_msgs;geometry_msgs;nav_msgs;pcl_conversions;pcl_ros;roscpp;sensor_msgs;std_msgs;traj_utils")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

@@ -17,3 +17,31 @@ planner:
   astar:
     heuristic_weight: 1.2
     max_search_nodes: 180000
+
+  # EGO-v2 风格重试策略：MINCO 失败或 fine check 不通过时，改变走廊/代价后重新优化。
+  replan:
+    max_retry: 3
+    corridor_range_scale: 1.2
+    corridor_progress_scale: 1.0
+    weight_time_scale: 1.0
+    penalty_pos_scale: 2.0
+    penalty_vel_scale: 1.5
+
+  # MINCO 轨迹验收层。优化器返回轨迹后，还要显式检查碰撞与动力学可行性。
+  feasibility:
+    sample_dt: 0.03
+    collision_check_step: 0.1
+    check_horizon_ratio: 1.0
+
+  # 仿真阶段 MINCO / GCOPTER 的默认动态约束，数值应与 PX4 multicopter_limits.params 保持同一量级。
+  minco:
+    max_vel: 2.0
+    max_body_rate: 2.0
+    max_tilt_angle: 0.52
+    min_thrust: 2.0
+    max_thrust: 20.0
+    mass: 1.5
+
+  safe_corridor:
+    progress: 3.0
+    range: 3.0

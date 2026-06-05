@@ -12,6 +12,7 @@
 
   <!-- fastnav_mapping 导出 VoxelMap，planner 在同一进程内直接调用 $isInflatedOccupied(p)$ 和 $isLineFree(p0,p1)$。 -->
   <depend>fastnav_mapping</depend>
+  <depend>fastnav_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>nav_msgs</depend>
   <depend>pcl_conversions</depend>

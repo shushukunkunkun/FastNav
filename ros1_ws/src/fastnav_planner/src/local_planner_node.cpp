@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 
-#include "fastnav_planner/planner_fsm.h"
+#include "fastnav_planner/fsm/planner_fsm.h"
 
 int main(int argc, char** argv)
 {

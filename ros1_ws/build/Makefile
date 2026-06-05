@@ -1914,6 +1914,19 @@ local_voxel_map_node/fast:
 .PHONY : local_voxel_map_node/fast
 
 #=============================================================================
+# Target rules for targets named mockamap_node
+
+# Build rule for target.
+mockamap_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mockamap_node
+.PHONY : mockamap_node
+
+# fast build rule for target.
+mockamap_node/fast:
+	$(MAKE) $(MAKESILENT) -f GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/build.make GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/build
+.PHONY : mockamap_node/fast
+
+#=============================================================================
 # Target rules for targets named cloud_transform_node
 
 # Build rule for target.
@@ -2337,6 +2350,7 @@ help:
 	@echo "... gz_odom_bridge_node"
 	@echo "... gz_pointcloud_bridge_node"
 	@echo "... local_voxel_map_node"
+	@echo "... mockamap_node"
 	@echo "... offboard_control_node"
 	@echo "... traj_utils"
 	@echo "... voxel_map"

@@ -69,76 +69,92 @@ include fastnav_planner/CMakeFiles/fastnav_planner_core.dir/progress.make
 # Include the compile flags for this target's objects.
 include fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/astar_planner.cpp
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/astar_planner.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.i"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/astar_planner.cpp > CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.i
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp > CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.i
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.s"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/astar_planner.cpp -o CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.s
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp -o CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.s
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/local_planner_manager.cpp
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/local_planner_manager.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/manager/local_planner_manager.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/manager/local_planner_manager.cpp
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.i"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/local_planner_manager.cpp > CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.i
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/manager/local_planner_manager.cpp > CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.i
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.s"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/local_planner_manager.cpp -o CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.s
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/manager/local_planner_manager.cpp -o CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.s
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/path_optimizer.cpp
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/path_optimizer.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/path_optimizer.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/path_optimizer.cpp
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.i"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/path_optimizer.cpp > CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.i
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/path_optimizer.cpp > CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.i
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.s"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/path_optimizer.cpp -o CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.s
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/path_optimizer.cpp -o CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.s
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/planner_fsm.cpp
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/planner_fsm.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/trajectory_feasibility_checker.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/trajectory_feasibility_checker.cpp
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.i"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/planner_fsm.cpp > CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.i
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/trajectory_feasibility_checker.cpp > CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.i
 
-fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.s"
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/planner_fsm.cpp -o CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.s
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/trajectory_feasibility_checker.cpp -o CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.s
+
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/flags.make
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o -MF CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o.d -o CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o -c /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp
+
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.i"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp > CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.i
+
+fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.s"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp -o CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.s
 
 # Object files for target fastnav_planner_core
 fastnav_planner_core_OBJECTS = \
-"CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o" \
-"CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o" \
-"CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o" \
-"CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o"
+"CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o" \
+"CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o" \
+"CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o" \
+"CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o" \
+"CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o"
 
 # External object files for target fastnav_planner_core
 fastnav_planner_core_EXTERNAL_OBJECTS =
 
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/astar_planner.cpp.o
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/local_planner_manager.cpp.o
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/path_optimizer.cpp.o
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/planner_fsm.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_manager.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /home/shukun/Project/FastNav/ros1_ws/devel/lib/libvoxel_map.so
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /opt/ros/noetic/lib/libpcl_ros_filter.so
@@ -247,7 +263,7 @@ fastnav_planner_core_EXTERNAL_OBJECTS =
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.74.0
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so: fastnav_planner/CMakeFiles/fastnav_planner_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX shared library /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX shared library /home/shukun/Project/FastNav/ros1_ws/devel/lib/libfastnav_planner_core.so"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_planner && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/fastnav_planner_core.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
