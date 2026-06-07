@@ -10,12 +10,12 @@ import geometry_msgs.msg
 import std_msgs.msg
 
 class ControlCommand(genpy.Message):
-  _md5sum = "db5bf442422b499bcadde2f7ee9e0236"
+  _md5sum = "0fd67f68d7beec39a04c5cf43f0fca02"
   _type = "fastnav_msgs/ControlCommand"
   _has_header = True  # flag to mark the presence of a Header object
   _full_text = """# FastNav internal control command.
-# This message is published by fastnav_planner
-# and consumed by fastnav_control.
+# This message is usually published by traj_utils/minco_traj_server
+# and consumed by fastnav_control. Planner should publish trajectory, not direct PX4 setpoint.
 
 std_msgs/Header header
 
@@ -25,14 +25,24 @@ uint8 COMMAND_VELOCITY = 1
 uint8 COMMAND_HOVER    = 2
 uint8 COMMAND_LAND     = 3
 uint8 COMMAND_IDLE     = 4
+uint8 COMMAND_TRAJECTORY = 5
 
 uint8 command_type
+
+# Trajectory id, used to reject stale sampled commands if needed.
+uint32 trajectory_id
 
 # Position setpoint in local frame
 geometry_msgs/Point position
 
 # Velocity setpoint in local frame
 geometry_msgs/Vector3 velocity
+
+# Acceleration feed-forward in local frame, sampled from $a(t)$.
+geometry_msgs/Vector3 acceleration
+
+# Jerk feed-forward in local frame, sampled from $j(t)$; current PX4 raw local setpoint does not consume jerk directly.
+geometry_msgs/Vector3 jerk
 
 # Yaw angle for position control
 float64 yaw
@@ -42,6 +52,7 @@ float64 yaw_rate
 
 # Whether this command is valid
 bool enable
+
 ================================================================================
 MSG: std_msgs/Header
 # Standard metadata for higher-level stamped data types.
@@ -83,9 +94,10 @@ float64 z"""
   COMMAND_HOVER = 2
   COMMAND_LAND = 3
   COMMAND_IDLE = 4
+  COMMAND_TRAJECTORY = 5
 
-  __slots__ = ['header','command_type','position','velocity','yaw','yaw_rate','enable']
-  _slot_types = ['std_msgs/Header','uint8','geometry_msgs/Point','geometry_msgs/Vector3','float64','float64','bool']
+  __slots__ = ['header','command_type','trajectory_id','position','velocity','acceleration','jerk','yaw','yaw_rate','enable']
+  _slot_types = ['std_msgs/Header','uint8','uint32','geometry_msgs/Point','geometry_msgs/Vector3','geometry_msgs/Vector3','geometry_msgs/Vector3','float64','float64','bool']
 
   def __init__(self, *args, **kwds):
     """
@@ -95,7 +107,7 @@ float64 z"""
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,command_type,position,velocity,yaw,yaw_rate,enable
+       header,command_type,trajectory_id,position,velocity,acceleration,jerk,yaw,yaw_rate,enable
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -108,10 +120,16 @@ float64 z"""
         self.header = std_msgs.msg.Header()
       if self.command_type is None:
         self.command_type = 0
+      if self.trajectory_id is None:
+        self.trajectory_id = 0
       if self.position is None:
         self.position = geometry_msgs.msg.Point()
       if self.velocity is None:
         self.velocity = geometry_msgs.msg.Vector3()
+      if self.acceleration is None:
+        self.acceleration = geometry_msgs.msg.Vector3()
+      if self.jerk is None:
+        self.jerk = geometry_msgs.msg.Vector3()
       if self.yaw is None:
         self.yaw = 0.
       if self.yaw_rate is None:
@@ -121,8 +139,11 @@ float64 z"""
     else:
       self.header = std_msgs.msg.Header()
       self.command_type = 0
+      self.trajectory_id = 0
       self.position = geometry_msgs.msg.Point()
       self.velocity = geometry_msgs.msg.Vector3()
+      self.acceleration = geometry_msgs.msg.Vector3()
+      self.jerk = geometry_msgs.msg.Vector3()
       self.yaw = 0.
       self.yaw_rate = 0.
       self.enable = False
@@ -148,7 +169,7 @@ float64 z"""
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_B8dB().pack(_x.command_type, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.yaw, _x.yaw_rate, _x.enable))
+      buff.write(_get_struct_BI14dB().pack(_x.command_type, _x.trajectory_id, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.acceleration.x, _x.acceleration.y, _x.acceleration.z, _x.jerk.x, _x.jerk.y, _x.jerk.z, _x.yaw, _x.yaw_rate, _x.enable))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -166,6 +187,10 @@ float64 z"""
         self.position = geometry_msgs.msg.Point()
       if self.velocity is None:
         self.velocity = geometry_msgs.msg.Vector3()
+      if self.acceleration is None:
+        self.acceleration = geometry_msgs.msg.Vector3()
+      if self.jerk is None:
+        self.jerk = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -182,8 +207,8 @@ float64 z"""
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 66
-      (_x.command_type, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.yaw, _x.yaw_rate, _x.enable,) = _get_struct_B8dB().unpack(str[start:end])
+      end += 118
+      (_x.command_type, _x.trajectory_id, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.acceleration.x, _x.acceleration.y, _x.acceleration.z, _x.jerk.x, _x.jerk.y, _x.jerk.z, _x.yaw, _x.yaw_rate, _x.enable,) = _get_struct_BI14dB().unpack(str[start:end])
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
@@ -206,7 +231,7 @@ float64 z"""
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_B8dB().pack(_x.command_type, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.yaw, _x.yaw_rate, _x.enable))
+      buff.write(_get_struct_BI14dB().pack(_x.command_type, _x.trajectory_id, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.acceleration.x, _x.acceleration.y, _x.acceleration.z, _x.jerk.x, _x.jerk.y, _x.jerk.z, _x.yaw, _x.yaw_rate, _x.enable))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
 
@@ -225,6 +250,10 @@ float64 z"""
         self.position = geometry_msgs.msg.Point()
       if self.velocity is None:
         self.velocity = geometry_msgs.msg.Vector3()
+      if self.acceleration is None:
+        self.acceleration = geometry_msgs.msg.Vector3()
+      if self.jerk is None:
+        self.jerk = geometry_msgs.msg.Vector3()
       end = 0
       _x = self
       start = end
@@ -241,8 +270,8 @@ float64 z"""
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 66
-      (_x.command_type, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.yaw, _x.yaw_rate, _x.enable,) = _get_struct_B8dB().unpack(str[start:end])
+      end += 118
+      (_x.command_type, _x.trajectory_id, _x.position.x, _x.position.y, _x.position.z, _x.velocity.x, _x.velocity.y, _x.velocity.z, _x.acceleration.x, _x.acceleration.y, _x.acceleration.z, _x.jerk.x, _x.jerk.y, _x.jerk.z, _x.yaw, _x.yaw_rate, _x.enable,) = _get_struct_BI14dB().unpack(str[start:end])
       self.enable = bool(self.enable)
       return self
     except struct.error as e:
@@ -258,9 +287,9 @@ def _get_struct_3I():
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
-_struct_B8dB = None
-def _get_struct_B8dB():
-    global _struct_B8dB
-    if _struct_B8dB is None:
-        _struct_B8dB = struct.Struct("<B8dB")
-    return _struct_B8dB
+_struct_BI14dB = None
+def _get_struct_BI14dB():
+    global _struct_BI14dB
+    if _struct_BI14dB is None:
+        _struct_BI14dB = struct.Struct("<BI14dB")
+    return _struct_BI14dB

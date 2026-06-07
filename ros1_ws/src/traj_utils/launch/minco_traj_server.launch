@@ -1,0 +1,27 @@
+<!--
+    FastNav MINCO trajectory server launch.
+    输入 /fastnav/planner/minco_trajectory，按时间采样 $p,v,a,j,yaw,yaw_rate$，
+    输出 /fastnav/control_cmd 供 fastnav_control 转成 PX4/MAVROS setpoint。
+-->
+<launch>
+    <arg name="trajectory_topic" default="/fastnav/planner/minco_trajectory"/>
+    <arg name="heartbeat_topic" default="/fastnav/planner/heartbeat"/>
+    <arg name="command_topic" default="/fastnav/control_cmd"/>
+    <arg name="frame_id" default="odom"/>
+    <arg name="publish_rate" default="100.0"/>
+    <arg name="heartbeat_timeout" default="3.0"/>
+    <arg name="time_forward" default="1.0"/>
+
+    <node pkg="traj_utils"
+          type="minco_traj_server"
+          name="fastnav_minco_traj_server"
+          output="screen">
+        <param name="trajectory_topic" value="$(arg trajectory_topic)"/>
+        <param name="heartbeat_topic" value="$(arg heartbeat_topic)"/>
+        <param name="command_topic" value="$(arg command_topic)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
+        <param name="publish_rate" value="$(arg publish_rate)" type="double"/>
+        <param name="heartbeat_timeout" value="$(arg heartbeat_timeout)" type="double"/>
+        <param name="time_forward" value="$(arg time_forward)" type="double"/>
+    </node>
+</launch>

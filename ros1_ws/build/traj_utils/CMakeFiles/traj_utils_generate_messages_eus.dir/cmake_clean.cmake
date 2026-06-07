@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/manifest.l"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/Bspline.l"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/DataDisp.l"
+  "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l"
   "CMakeFiles/traj_utils_generate_messages_eus"
 )

@@ -7,5 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export PATH='/opt/ros/noetic/bin:/home/shukun/.codex/tmp/arg0/codex-arg0YJ09by:/home/shukun/.npm-global/bin:/home/shukun/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/shukun/..npm-global/bin:/home/shukun/.vscode/extensions/openai.chatgpt-26.602.30954-linux-x64/bin/linux-x86_64'
+export PATH='/opt/ros/noetic/bin:/home/shukun/.codex/tmp/arg0/codex-arg0TKsvTh:/home/shukun/.npm-global/bin:/home/shukun/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/shukun/..npm-global/bin:/home/shukun/.vscode/extensions/openai.chatgpt-26.602.40724-linux-x64/bin/linux-x86_64'
 export PWD='/home/shukun/Project/FastNav/ros1_ws/build'

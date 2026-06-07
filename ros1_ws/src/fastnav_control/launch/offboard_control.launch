@@ -1,31 +1,23 @@
 <!--
     ROS1 launch 文件用于描述一组需要一起启动的资源，例如参数、节点、命名空间和子 launch 文件。
-    本文件是 FastNav offboard 控制模块的启动入口：先加载仿真控制参数，再启动 offboard 控制节点。
+    本文件是 FastNav offboard 控制模块的启动入口：先加载控制器参数，再启动 offboard 控制节点。
     它通常会被 fastnav_bringup/launch/sim_offboard.launch 通过 <include> 引入。
 -->
 <launch>
     <!-- <launch> 是 launch 文件的根标签，所有 <rosparam>、<node>、<include> 等标签都必须写在它内部。 -->
+    <arg name="config_file" default="$(find fastnav_bringup)/../../../config/sim/controller.yaml"/>
 
     <!--
-        <rosparam> 用于向 ROS 参数服务器加载 YAML 参数文件。
-        file="$(find fastnav_control)/config/control_sim.yaml" 表示先用 $(find fastnav_control) 查找 fastnav_control 包路径，
-        再定位到该包下的 config/control_sim.yaml 文件。
-        command="load" 表示把这个 YAML 文件中的参数加载到 ROS parameter server。
-        后续 offboard_control_node 可以通过 ros::param 或 NodeHandle::param 读取这些控制参数。
-    -->
-    <rosparam file="$(find fastnav_control)/config/control_sim.yaml" command="load"/>
-
-    <!--
-        <node> 用于启动一个 ROS 节点。
-        pkg="fastnav_control" 表示节点可执行文件来自 fastnav_control 这个 ROS 包。
-        type="offboard_control_node" 表示实际要运行的可执行文件名是 offboard_control_node。
-        name="fastnav_offboard_control_node" 是运行时注册到 ROS master 上的节点名，其他节点可通过这个名字识别它。
-        output="screen" 表示该节点的 stdout/stderr 会直接打印到终端，方便调试控制状态和报错信息。
+        控制参数统一放在项目顶层 config 中。
+        这里把 controller.yaml 加载到节点私有命名空间，使 offboard_control_node 内部的 private NodeHandle 可以读取
+        ~control/rate、~takeoff/z、~topic/raw_setpoint 等参数。
     -->
     <node pkg="fastnav_control"
           type="offboard_control_node"
           name="fastnav_offboard_control_node"
-          output="screen"/>
+          output="screen">
+        <rosparam file="$(arg config_file)" command="load"/>
+    </node>
 
     <!-- </launch> 结束根标签，表示本文件声明的参数加载和节点启动项到此结束。 -->
 </launch>

@@ -33,6 +33,13 @@
     <arg name="start_perception" default="true"/>
     <arg name="start_mapping" default="true"/>
     <arg name="start_planner" default="true"/>
+    <arg name="start_traj_server" default="true"/>
+
+    <!--
+        项目级配置根目录。control / perception / mapping / planner 的运行参数都从这里加载，
+        各 ROS 包内部不再保留自己的 config 目录。
+    -->
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
 
     <!-- MAVROS 连接参数，默认匹配 PX4 SITL 的 UDP 端口。 -->
     <arg name="fcu_url" default="udp://:14540@127.0.0.1:14557"/>
@@ -49,6 +56,7 @@
     -->
     <include file="$(find fastnav_bringup)/launch/load_fastnav_config.launch">
         <arg name="mode" value="sim"/>
+        <arg name="config_root" value="$(arg config_root)"/>
     </include>
 
     <!-- ========================= -->
@@ -66,6 +74,7 @@
         <arg name="gcs_url" value="$(arg gcs_url)"/>
         <arg name="tgt_system" value="$(arg tgt_system)"/>
         <arg name="tgt_component" value="$(arg tgt_component)"/>
+        <arg name="config_root" value="$(arg config_root)"/>
     </include>
 
     <!-- ========================= -->
@@ -80,10 +89,12 @@
     <include if="$(arg start_navigation)"
              file="$(find fastnav_bringup)/launch/fastnav_sim_navigation.launch">
         <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+        <arg name="config_root" value="$(arg config_root)"/>
         <arg name="start_gz_bridge" value="$(arg start_gz_bridge)"/>
         <arg name="start_tf" value="$(arg start_tf)"/>
         <arg name="start_perception" value="$(arg start_perception)"/>
         <arg name="start_mapping" value="$(arg start_mapping)"/>
         <arg name="start_planner" value="$(arg start_planner)"/>
+        <arg name="start_traj_server" value="$(arg start_traj_server)"/>
     </include>
 </launch>

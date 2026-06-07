@@ -8,6 +8,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
 find_package(catkin REQUIRED COMPONENTS
   #bspline_opt
   #path_searching
+  fastnav_msgs
   roscpp
   std_msgs
   geometry_msgs
@@ -24,6 +25,7 @@ add_message_files(
   Bspline.msg
   DataDisp.msg
   MultiBsplines.msg
+  MincoTrajectory.msg
   )
   
 # Generate added messages and services with any dependencies listed here
@@ -36,7 +38,7 @@ generate_messages(
 catkin_package(
  INCLUDE_DIRS include include/traj_utils/minco
  LIBRARIES traj_utils 
- CATKIN_DEPENDS roscpp std_msgs geometry_msgs message_runtime
+ CATKIN_DEPENDS fastnav_msgs roscpp std_msgs geometry_msgs message_runtime
 #  DEPENDS system_lib
 )
 
@@ -58,6 +60,26 @@ add_library( traj_utils
     src/corridor/safe_corridor_generator.cpp
     src/minco/minco_gcopter_optimizer.cpp
     )
+
+add_dependencies(traj_utils
+    ${catkin_EXPORTED_TARGETS}
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
+
 target_link_libraries( traj_utils
     ${catkin_LIBRARIES} 
     )  
+
+add_executable(minco_traj_server
+    src/minco/minco_traj_server.cpp
+)
+
+add_dependencies(minco_traj_server
+    ${catkin_EXPORTED_TARGETS}
+    ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
+
+target_link_libraries(minco_traj_server
+    traj_utils
+    ${catkin_LIBRARIES}
+)

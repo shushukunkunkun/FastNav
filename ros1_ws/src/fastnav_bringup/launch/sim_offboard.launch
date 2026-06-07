@@ -34,6 +34,9 @@
     -->
     <arg name="tgt_component" default="1"/>
 
+    <!-- 项目级配置根目录；控制器运行参数使用 $(arg config_root)/sim/controller.yaml。 -->
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
+
     <!-- ========================= -->
     <!-- MAVROS -->
     <!-- ========================= -->
@@ -70,10 +73,11 @@
     <!--
         这里继续包含 FastNav 控制模块自己的 offboard_control.launch。
         $(find fastnav_control) 会被替换成 fastnav_control 包路径。
-        该子 launch 通常负责启动 offboard 控制节点、控制参数、话题接口等 FastNav 自己的控制逻辑。
-        因为这里没有在 <include> 内传入 <arg>，所以 offboard_control.launch 会使用它内部定义的默认参数。
+        该子 launch 负责启动 offboard 控制节点，并从项目顶层 config/sim/controller.yaml 加载控制参数。
     -->
-    <include file="$(find fastnav_control)/launch/offboard_control.launch"/>
+    <include file="$(find fastnav_control)/launch/offboard_control.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/controller.yaml"/>
+    </include>
 
     <!-- </launch> 结束根标签，表示这个 launch 文件的所有启动项声明完毕。 -->
 </launch>

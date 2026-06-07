@@ -26,12 +26,13 @@
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
-#include <fastnav_msgs/ControlCommand.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/Path.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <std_msgs/Empty.h>
+#include <traj_utils/MincoTrajectory.h>
 
 #include "fastnav_planner/manager/local_planner_manager.h"
 
@@ -112,9 +113,11 @@ private:
     // 发布 planner 内部 occupied / inflated debug cloud。
     void publishPlannerOutputs();
 
-    // 将当前 MINCO 局部轨迹采样成控制层消费的 ControlCommand。
-    // control FSM 只订阅 /fastnav/control_cmd，不直接跟踪 /fastnav/planner/path。
-    void publishControlCommand();
+    // 发布当前 MINCO 轨迹消息；traj_utils/minco_traj_server 会按时间采样成控制指令。
+    void publishMincoTrajectory();
+
+    // 发布 planner heartbeat，traj_server 用它判断 planner 是否仍然存活。
+    void publishHeartbeat();
 
 private:
     // ROS 句柄。nh_ 访问全局命名空间，pnh_ 访问节点私有命名空间。
@@ -133,7 +136,8 @@ private:
     ros::Publisher searched_nodes_pub_;
     ros::Publisher debug_occupied_pub_;
     ros::Publisher debug_inflated_pub_;
-    ros::Publisher control_cmd_pub_;
+    ros::Publisher minco_traj_pub_;
+    ros::Publisher heartbeat_pub_;
 
     // 定时器：FSM 主循环、安全检查和 debug map 发布。
     ros::Timer exec_timer_;
@@ -194,15 +198,14 @@ private:
     std::string searched_nodes_topic_{"/fastnav/planner/searched_nodes"};
     std::string debug_occupied_cloud_topic_{"/fastnav/planner/debug_occupied_cloud"};
     std::string debug_inflated_cloud_topic_{"/fastnav/planner/debug_inflated_cloud"};
-    std::string control_cmd_topic_{"/fastnav/control_cmd"};
+    std::string minco_trajectory_topic_{"/fastnav/planner/minco_trajectory"};
+    std::string heartbeat_topic_{"/fastnav/planner/heartbeat"};
 
     // FSM 运行频率和行为开关。
     double exec_rate_{20.0};
     double safety_rate_{10.0};
     double debug_map_publish_rate_{5.0};
     double collision_check_step_{0.1};
-    bool publish_control_cmd_{true};
-    double command_yaw_{0.0};
 };
 
 }  // namespace fastnav_planner

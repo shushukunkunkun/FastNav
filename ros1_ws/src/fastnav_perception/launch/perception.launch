@@ -1,6 +1,8 @@
 <launch>
-    <!-- 加载感知参数：转换节点使用 $p_o = R p_l + t$，滤波节点使用距离约束 $r_min <= ||p - s|| <= r_max$。 -->
-    <rosparam file="$(find fastnav_perception)/config/perception.yaml"
+    <arg name="config_file" default="$(find fastnav_bringup)/../../../config/sim/perception.yaml"/>
+
+    <!-- 加载项目顶层感知参数：转换节点使用 $p_o = R p_l + t$，滤波节点使用距离约束 $r_min <= ||p - s|| <= r_max$。 -->
+    <rosparam file="$(arg config_file)"
               command="load"/>
 
     <!-- cloud_transform_node 将 /fastnav/lidar/points 从 mid360_link 转换到 odom，输出 $frame_id = odom$。 -->

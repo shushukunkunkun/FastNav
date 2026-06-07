@@ -5,4 +5,4 @@ Description: Description of traj_utils
 Version: 0.0.0
 Cflags: -I/home/shukun/Project/FastNav/ros1_ws/devel/include -I/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include -I/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco
 Libs: -L${prefix}/lib -ltraj_utils
-Requires: roscpp std_msgs geometry_msgs message_runtime
+Requires: fastnav_msgs roscpp std_msgs geometry_msgs message_runtime

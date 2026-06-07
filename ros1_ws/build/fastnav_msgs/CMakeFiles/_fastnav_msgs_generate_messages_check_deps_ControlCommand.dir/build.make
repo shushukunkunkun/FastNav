@@ -67,7 +67,7 @@ include fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_Contr
 include fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/progress.make
 
 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand:
-	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py fastnav_msgs /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg std_msgs/Header:geometry_msgs/Point:geometry_msgs/Vector3
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py fastnav_msgs /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg geometry_msgs/Vector3:std_msgs/Header:geometry_msgs/Point
 
 _fastnav_msgs_generate_messages_check_deps_ControlCommand: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand
 _fastnav_msgs_generate_messages_check_deps_ControlCommand: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/build.make

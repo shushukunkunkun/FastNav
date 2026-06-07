@@ -4,6 +4,7 @@ a8750b8fd0bdca23d08d766eb6ef8a71 /home/shukun/Project/FastNav/ros1_ws/devel/incl
 b4926811668c3f0d125f4f319cbc5c0c /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/PlannerState.h
 d3d81a710b7f78bd0b30909cba8a04d9 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h
 5010e2c6a0749945fa8a1e69bb6eda34 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/DataDisp.h
+5d46bca3eb33835bbb55c6dcd8eb5074 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h
 c0bc86c96d21a596a9734930afab5a6d /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h
 ffc0aa9f9dd004ba340762c1a1d0c49b /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py
 ba19aedd191d4806a878b53f15e712dc /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ObstacleInfo.py
@@ -11,6 +12,7 @@ ba19aedd191d4806a878b53f15e712dc /home/shukun/Project/FastNav/ros1_ws/devel/lib/
 c0ba41c52f5ac9838ba69fa226ea347c /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py
 01773bf2dee15086d8a30d28e253c1c8 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_Bspline.py
 45dd190baa85ff2a0a7e4c2f39204bc5 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_DataDisp.py
+c82ee79de56f35b1ff1e7719bfab33f1 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MincoTrajectory.py
 0da3ce586b09d44a7201cd6f4ff12678 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py
 3f864f94f19783a6cf99a4ac75d9ab2a /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/__init__.py
 81dd31a9f8f5391975b13bfc6aa50f58 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/ControlCommand.lisp
@@ -18,12 +20,14 @@ d6b41290b019a7ce8ea3851cdebfba8e /home/shukun/Project/FastNav/ros1_ws/devel/shar
 32da2b9e25bed1cd1db3ba3b028baa2c /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/PlannerState.lisp
 2ac59c29d2a7ae6872b88c9f9b3ffffb /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/Bspline.lisp
 0170a5cff49adbc5f632219b5c4f52a2 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/DataDisp.lisp
+2e5d6ec4787597709b253e949f54b256 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp
 1610f899ae25c563fbe00e3c0e27e546 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp
 cc894d9c6384c2ae3580253591fd121e /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/ControlCommand.js
 e7f5f28524fc5f7f3a9880d68ef34eab /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/ObstacleInfo.js
 d23e0864249d2130e72607a1c9816f29 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/PlannerState.js
 f4da64b1068006642379320bdf2c2d2f /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/Bspline.js
 1b14af7513d4f7e3722f484c07b97137 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/DataDisp.js
+c747140fe10f7eddebb95ec43ff3ff81 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MincoTrajectory.js
 2d37f4eb01d7efc4aaa5cb6528deed64 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js
 482e3f8c24882bc1e6309eb7f5fe050b /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/manifest.l
 dcf59baacdea7c7259312463c6fd1c02 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/msg/ControlCommand.l
@@ -32,9 +36,10 @@ df2a78557a1e3165840e07cf9db5061b /home/shukun/Project/FastNav/ros1_ws/devel/shar
 060be5bbc574241123ff6f7bcb1165de /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/manifest.l
 14f3b05cc5fdc42c6330ab14a741840f /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/Bspline.l
 9789d07589e850ae6cbbfe4d47b09362 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/DataDisp.l
+7ad2a37141b2804b4765f08cd90ae74a /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l
 83d464aaecc4a7714d4fcced2d6967d6 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l
 6ea3228abdb25888016e32c1b5913c74 CMakeFiles/clean_test_results
-cf588521f068f89b36490f1ffb7c5ff0 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand
+71af54c976312a8c05f9146637f3544e fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand
 a28ed052f0bc69e686e2d23f1c570674 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo
 82fe1b9eb1b1a27d786d64e3119b0474 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState
 4e4fffd1493a58995d2030f10c35eb01 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp
@@ -44,6 +49,7 @@ a28ed052f0bc69e686e2d23f1c570674 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_
 4e4fffd1493a58995d2030f10c35eb01 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py
 f08756f2cf01bca4894ec4c617d52927 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_Bspline
 e4f7d1869638b6e384bfa56e01c8bfe2 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_DataDisp
+b9d4c452637d420034ecbad7d3a70681 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory
 85e6ce7a59da67f240953e8565234b00 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines
 e3d59a0033ab1ca06dea16a0a41bbbda traj_utils/CMakeFiles/traj_utils_generate_messages_cpp
 e3d59a0033ab1ca06dea16a0a41bbbda traj_utils/CMakeFiles/traj_utils_generate_messages_eus

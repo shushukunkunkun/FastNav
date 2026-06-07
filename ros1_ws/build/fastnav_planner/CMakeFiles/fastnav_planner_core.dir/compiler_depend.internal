@@ -1864,6 +1864,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o
  /opt/ros/noetic/include/ros/node_handle.h
  /opt/ros/noetic/include/sensor_msgs/PointCloud2.h
  /opt/ros/noetic/include/sensor_msgs/PointField.h
+ /opt/ros/noetic/include/std_msgs/Empty.h
+ /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h
  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h
  /usr/include/eigen3/Eigen/Dense
  /usr/include/eigen3/Eigen/Geometry

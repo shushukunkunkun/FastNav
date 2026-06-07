@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
+messages_str = "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg"
 services_str = ""
 pkg_name = "traj_utils"
 dependencies_str = "std_msgs;geometry_msgs"

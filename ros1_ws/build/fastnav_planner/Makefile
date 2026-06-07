@@ -172,20 +172,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/rule:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/rule
-
-# Convenience name for target.
-_catkin_empty_exported_target: fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : _catkin_empty_exported_target
-
-# fast build rule for target.
-_catkin_empty_exported_target/fast:
-	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/build.make fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
-
-# Convenience name for target.
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/rule:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/rule
 .PHONY : fastnav_planner/CMakeFiles/fastnav_planner_core.dir/rule
@@ -370,7 +356,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... _catkin_empty_exported_target"
 	@echo "... fastnav_local_planner_node"
 	@echo "... fastnav_planner_core"
 	@echo "... src/frontend/astar_planner.o"

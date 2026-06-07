@@ -346,6 +346,30 @@ void ControlFSM::executeControlCommand(const fastnav_msgs::ControlCommand& cmd)
                           cmd.yaw_rate);
         break;
 
+    case fastnav_msgs::ControlCommand::COMMAND_TRAJECTORY:
+        px4_.publishTrajectorySetpoint(cmd.position.x,
+                                       cmd.position.y,
+                                       cmd.position.z,
+                                       cmd.velocity.x,
+                                       cmd.velocity.y,
+                                       cmd.velocity.z,
+                                       cmd.acceleration.x,
+                                       cmd.acceleration.y,
+                                       cmd.acceleration.z,
+                                       cmd.yaw,
+                                       cmd.yaw_rate);
+
+        ROS_INFO_THROTTLE(1.0,
+                          "[FastNav][ControlFSM] TRAJECTORY cmd id=%u: p=[%.2f, %.2f, %.2f], v=[%.2f, %.2f, %.2f]",
+                          cmd.trajectory_id,
+                          cmd.position.x,
+                          cmd.position.y,
+                          cmd.position.z,
+                          cmd.velocity.x,
+                          cmd.velocity.y,
+                          cmd.velocity.z);
+        break;
+
     case fastnav_msgs::ControlCommand::COMMAND_HOVER:
         updateHoverTargetFromOdom();
         transitTo(State::HOVER);

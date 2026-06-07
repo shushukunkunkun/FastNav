@@ -1156,6 +1156,7 @@ fastnav_control/CMakeFiles/offboard_control_node.dir/src/offboard_control_node.c
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/CommandBool.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/CommandBoolRequest.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/CommandBoolResponse.h \
+ /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/PositionTarget.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/SetMode.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/SetModeRequest.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/SetModeResponse.h \

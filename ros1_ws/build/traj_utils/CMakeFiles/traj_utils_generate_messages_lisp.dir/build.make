@@ -69,6 +69,7 @@ include traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/progress.mak
 traj_utils/CMakeFiles/traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/Bspline.lisp
 traj_utils/CMakeFiles/traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/DataDisp.lisp
 traj_utils/CMakeFiles/traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp
+traj_utils/CMakeFiles/traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp
 
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/Bspline.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/Bspline.lisp: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
@@ -82,16 +83,23 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_lisp: /home/shukun/Project/Fa
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating Lisp code from traj_utils/DataDisp.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg
 
+/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
+/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from traj_utils/MincoTrajectory.msg"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg
+
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp: /opt/ros/noetic/lib/genlisp/gen_lisp.py
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Lisp code from traj_utils/MultiBsplines.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Lisp code from traj_utils/MultiBsplines.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg
 
 traj_utils_generate_messages_lisp: traj_utils/CMakeFiles/traj_utils_generate_messages_lisp
 traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/Bspline.lisp
 traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/DataDisp.lisp
+traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MincoTrajectory.lisp
 traj_utils_generate_messages_lisp: /home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/traj_utils/msg/MultiBsplines.lisp
 traj_utils_generate_messages_lisp: traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/build.make
 .PHONY : traj_utils_generate_messages_lisp

@@ -16,12 +16,16 @@
     -->
     <arg name="use_sim_time" default="false"/>
 
+    <!-- 项目级配置根目录；感知、地图、规划参数均从这里的 sim 子目录加载。 -->
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
+
     <!-- 每个子模块都保留开关，便于单独调试其中一层。 -->
     <arg name="start_gz_bridge" default="true"/>
     <arg name="start_tf" default="true"/>
     <arg name="start_perception" default="true"/>
     <arg name="start_mapping" default="true"/>
     <arg name="start_planner" default="true"/>
+    <arg name="start_traj_server" default="true"/>
 
     <!-- 全局仿真时间参数，TF、RViz、PointCloud2 时间戳都会受它影响。 -->
     <param name="/use_sim_time" value="$(arg use_sim_time)"/>
@@ -47,7 +51,9 @@
         /fastnav/lidar/points -> /fastnav/perception/cloud_odom -> /fastnav/perception/cloud_filtered。
     -->
     <include if="$(arg start_perception)"
-             file="$(find fastnav_perception)/launch/perception.launch"/>
+             file="$(find fastnav_perception)/launch/perception.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/perception.yaml"/>
+    </include>
 
     <!--
         mapping 独立调试层：
@@ -55,7 +61,9 @@
         planner 内部也会持有自己的 VoxelMap，这里的 mapping 输出主要用于 RViz 对照验证。
     -->
     <include if="$(arg start_mapping)"
-             file="$(find fastnav_mapping)/launch/mapping.launch"/>
+             file="$(find fastnav_mapping)/launch/mapping.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/mapping.yaml"/>
+    </include>
 
     <!--
         planner 层：
@@ -63,5 +71,15 @@
         内部直接复用 VoxelMap 和 AStarPlanner，输出 /fastnav/planner/path 等调试话题。
     -->
     <include if="$(arg start_planner)"
-             file="$(find fastnav_planner)/launch/planner.launch"/>
+             file="$(find fastnav_planner)/launch/planner.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/planner.yaml"/>
+    </include>
+
+    <!--
+        trajectory server 层：
+        /fastnav/planner/minco_trajectory -> /fastnav/control_cmd。
+        它像 EGO-v2 的 traj_server 一样只负责按时间采样轨迹，不做规划，也不直接管理 PX4 模式。
+    -->
+    <include if="$(arg start_traj_server)"
+             file="$(find traj_utils)/launch/minco_traj_server.launch"/>
 </launch>

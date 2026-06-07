@@ -1312,21 +1312,22 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
  /usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h \
  /usr/include/eigen3/Eigen/src/Geometry/Umeyama.h \
  /usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h \
- /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h \
+ /opt/ros/noetic/include/geometry_msgs/PoseStamped.h \
  /opt/ros/noetic/include/ros/message_operations.h \
  /opt/ros/noetic/include/std_msgs/Header.h \
- /opt/ros/noetic/include/geometry_msgs/Point.h \
- /opt/ros/noetic/include/geometry_msgs/Vector3.h \
- /opt/ros/noetic/include/geometry_msgs/PoseStamped.h \
  /opt/ros/noetic/include/geometry_msgs/Pose.h \
+ /opt/ros/noetic/include/geometry_msgs/Point.h \
  /opt/ros/noetic/include/geometry_msgs/Quaternion.h \
  /opt/ros/noetic/include/nav_msgs/Odometry.h \
  /opt/ros/noetic/include/geometry_msgs/PoseWithCovariance.h \
  /opt/ros/noetic/include/geometry_msgs/TwistWithCovariance.h \
  /opt/ros/noetic/include/geometry_msgs/Twist.h \
+ /opt/ros/noetic/include/geometry_msgs/Vector3.h \
  /opt/ros/noetic/include/nav_msgs/Path.h \
  /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
  /opt/ros/noetic/include/sensor_msgs/PointField.h \
+ /opt/ros/noetic/include/std_msgs/Empty.h \
+ /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h \
  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
  /usr/include/eigen3/Eigen/Dense /usr/include/eigen3/Eigen/Geometry \
  /usr/include/eigen3/Eigen/Eigenvalues \

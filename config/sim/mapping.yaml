@@ -1,19 +1,49 @@
-# 仿真 mapping 默认参数。
-mapping:
-  local_voxel_map:
-    resolution: 0.2
-    local_x_size: 24.0
-    local_y_size: 24.0
-    local_z_size: 4.2
-    local_z_min: -1.2
-    local_z_max: 3.0
-    drone_radius: 0.35
-    safety_margin: 0.15
-    p_hit: 0.70
-    p_miss: 0.45
-    p_min: 0.12
-    p_max: 0.97
-    p_occ: 0.65
-    temporal_decay_log: 0.05
-    publish_rate: 10.0
-    publish_voxel_markers: false
+# local_voxel_map 只消费 FastNav 标准接口，不直接订阅 GZ、PX4 或 MAVROS topic。
+local_voxel_map:
+  # 输入点云已经由 perception 转换和滤波，满足 $frame_id = odom$。
+  input_cloud_topic: "/fastnav/perception/cloud_filtered"
+  # odom 用来获取无人机位置 $c = [c_x, c_y, c_z]^T$，局部地图中心跟随 $c$。
+  odom_topic: "/fastnav/state/odom"
+
+  # occupied_cloud 发布原始占据体素中心点，inflated_cloud 发布不可通行体素中心点。
+  occupied_cloud_topic: "/fastnav/map/occupied_cloud"
+  inflated_cloud_topic: "/fastnav/map/inflated_cloud"
+  # Marker 版本使用 CUBE_LIST，每个点 $p_i$ 以边长 $resolution$ 的立方体显示。
+  # 默认推荐 RViz 订阅 PointCloud2 并设 Style=Boxes；Marker 仅作为备用调试显示。
+  occupied_voxel_topic: "/fastnav/map/occupied_voxels"
+  inflated_voxel_topic: "/fastnav/map/inflated_voxels"
+  publish_voxel_markers: false
+
+  # mapping 模块统一使用 odom 坐标系，后续 sim / real 切换时地图模块不用修改。
+  frame_id: "odom"
+
+  # 体素边长 $resolution = 0.2m$，体素索引由 $i = floor((p - origin) / resolution)$ 得到。
+  # 三张 forest 地图的障碍主要分布在 $x,y in [-7,7]$，24m 局部窗口可以覆盖起点附近完整森林并留出目标余量。
+  resolution: 0.2
+
+  # 局部地图水平范围为 $local_x_size$ 和 $local_y_size$。
+  local_x_size: 24.0
+  local_y_size: 24.0
+  # local_z_size 是高度跨度，实际上下边界由 $local_z_min$ 和 $local_z_max$ 相对无人机高度定义。
+  local_z_size: 4.2
+
+  # z 方向边界为 $z in [c_z + local_z_min, c_z + local_z_max]$。
+  # 当前 x500_mid360 通常在 $z = 1.3m$ 到 $2.0m$ 附近飞行，这个范围覆盖地面以上障碍和可绕飞高度。
+  local_z_min: -1.2
+  local_z_max: 3.0
+
+  # 膨胀半径为 $inflation_radius = drone_radius + safety_margin$。
+  drone_radius: 0.35
+  safety_margin: 0.15
+
+  # 地图内部维护多帧 log-odds 缓存，点云命中执行 $l_i <- clamp(l_i + l_hit, l_min, l_max)$。
+  # 当前不做 raycasting free-space，旧障碍通过 $l_i -> 0$ 的 temporal decay 逐渐遗忘。
+  p_hit: 0.70
+  p_miss: 0.45
+  p_min: 0.12
+  p_max: 0.97
+  p_occ: 0.65
+  temporal_decay_log: 0.05
+
+  # 发布定时器频率。cloud 回调只更新内部 buffer，RViz 固定频率收到局部地图快照。
+  publish_rate: 10.0

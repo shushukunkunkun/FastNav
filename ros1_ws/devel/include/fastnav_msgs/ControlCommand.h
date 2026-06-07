@@ -18,6 +18,8 @@
 #include <std_msgs/Header.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Vector3.h>
+#include <geometry_msgs/Vector3.h>
+#include <geometry_msgs/Vector3.h>
 
 namespace fastnav_msgs
 {
@@ -29,8 +31,11 @@ struct ControlCommand_
   ControlCommand_()
     : header()
     , command_type(0)
+    , trajectory_id(0)
     , position()
     , velocity()
+    , acceleration()
+    , jerk()
     , yaw(0.0)
     , yaw_rate(0.0)
     , enable(false)  {
@@ -38,8 +43,11 @@ struct ControlCommand_
   ControlCommand_(const ContainerAllocator& _alloc)
     : header(_alloc)
     , command_type(0)
+    , trajectory_id(0)
     , position(_alloc)
     , velocity(_alloc)
+    , acceleration(_alloc)
+    , jerk(_alloc)
     , yaw(0.0)
     , yaw_rate(0.0)
     , enable(false)  {
@@ -54,11 +62,20 @@ struct ControlCommand_
    typedef uint8_t _command_type_type;
   _command_type_type command_type;
 
+   typedef uint32_t _trajectory_id_type;
+  _trajectory_id_type trajectory_id;
+
    typedef  ::geometry_msgs::Point_<ContainerAllocator>  _position_type;
   _position_type position;
 
    typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _velocity_type;
   _velocity_type velocity;
+
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _acceleration_type;
+  _acceleration_type acceleration;
+
+   typedef  ::geometry_msgs::Vector3_<ContainerAllocator>  _jerk_type;
+  _jerk_type jerk;
 
    typedef double _yaw_type;
   _yaw_type yaw;
@@ -87,6 +104,9 @@ struct ControlCommand_
 #if defined(_WIN32) && defined(COMMAND_IDLE)
   #undef COMMAND_IDLE
 #endif
+#if defined(_WIN32) && defined(COMMAND_TRAJECTORY)
+  #undef COMMAND_TRAJECTORY
+#endif
 
   enum {
     COMMAND_POSITION = 0u,
@@ -94,6 +114,7 @@ struct ControlCommand_
     COMMAND_HOVER = 2u,
     COMMAND_LAND = 3u,
     COMMAND_IDLE = 4u,
+    COMMAND_TRAJECTORY = 5u,
   };
 
 
@@ -108,6 +129,8 @@ typedef boost::shared_ptr< ::fastnav_msgs::ControlCommand > ControlCommandPtr;
 typedef boost::shared_ptr< ::fastnav_msgs::ControlCommand const> ControlCommandConstPtr;
 
 // constants requiring out of line definition
+
+   
 
    
 
@@ -134,8 +157,11 @@ bool operator==(const ::fastnav_msgs::ControlCommand_<ContainerAllocator1> & lhs
 {
   return lhs.header == rhs.header &&
     lhs.command_type == rhs.command_type &&
+    lhs.trajectory_id == rhs.trajectory_id &&
     lhs.position == rhs.position &&
     lhs.velocity == rhs.velocity &&
+    lhs.acceleration == rhs.acceleration &&
+    lhs.jerk == rhs.jerk &&
     lhs.yaw == rhs.yaw &&
     lhs.yaw_rate == rhs.yaw_rate &&
     lhs.enable == rhs.enable;
@@ -195,12 +221,12 @@ struct MD5Sum< ::fastnav_msgs::ControlCommand_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "db5bf442422b499bcadde2f7ee9e0236";
+    return "0fd67f68d7beec39a04c5cf43f0fca02";
   }
 
   static const char* value(const ::fastnav_msgs::ControlCommand_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xdb5bf442422b499bULL;
-  static const uint64_t static_value2 = 0xcadde2f7ee9e0236ULL;
+  static const uint64_t static_value1 = 0x0fd67f68d7beec39ULL;
+  static const uint64_t static_value2 = 0xa04c5cf43f0fca02ULL;
 };
 
 template<class ContainerAllocator>
@@ -220,8 +246,8 @@ struct Definition< ::fastnav_msgs::ControlCommand_<ContainerAllocator> >
   static const char* value()
   {
     return "# FastNav internal control command.\n"
-"# This message is published by fastnav_planner\n"
-"# and consumed by fastnav_control.\n"
+"# This message is usually published by traj_utils/minco_traj_server\n"
+"# and consumed by fastnav_control. Planner should publish trajectory, not direct PX4 setpoint.\n"
 "\n"
 "std_msgs/Header header\n"
 "\n"
@@ -231,14 +257,24 @@ struct Definition< ::fastnav_msgs::ControlCommand_<ContainerAllocator> >
 "uint8 COMMAND_HOVER    = 2\n"
 "uint8 COMMAND_LAND     = 3\n"
 "uint8 COMMAND_IDLE     = 4\n"
+"uint8 COMMAND_TRAJECTORY = 5\n"
 "\n"
 "uint8 command_type\n"
+"\n"
+"# Trajectory id, used to reject stale sampled commands if needed.\n"
+"uint32 trajectory_id\n"
 "\n"
 "# Position setpoint in local frame\n"
 "geometry_msgs/Point position\n"
 "\n"
 "# Velocity setpoint in local frame\n"
 "geometry_msgs/Vector3 velocity\n"
+"\n"
+"# Acceleration feed-forward in local frame, sampled from $a(t)$.\n"
+"geometry_msgs/Vector3 acceleration\n"
+"\n"
+"# Jerk feed-forward in local frame, sampled from $j(t)$; current PX4 raw local setpoint does not consume jerk directly.\n"
+"geometry_msgs/Vector3 jerk\n"
 "\n"
 "# Yaw angle for position control\n"
 "float64 yaw\n"
@@ -248,6 +284,7 @@ struct Definition< ::fastnav_msgs::ControlCommand_<ContainerAllocator> >
 "\n"
 "# Whether this command is valid\n"
 "bool enable\n"
+"\n"
 "================================================================================\n"
 "MSG: std_msgs/Header\n"
 "# Standard metadata for higher-level stamped data types.\n"
@@ -303,8 +340,11 @@ namespace serialization
     {
       stream.next(m.header);
       stream.next(m.command_type);
+      stream.next(m.trajectory_id);
       stream.next(m.position);
       stream.next(m.velocity);
+      stream.next(m.acceleration);
+      stream.next(m.jerk);
       stream.next(m.yaw);
       stream.next(m.yaw_rate);
       stream.next(m.enable);
@@ -331,12 +371,20 @@ struct Printer< ::fastnav_msgs::ControlCommand_<ContainerAllocator> >
     Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
     s << indent << "command_type: ";
     Printer<uint8_t>::stream(s, indent + "  ", v.command_type);
+    s << indent << "trajectory_id: ";
+    Printer<uint32_t>::stream(s, indent + "  ", v.trajectory_id);
     s << indent << "position: ";
     s << std::endl;
     Printer< ::geometry_msgs::Point_<ContainerAllocator> >::stream(s, indent + "  ", v.position);
     s << indent << "velocity: ";
     s << std::endl;
     Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.velocity);
+    s << indent << "acceleration: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.acceleration);
+    s << indent << "jerk: ";
+    s << std::endl;
+    Printer< ::geometry_msgs::Vector3_<ContainerAllocator> >::stream(s, indent + "  ", v.jerk);
     s << indent << "yaw: ";
     Printer<double>::stream(s, indent + "  ", v.yaw);
     s << indent << "yaw_rate: ";

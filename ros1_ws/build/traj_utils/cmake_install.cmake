@@ -47,6 +47,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
     "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg"
     "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
+    "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg"
     )
 endif()
 

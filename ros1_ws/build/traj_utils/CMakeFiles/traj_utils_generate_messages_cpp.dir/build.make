@@ -69,6 +69,7 @@ include traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/progress.make
 traj_utils/CMakeFiles/traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h
 traj_utils/CMakeFiles/traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/DataDisp.h
 traj_utils/CMakeFiles/traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h
+traj_utils/CMakeFiles/traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h
 
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
@@ -84,17 +85,25 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_cpp: /home/shukun/Project/Fas
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Generating C++ code from traj_utils/DataDisp.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/src/traj_utils && /home/shukun/Project/FastNav/ros1_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils -e /opt/ros/noetic/share/gencpp/cmake/..
 
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h: /opt/ros/noetic/share/gencpp/msg.h.template
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from traj_utils/MincoTrajectory.msg"
+	cd /home/shukun/Project/FastNav/ros1_ws/src/traj_utils && /home/shukun/Project/FastNav/ros1_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils -e /opt/ros/noetic/share/gencpp/cmake/..
+
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h: /opt/ros/noetic/share/gencpp/msg.h.template
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating C++ code from traj_utils/MultiBsplines.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating C++ code from traj_utils/MultiBsplines.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/src/traj_utils && /home/shukun/Project/FastNav/ros1_ws/build/catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils -e /opt/ros/noetic/share/gencpp/cmake/..
 
 traj_utils_generate_messages_cpp: traj_utils/CMakeFiles/traj_utils_generate_messages_cpp
 traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h
 traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/DataDisp.h
+traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h
 traj_utils_generate_messages_cpp: /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h
 traj_utils_generate_messages_cpp: traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/build.make
 .PHONY : traj_utils_generate_messages_cpp

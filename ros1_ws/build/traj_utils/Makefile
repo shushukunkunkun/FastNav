@@ -172,6 +172,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/rule:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/rule
+.PHONY : traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+# Convenience name for target.
+_catkin_empty_exported_target: traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/rule
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/build.make traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+# Convenience name for target.
 traj_utils/CMakeFiles/traj_utils_generate_messages.dir/rule:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/traj_utils_generate_messages.dir/rule
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages.dir/rule
@@ -226,6 +240,20 @@ _traj_utils_generate_messages_check_deps_MultiBsplines: traj_utils/CMakeFiles/_t
 _traj_utils_generate_messages_check_deps_MultiBsplines/fast:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/build.make traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/build
 .PHONY : _traj_utils_generate_messages_check_deps_MultiBsplines/fast
+
+# Convenience name for target.
+traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/rule:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/rule
+.PHONY : traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/rule
+
+# Convenience name for target.
+_traj_utils_generate_messages_check_deps_MincoTrajectory: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/rule
+.PHONY : _traj_utils_generate_messages_check_deps_MincoTrajectory
+
+# fast build rule for target.
+_traj_utils_generate_messages_check_deps_MincoTrajectory/fast:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/build.make traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/build
+.PHONY : _traj_utils_generate_messages_check_deps_MincoTrajectory/fast
 
 # Convenience name for target.
 traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/rule:
@@ -381,6 +409,20 @@ traj_utils/fast:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/build
 .PHONY : traj_utils/fast
 
+# Convenience name for target.
+traj_utils/CMakeFiles/minco_traj_server.dir/rule:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/minco_traj_server.dir/rule
+.PHONY : traj_utils/CMakeFiles/minco_traj_server.dir/rule
+
+# Convenience name for target.
+minco_traj_server: traj_utils/CMakeFiles/minco_traj_server.dir/rule
+.PHONY : minco_traj_server
+
+# fast build rule for target.
+minco_traj_server/fast:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/build
+.PHONY : minco_traj_server/fast
+
 src/corridor/safe_corridor_generator.o: src/corridor/safe_corridor_generator.cpp.o
 .PHONY : src/corridor/safe_corridor_generator.o
 
@@ -428,6 +470,30 @@ src/minco/minco_gcopter_optimizer.s: src/minco/minco_gcopter_optimizer.cpp.s
 src/minco/minco_gcopter_optimizer.cpp.s:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/src/minco/minco_gcopter_optimizer.cpp.s
 .PHONY : src/minco/minco_gcopter_optimizer.cpp.s
+
+src/minco/minco_traj_server.o: src/minco/minco_traj_server.cpp.o
+.PHONY : src/minco/minco_traj_server.o
+
+# target to build an object file
+src/minco/minco_traj_server.cpp.o:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/src/minco/minco_traj_server.cpp.o
+.PHONY : src/minco/minco_traj_server.cpp.o
+
+src/minco/minco_traj_server.i: src/minco/minco_traj_server.cpp.i
+.PHONY : src/minco/minco_traj_server.i
+
+# target to preprocess a source file
+src/minco/minco_traj_server.cpp.i:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/src/minco/minco_traj_server.cpp.i
+.PHONY : src/minco/minco_traj_server.cpp.i
+
+src/minco/minco_traj_server.s: src/minco/minco_traj_server.cpp.s
+.PHONY : src/minco/minco_traj_server.s
+
+# target to generate assembly for a file
+src/minco/minco_traj_server.cpp.s:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/src/minco/minco_traj_server.cpp.s
+.PHONY : src/minco/minco_traj_server.cpp.s
 
 src/planning_visualization.o: src/planning_visualization.cpp.o
 .PHONY : src/planning_visualization.o
@@ -514,8 +580,10 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... _catkin_empty_exported_target"
 	@echo "... _traj_utils_generate_messages_check_deps_Bspline"
 	@echo "... _traj_utils_generate_messages_check_deps_DataDisp"
+	@echo "... _traj_utils_generate_messages_check_deps_MincoTrajectory"
 	@echo "... _traj_utils_generate_messages_check_deps_MultiBsplines"
 	@echo "... traj_utils_gencpp"
 	@echo "... traj_utils_generate_messages"
@@ -528,6 +596,7 @@ help:
 	@echo "... traj_utils_genlisp"
 	@echo "... traj_utils_gennodejs"
 	@echo "... traj_utils_genpy"
+	@echo "... minco_traj_server"
 	@echo "... traj_utils"
 	@echo "... src/corridor/safe_corridor_generator.o"
 	@echo "... src/corridor/safe_corridor_generator.i"
@@ -535,6 +604,9 @@ help:
 	@echo "... src/minco/minco_gcopter_optimizer.o"
 	@echo "... src/minco/minco_gcopter_optimizer.i"
 	@echo "... src/minco/minco_gcopter_optimizer.s"
+	@echo "... src/minco/minco_traj_server.o"
+	@echo "... src/minco/minco_traj_server.i"
+	@echo "... src/minco/minco_traj_server.s"
 	@echo "... src/planning_visualization.o"
 	@echo "... src/planning_visualization.i"
 	@echo "... src/planning_visualization.s"

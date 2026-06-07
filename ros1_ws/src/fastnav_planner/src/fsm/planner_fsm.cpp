@@ -48,7 +48,8 @@ void PlannerFSM::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     searched_nodes_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(searched_nodes_topic_, 1, true);
     debug_occupied_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(debug_occupied_cloud_topic_, 1, true);
     debug_inflated_pub_ = nh_.advertise<sensor_msgs::PointCloud2>(debug_inflated_cloud_topic_, 1, true);
-    control_cmd_pub_ = nh_.advertise<fastnav_msgs::ControlCommand>(control_cmd_topic_, 10);
+    minco_traj_pub_ = nh_.advertise<traj_utils::MincoTrajectory>(minco_trajectory_topic_, 1, true);
+    heartbeat_pub_ = nh_.advertise<std_msgs::Empty>(heartbeat_topic_, 10);
 
     exec_timer_ = nh_.createTimer(ros::Duration(1.0 / std::max(1.0, exec_rate_)),
                                   &PlannerFSM::execFSMCallback,
@@ -68,7 +69,8 @@ void PlannerFSM::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     ROS_INFO("[FastNav][PlannerFSM] goal: %s and %s", goal_topic_.c_str(), extra_goal_topic_.c_str());
     ROS_INFO("[FastNav][PlannerFSM] trigger: %s", trigger_topic_.c_str());
     ROS_INFO("[FastNav][PlannerFSM] path output: %s", path_topic_.c_str());
-    ROS_INFO("[FastNav][PlannerFSM] control command output: %s", control_cmd_topic_.c_str());
+    ROS_INFO("[FastNav][PlannerFSM] MINCO trajectory output: %s", minco_trajectory_topic_.c_str());
+    ROS_INFO("[FastNav][PlannerFSM] heartbeat output: %s", heartbeat_topic_.c_str());
 }
 
 // 读取状态机和 ROS topic 参数；全局参数来自 launch 加载的 yaml，私有参数用于局部覆盖。
@@ -83,9 +85,8 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     nh.param<std::string>("/local_planner/searched_nodes_topic", searched_nodes_topic_, searched_nodes_topic_);
     nh.param<std::string>("/local_planner/debug_occupied_cloud_topic", debug_occupied_cloud_topic_, debug_occupied_cloud_topic_);
     nh.param<std::string>("/local_planner/debug_inflated_cloud_topic", debug_inflated_cloud_topic_, debug_inflated_cloud_topic_);
-    nh.param<std::string>("/local_planner/control_cmd_topic", control_cmd_topic_, control_cmd_topic_);
-    nh.param<bool>("/local_planner/publish_control_cmd", publish_control_cmd_, publish_control_cmd_);
-    nh.param<double>("/local_planner/command_yaw", command_yaw_, command_yaw_);
+    nh.param<std::string>("/local_planner/minco_trajectory_topic", minco_trajectory_topic_, minco_trajectory_topic_);
+    nh.param<std::string>("/local_planner/heartbeat_topic", heartbeat_topic_, heartbeat_topic_);
     nh.param<double>("/local_planner/fsm/exec_rate", exec_rate_, exec_rate_);
     nh.param<double>("/local_planner/fsm/safety_rate", safety_rate_, safety_rate_);
     nh.param<double>("/local_planner/fsm/collision_check_step", collision_check_step_, collision_check_step_);
@@ -97,9 +98,8 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     pnh.param<std::string>("goal_topic", goal_topic_, goal_topic_);
     pnh.param<std::string>("extra_goal_topic", extra_goal_topic_, extra_goal_topic_);
     pnh.param<std::string>("trigger_topic", trigger_topic_, trigger_topic_);
-    pnh.param<std::string>("control_cmd_topic", control_cmd_topic_, control_cmd_topic_);
-    pnh.param<bool>("publish_control_cmd", publish_control_cmd_, publish_control_cmd_);
-    pnh.param<double>("command_yaw", command_yaw_, command_yaw_);
+    pnh.param<std::string>("minco_trajectory_topic", minco_trajectory_topic_, minco_trajectory_topic_);
+    pnh.param<std::string>("heartbeat_topic", heartbeat_topic_, heartbeat_topic_);
     pnh.param<double>("fsm/exec_rate", exec_rate_, exec_rate_);
     pnh.param<double>("fsm/safety_rate", safety_rate_, safety_rate_);
     pnh.param<double>("fsm/collision_check_step", collision_check_step_, collision_check_step_);
@@ -222,6 +222,8 @@ void PlannerFSM::triggerCallback(const geometry_msgs::PoseStampedConstPtr& /*msg
 // 状态机主循环：根据 odom / map / target / replan 标志在各状态之间转换，并调用 EGO 风格规划入口。
 void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
 {
+    publishHeartbeat();
+
     static int print_count = 0;
     if (++print_count >= static_cast<int>(std::max(1.0, exec_rate_)))
     {
@@ -268,7 +270,6 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         break;
 
     case EXEC_TRAJ:
-        publishControlCommand();
         if (!have_target_)
         {
             changeFSMExecState(WAIT_TARGET, "FSM");
@@ -283,7 +284,6 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         if (have_odom_)
         {
             callEmergencyStop(planner_manager_->currentPosition());
-            publishControlCommand();
         }
         if (have_odom_ && have_map_ && have_target_)
         {
@@ -479,6 +479,7 @@ void PlannerFSM::publishTrajectory()
 {
     path_pub_.publish(planner_manager_->getPathMsg());
     searched_nodes_pub_.publish(planner_manager_->getSearchedNodesCloud());
+    publishMincoTrajectory();
 }
 
 // 发布 planner 内部维护的 occupied / inflated debug cloud，用于和独立 mapping 节点输出做对照。
@@ -493,46 +494,59 @@ void PlannerFSM::publishPlannerOutputs()
     debug_inflated_pub_.publish(planner_manager_->getDebugInflatedCloud());
 }
 
-void PlannerFSM::publishControlCommand()
+void PlannerFSM::publishMincoTrajectory()
 {
-    if (!publish_control_cmd_ || !control_cmd_pub_)
+    if (!minco_traj_pub_ || !planner_manager_->local_data_.valid_)
     {
         return;
     }
 
-    const ros::Time now = ros::Time::now();
-    fastnav_msgs::ControlCommand cmd;
-    cmd.header.stamp = now;
-    cmd.header.frame_id = planner_manager_->frameId();
-    cmd.command_type = fastnav_msgs::ControlCommand::COMMAND_POSITION;
-    cmd.yaw = command_yaw_;
-    cmd.yaw_rate = 0.0;
-    cmd.enable = true;
-
-    Eigen::Vector3d target = planner_manager_->currentPosition();
-    if (planner_manager_->local_data_.valid_)
+    const auto& local_data = planner_manager_->local_data_;
+    const auto& traj = local_data.position_traj_.trajectory();
+    constexpr int kOrder = 5;
+    constexpr int kCoeffNum = kOrder + 1;
+    const int piece_num = traj.getPieceNum();
+    if (piece_num <= 0)
     {
-        const double t = std::min(planner_manager_->local_data_.duration_,
-                                  planner_manager_->local_data_.elapsedTime(now));
-        target = planner_manager_->local_data_.getPosition(t);
+        return;
     }
-    else if (planner_manager_->hasPath())
+
+    traj_utils::MincoTrajectory msg;
+    msg.header.stamp = ros::Time::now();
+    msg.header.frame_id = local_data.frame_id_;
+    msg.traj_id = static_cast<uint32_t>(std::max(0, local_data.traj_id_));
+    msg.order = kOrder;
+    msg.start_time = local_data.start_time_;
+    msg.duration.reserve(piece_num);
+    msg.coef_x.reserve(piece_num * kCoeffNum);
+    msg.coef_y.reserve(piece_num * kCoeffNum);
+    msg.coef_z.reserve(piece_num * kCoeffNum);
+
+    for (int i = 0; i < piece_num; ++i)
     {
-        const std::vector<Eigen::Vector3d> path = planner_manager_->getPath();
-        if (!path.empty())
+        const auto& piece = traj[i];
+        const auto& coeff = piece.getCoeffMat();
+        msg.duration.push_back(piece.getDuration());
+        for (int k = 0; k < kCoeffNum; ++k)
         {
-            target = path.back();
+            msg.coef_x.push_back(coeff(0, k));
+            msg.coef_y.push_back(coeff(1, k));
+            msg.coef_z.push_back(coeff(2, k));
         }
     }
 
-    cmd.position.x = target.x();
-    cmd.position.y = target.y();
-    cmd.position.z = target.z();
-    cmd.velocity.x = 0.0;
-    cmd.velocity.y = 0.0;
-    cmd.velocity.z = 0.0;
+    minco_traj_pub_.publish(msg);
+}
 
-    control_cmd_pub_.publish(cmd);
+void PlannerFSM::publishHeartbeat()
+{
+    if (!heartbeat_pub_)
+    {
+        return;
+    }
+
+    std_msgs::Empty heartbeat;
+    heartbeat_pub_.publish(heartbeat);
 }
 
 }  // namespace fastnav_planner

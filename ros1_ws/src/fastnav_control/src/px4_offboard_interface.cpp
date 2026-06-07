@@ -28,6 +28,10 @@ Px4OffboardInterface::Px4OffboardInterface(ros::NodeHandle& nh,
                             velocity_setpoint_topic_,
                             "/mavros/setpoint_velocity/cmd_vel");
 
+    pnh_.param<std::string>("topic/raw_setpoint",
+                            raw_setpoint_topic_,
+                            "/mavros/setpoint_raw/local");
+
     pnh_.param<std::string>("service/arming",
                             arming_service_,
                             "/mavros/cmd/arming");
@@ -48,6 +52,9 @@ Px4OffboardInterface::Px4OffboardInterface(ros::NodeHandle& nh,
     velocity_setpoint_pub_ = nh_.advertise<geometry_msgs::TwistStamped>(
         velocity_setpoint_topic_, 10);
 
+    raw_setpoint_pub_ = nh_.advertise<mavros_msgs::PositionTarget>(
+        raw_setpoint_topic_, 10);
+
     arming_client_ = nh_.serviceClient<mavros_msgs::CommandBool>(
         arming_service_);
 
@@ -60,6 +67,8 @@ Px4OffboardInterface::Px4OffboardInterface(ros::NodeHandle& nh,
              state_topic_.c_str());
     ROS_INFO("[FastNav][Px4OffboardInterface] odom topic: %s",
              odom_topic_.c_str());
+    ROS_INFO("[FastNav][Px4OffboardInterface] raw setpoint topic: %s",
+             raw_setpoint_topic_.c_str());
 }
 
 bool Px4OffboardInterface::isConnected() const // NOTE: 这个在函数后面加上 const 是为了保证这个函数不会修改类的成员变量或者调用其他非 const 成员函数
@@ -194,6 +203,45 @@ void Px4OffboardInterface::publishVelocitySetpoint(double vx,
     twist_msg.twist.angular.z = yaw_rate;
 
     velocity_setpoint_pub_.publish(twist_msg);
+}
+
+void Px4OffboardInterface::publishTrajectorySetpoint(double x,
+                                                     double y,
+                                                     double z,
+                                                     double vx,
+                                                     double vy,
+                                                     double vz,
+                                                     double ax,
+                                                     double ay,
+                                                     double az,
+                                                     double yaw,
+                                                     double yaw_rate)
+{
+    mavros_msgs::PositionTarget target_msg;
+    target_msg.header.stamp = ros::Time::now();
+    target_msg.header.frame_id = "map";
+
+    // MAVROS 的 ROS 侧 local setpoint 采用 ENU 语义；PX4/MAVROS 插件会在发送 MAVLink 时处理坐标转换。
+    // 这里不忽略位置、速度、加速度、yaw 和 yaw_rate，使采样状态 $p,v,a,\psi,\dot\psi$ 都进入 PX4 外环。
+    target_msg.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
+    target_msg.type_mask = 0;
+
+    target_msg.position.x = x;
+    target_msg.position.y = y;
+    target_msg.position.z = z;
+
+    target_msg.velocity.x = vx;
+    target_msg.velocity.y = vy;
+    target_msg.velocity.z = vz;
+
+    target_msg.acceleration_or_force.x = ax;
+    target_msg.acceleration_or_force.y = ay;
+    target_msg.acceleration_or_force.z = az;
+
+    target_msg.yaw = yaw;
+    target_msg.yaw_rate = yaw_rate;
+
+    raw_setpoint_pub_.publish(target_msg);
 }
 
 void Px4OffboardInterface::stateCallback(const mavros_msgs::State::ConstPtr& msg)

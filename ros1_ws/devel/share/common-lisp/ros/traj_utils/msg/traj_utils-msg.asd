@@ -10,6 +10,8 @@
     (:file "_package_Bspline" :depends-on ("_package"))
     (:file "DataDisp" :depends-on ("_package_DataDisp"))
     (:file "_package_DataDisp" :depends-on ("_package"))
+    (:file "MincoTrajectory" :depends-on ("_package_MincoTrajectory"))
+    (:file "_package_MincoTrajectory" :depends-on ("_package"))
     (:file "MultiBsplines" :depends-on ("_package_MultiBsplines"))
     (:file "_package_MultiBsplines" :depends-on ("_package"))
   ))

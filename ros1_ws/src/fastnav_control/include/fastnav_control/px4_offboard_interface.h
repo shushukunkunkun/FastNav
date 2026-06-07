@@ -11,6 +11,7 @@
 
 #include <mavros_msgs/State.h>
 #include <mavros_msgs/CommandBool.h>
+#include <mavros_msgs/PositionTarget.h>
 #include <mavros_msgs/SetMode.h>
 
 namespace fastnav_control
@@ -55,6 +56,19 @@ public:
                                  double vz,
                                  double yaw_rate = 0.0);
 
+    // 发布 PX4 raw local setpoint。该接口同时携带 $p,v,a,\psi,\dot\psi$，用于跟踪 traj_server 采样的轨迹状态。
+    void publishTrajectorySetpoint(double x,
+                                   double y,
+                                   double z,
+                                   double vx,
+                                   double vy,
+                                   double vz,
+                                   double ax,
+                                   double ay,
+                                   double az,
+                                   double yaw,
+                                   double yaw_rate);
+
 private:
     // MAVROS 回调仅缓存最新状态，控制逻辑通过 getter 读取快照。
     void stateCallback(const mavros_msgs::State::ConstPtr& msg);
@@ -72,6 +86,7 @@ private:
 
     ros::Publisher position_setpoint_pub_;
     ros::Publisher velocity_setpoint_pub_;
+    ros::Publisher raw_setpoint_pub_;
 
     ros::ServiceClient arming_client_;
     ros::ServiceClient set_mode_client_;
@@ -85,6 +100,7 @@ private:
     std::string odom_topic_;
     std::string position_setpoint_topic_;
     std::string velocity_setpoint_topic_;
+    std::string raw_setpoint_topic_;
 
     std::string arming_service_;
     std::string set_mode_service_;

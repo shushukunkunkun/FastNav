@@ -69,6 +69,7 @@ include traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/progress.make
 traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/Bspline.l
 traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/DataDisp.l
 traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l
+traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l
 traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/manifest.l
 
 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/manifest.l: /opt/ros/noetic/lib/geneus/gen_eus.py
@@ -87,17 +88,24 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_eus: /home/shukun/Project/Fas
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating EusLisp code from traj_utils/DataDisp.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/DataDisp.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg
 
+/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l: /opt/ros/noetic/lib/geneus/gen_eus.py
+/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from traj_utils/MincoTrajectory.msg"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg
+
 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l: /opt/ros/noetic/lib/geneus/gen_eus.py
 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating EusLisp code from traj_utils/MultiBsplines.msg"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating EusLisp code from traj_utils/MultiBsplines.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/geneus/cmake/../../../lib/geneus/gen_eus.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg
 
 traj_utils_generate_messages_eus: traj_utils/CMakeFiles/traj_utils_generate_messages_eus
 traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/manifest.l
 traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/Bspline.l
 traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/DataDisp.l
+traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MincoTrajectory.l
 traj_utils_generate_messages_eus: /home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/traj_utils/msg/MultiBsplines.l
 traj_utils_generate_messages_eus: traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/build.make
 .PHONY : traj_utils_generate_messages_eus

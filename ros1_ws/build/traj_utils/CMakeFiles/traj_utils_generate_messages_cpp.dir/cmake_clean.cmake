@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/Bspline.h"
   "/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/DataDisp.h"
+  "/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h"
   "/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MultiBsplines.h"
   "CMakeFiles/traj_utils_generate_messages_cpp"
 )

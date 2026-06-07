@@ -19,6 +19,7 @@
   <build_depend>fastnav_perception</build_depend>
   <build_depend>fastnav_planner</build_depend>
   <build_depend>fastnav_tf</build_depend>
+  <build_depend>traj_utils</build_depend>
 
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
@@ -30,5 +31,6 @@
   <exec_depend>fastnav_perception</exec_depend>
   <exec_depend>fastnav_planner</exec_depend>
   <exec_depend>fastnav_tf</exec_depend>
+  <exec_depend>traj_utils</exec_depend>
 
 </package>

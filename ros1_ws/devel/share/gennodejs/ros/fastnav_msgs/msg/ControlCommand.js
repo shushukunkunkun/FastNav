@@ -22,8 +22,11 @@ class ControlCommand {
       // initObj === null is a special case for deserialization where we don't initialize fields
       this.header = null;
       this.command_type = null;
+      this.trajectory_id = null;
       this.position = null;
       this.velocity = null;
+      this.acceleration = null;
+      this.jerk = null;
       this.yaw = null;
       this.yaw_rate = null;
       this.enable = null;
@@ -41,6 +44,12 @@ class ControlCommand {
       else {
         this.command_type = 0;
       }
+      if (initObj.hasOwnProperty('trajectory_id')) {
+        this.trajectory_id = initObj.trajectory_id
+      }
+      else {
+        this.trajectory_id = 0;
+      }
       if (initObj.hasOwnProperty('position')) {
         this.position = initObj.position
       }
@@ -52,6 +61,18 @@ class ControlCommand {
       }
       else {
         this.velocity = new geometry_msgs.msg.Vector3();
+      }
+      if (initObj.hasOwnProperty('acceleration')) {
+        this.acceleration = initObj.acceleration
+      }
+      else {
+        this.acceleration = new geometry_msgs.msg.Vector3();
+      }
+      if (initObj.hasOwnProperty('jerk')) {
+        this.jerk = initObj.jerk
+      }
+      else {
+        this.jerk = new geometry_msgs.msg.Vector3();
       }
       if (initObj.hasOwnProperty('yaw')) {
         this.yaw = initObj.yaw
@@ -80,10 +101,16 @@ class ControlCommand {
     bufferOffset = std_msgs.msg.Header.serialize(obj.header, buffer, bufferOffset);
     // Serialize message field [command_type]
     bufferOffset = _serializer.uint8(obj.command_type, buffer, bufferOffset);
+    // Serialize message field [trajectory_id]
+    bufferOffset = _serializer.uint32(obj.trajectory_id, buffer, bufferOffset);
     // Serialize message field [position]
     bufferOffset = geometry_msgs.msg.Point.serialize(obj.position, buffer, bufferOffset);
     // Serialize message field [velocity]
     bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.velocity, buffer, bufferOffset);
+    // Serialize message field [acceleration]
+    bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.acceleration, buffer, bufferOffset);
+    // Serialize message field [jerk]
+    bufferOffset = geometry_msgs.msg.Vector3.serialize(obj.jerk, buffer, bufferOffset);
     // Serialize message field [yaw]
     bufferOffset = _serializer.float64(obj.yaw, buffer, bufferOffset);
     // Serialize message field [yaw_rate]
@@ -101,10 +128,16 @@ class ControlCommand {
     data.header = std_msgs.msg.Header.deserialize(buffer, bufferOffset);
     // Deserialize message field [command_type]
     data.command_type = _deserializer.uint8(buffer, bufferOffset);
+    // Deserialize message field [trajectory_id]
+    data.trajectory_id = _deserializer.uint32(buffer, bufferOffset);
     // Deserialize message field [position]
     data.position = geometry_msgs.msg.Point.deserialize(buffer, bufferOffset);
     // Deserialize message field [velocity]
     data.velocity = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
+    // Deserialize message field [acceleration]
+    data.acceleration = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
+    // Deserialize message field [jerk]
+    data.jerk = geometry_msgs.msg.Vector3.deserialize(buffer, bufferOffset);
     // Deserialize message field [yaw]
     data.yaw = _deserializer.float64(buffer, bufferOffset);
     // Deserialize message field [yaw_rate]
@@ -117,7 +150,7 @@ class ControlCommand {
   static getMessageSize(object) {
     let length = 0;
     length += std_msgs.msg.Header.getMessageSize(object.header);
-    return length + 66;
+    return length + 118;
   }
 
   static datatype() {
@@ -127,15 +160,15 @@ class ControlCommand {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'db5bf442422b499bcadde2f7ee9e0236';
+    return '0fd67f68d7beec39a04c5cf43f0fca02';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
     # FastNav internal control command.
-    # This message is published by fastnav_planner
-    # and consumed by fastnav_control.
+    # This message is usually published by traj_utils/minco_traj_server
+    # and consumed by fastnav_control. Planner should publish trajectory, not direct PX4 setpoint.
     
     std_msgs/Header header
     
@@ -145,14 +178,24 @@ class ControlCommand {
     uint8 COMMAND_HOVER    = 2
     uint8 COMMAND_LAND     = 3
     uint8 COMMAND_IDLE     = 4
+    uint8 COMMAND_TRAJECTORY = 5
     
     uint8 command_type
+    
+    # Trajectory id, used to reject stale sampled commands if needed.
+    uint32 trajectory_id
     
     # Position setpoint in local frame
     geometry_msgs/Point position
     
     # Velocity setpoint in local frame
     geometry_msgs/Vector3 velocity
+    
+    # Acceleration feed-forward in local frame, sampled from $a(t)$.
+    geometry_msgs/Vector3 acceleration
+    
+    # Jerk feed-forward in local frame, sampled from $j(t)$; current PX4 raw local setpoint does not consume jerk directly.
+    geometry_msgs/Vector3 jerk
     
     # Yaw angle for position control
     float64 yaw
@@ -162,6 +205,7 @@ class ControlCommand {
     
     # Whether this command is valid
     bool enable
+    
     ================================================================================
     MSG: std_msgs/Header
     # Standard metadata for higher-level stamped data types.
@@ -220,6 +264,13 @@ class ControlCommand {
       resolved.command_type = 0
     }
 
+    if (msg.trajectory_id !== undefined) {
+      resolved.trajectory_id = msg.trajectory_id;
+    }
+    else {
+      resolved.trajectory_id = 0
+    }
+
     if (msg.position !== undefined) {
       resolved.position = geometry_msgs.msg.Point.Resolve(msg.position)
     }
@@ -232,6 +283,20 @@ class ControlCommand {
     }
     else {
       resolved.velocity = new geometry_msgs.msg.Vector3()
+    }
+
+    if (msg.acceleration !== undefined) {
+      resolved.acceleration = geometry_msgs.msg.Vector3.Resolve(msg.acceleration)
+    }
+    else {
+      resolved.acceleration = new geometry_msgs.msg.Vector3()
+    }
+
+    if (msg.jerk !== undefined) {
+      resolved.jerk = geometry_msgs.msg.Vector3.Resolve(msg.jerk)
+    }
+    else {
+      resolved.jerk = new geometry_msgs.msg.Vector3()
     }
 
     if (msg.yaw !== undefined) {
@@ -266,6 +331,7 @@ ControlCommand.Constants = {
   COMMAND_HOVER: 2,
   COMMAND_LAND: 3,
   COMMAND_IDLE: 4,
+  COMMAND_TRAJECTORY: 5,
 }
 
 module.exports = ControlCommand;

@@ -1453,6 +1453,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/nav_msgs/Path.h \
   /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
   /opt/ros/noetic/include/sensor_msgs/PointField.h \
+  /opt/ros/noetic/include/std_msgs/Empty.h \
+  /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
   /usr/include/eigen3/Eigen/Dense \
   /usr/include/eigen3/Eigen/Geometry \
@@ -1657,6 +1659,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/Eigenvalues:
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h:
+
+/opt/ros/noetic/include/std_msgs/Empty.h:
 
 /opt/ros/noetic/include/sensor_msgs/PointField.h:
 
@@ -3727,6 +3731,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector10.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h:
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/Settings.h:
 

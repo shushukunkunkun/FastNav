@@ -1953,6 +1953,19 @@ cloud_filter_node/fast:
 .PHONY : cloud_filter_node/fast
 
 #=============================================================================
+# Target rules for targets named _catkin_empty_exported_target
+
+# Build rule for target.
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/build.make traj_utils/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+#=============================================================================
 # Target rules for targets named traj_utils_generate_messages
 
 # Build rule for target.
@@ -2003,6 +2016,19 @@ _traj_utils_generate_messages_check_deps_MultiBsplines: cmake_check_build_system
 _traj_utils_generate_messages_check_deps_MultiBsplines/fast:
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/build.make traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/build
 .PHONY : _traj_utils_generate_messages_check_deps_MultiBsplines/fast
+
+#=============================================================================
+# Target rules for targets named _traj_utils_generate_messages_check_deps_MincoTrajectory
+
+# Build rule for target.
+_traj_utils_generate_messages_check_deps_MincoTrajectory: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _traj_utils_generate_messages_check_deps_MincoTrajectory
+.PHONY : _traj_utils_generate_messages_check_deps_MincoTrajectory
+
+# fast build rule for target.
+_traj_utils_generate_messages_check_deps_MincoTrajectory/fast:
+	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/build.make traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/build
+.PHONY : _traj_utils_generate_messages_check_deps_MincoTrajectory/fast
 
 #=============================================================================
 # Target rules for targets named traj_utils_generate_messages_cpp
@@ -2148,17 +2174,17 @@ traj_utils/fast:
 .PHONY : traj_utils/fast
 
 #=============================================================================
-# Target rules for targets named _catkin_empty_exported_target
+# Target rules for targets named minco_traj_server
 
 # Build rule for target.
-_catkin_empty_exported_target: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
-.PHONY : _catkin_empty_exported_target
+minco_traj_server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 minco_traj_server
+.PHONY : minco_traj_server
 
 # fast build rule for target.
-_catkin_empty_exported_target/fast:
-	$(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/build.make fastnav_planner/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
+minco_traj_server/fast:
+	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/build
+.PHONY : minco_traj_server/fast
 
 #=============================================================================
 # Target rules for targets named fastnav_planner_core
@@ -2205,6 +2231,7 @@ help:
 	@echo "... _fastnav_msgs_generate_messages_check_deps_PlannerState"
 	@echo "... _traj_utils_generate_messages_check_deps_Bspline"
 	@echo "... _traj_utils_generate_messages_check_deps_DataDisp"
+	@echo "... _traj_utils_generate_messages_check_deps_MincoTrajectory"
 	@echo "... _traj_utils_generate_messages_check_deps_MultiBsplines"
 	@echo "... actionlib_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_eus"
@@ -2350,6 +2377,7 @@ help:
 	@echo "... gz_odom_bridge_node"
 	@echo "... gz_pointcloud_bridge_node"
 	@echo "... local_voxel_map_node"
+	@echo "... minco_traj_server"
 	@echo "... mockamap_node"
 	@echo "... offboard_control_node"
 	@echo "... traj_utils"

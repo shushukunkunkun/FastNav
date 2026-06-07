@@ -1862,6 +1862,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: /
   /opt/ros/noetic/include/ros/node_handle.h \
   /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
   /opt/ros/noetic/include/sensor_msgs/PointField.h \
+  /opt/ros/noetic/include/std_msgs/Empty.h \
+  /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
   /usr/include/eigen3/Eigen/Dense \
   /usr/include/eigen3/Eigen/Geometry \
@@ -5006,6 +5008,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h:
 
+/opt/ros/noetic/include/std_msgs/Empty.h:
+
 /opt/ros/noetic/include/sensor_msgs/PointField.h:
 
 /opt/ros/noetic/include/ros/this_node.h:
@@ -5927,6 +5931,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h:
 
 /usr/include/c++/11/numeric:
+
+/home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h:
 
 /usr/include/boost/mpl/aux_/config/dependent_nttp.hpp:
 
