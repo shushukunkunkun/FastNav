@@ -1,0 +1,14 @@
+# 编译生成物
+build/
+devel/
+install/
+
+# IDE 配置
+.vscode/
+.idea/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+tools/analysis/result
