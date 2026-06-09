@@ -25,6 +25,11 @@ void MincoGcopterOptimizer::setConfig(const Config& config)
     config_.speed_eps = std::max(1.0e-6, config_.speed_eps);
 }
 
+void MincoGcopterOptimizer::setCancelCallback(const std::function<bool()>& cancel_callback)
+{
+    cancel_callback_ = cancel_callback;
+}
+
 bool MincoGcopterOptimizer::optimize(const BoundaryState& start,
                                      const BoundaryState& goal,
                                      const std::vector<Eigen::MatrixX4d>& corridors,
@@ -68,6 +73,7 @@ bool MincoGcopterOptimizer::optimize(const BoundaryState& start,
         last_error_ = "GCOPTER setup failed. Corridor may be invalid or empty.";
         return false;
     }
+    optimizer.setCancelCallback(cancel_callback_);
 
     MincoTraj::TrajectoryType raw_traj;
     const double cost = optimizer.optimize(raw_traj, config_.rel_cost_tol);

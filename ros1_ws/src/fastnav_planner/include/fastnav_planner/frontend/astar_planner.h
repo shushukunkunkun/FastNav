@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -22,11 +23,14 @@ public:
         bool check_line_collision{true};
         double heuristic_weight{1.2};
         double line_check_step{0.1};
+        // inflated map 之外的额外安全余量。$min_clearance=0$ 时只使用 inflated occupancy。
+        double min_clearance{0.0};
         int max_search_nodes{50000};
     };
 
     void setMap(const std::shared_ptr<fastnav_mapping::VoxelMap>& map);
     void setConfig(const Config& config);
+    void setCancelCallback(const std::function<bool()>& cancel_callback);
 
     bool plan(const Eigen::Vector3d& start,
               const Eigen::Vector3d& goal,
@@ -47,11 +51,17 @@ private:
     int toAddress(const Eigen::Vector3i& idx) const;
     Eigen::Vector3i addressToIndex(int address) const;
     double heuristic(const Eigen::Vector3i& current, const Eigen::Vector3i& goal) const;
+    bool hasExtraClearance(const Eigen::Vector3d& pos) const;
+    bool isSegmentClearWithExtraClearance(const Eigen::Vector3d& p0,
+                                          const Eigen::Vector3d& p1,
+                                          bool relax_start_clearance,
+                                          bool relax_goal_clearance) const;
     std::vector<Eigen::Vector3i> neighborOffsets() const;
 
 private:
     std::shared_ptr<fastnav_mapping::VoxelMap> map_;
     Config config_;
+    std::function<bool()> cancel_callback_;
     std::vector<Eigen::Vector3d> searched_nodes_;
     std::string last_error_;
 };

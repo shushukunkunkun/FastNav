@@ -24,7 +24,7 @@ cloud_filter:
   tf_timeout: 0.05
 
   # 距离裁剪保留满足 $range_min <= d_i <= range_max$ 的点。
-  range_min: 0.2
+  range_min: 0.1
   range_max: 20.0
 
   # 空间裁剪保留 odom 下满足 $x_min <= x_i <= x_max$ 的点。

@@ -67,7 +67,7 @@ include traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBspl
 include traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/progress.make
 
 traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines:
-	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py traj_utils /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg traj_utils/Bspline:geometry_msgs/Point
+	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py traj_utils /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg geometry_msgs/Point:traj_utils/Bspline
 
 _traj_utils_generate_messages_check_deps_MultiBsplines: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines
 _traj_utils_generate_messages_check_deps_MultiBsplines: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MultiBsplines.dir/build.make

@@ -29,7 +29,10 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
                                        const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
                                        const fastnav::MincoGcopterOptimizer::BoundaryState& start_state,
                                        const fastnav::MincoGcopterOptimizer::BoundaryState& goal_state,
-                                       OptimizationResult& result)
+                                       OptimizationResult& result,
+                                       size_t preserve_prefix_size,
+                                       bool touch_goal,
+                                       const std::function<bool()>& preempt_requested)
 {
     last_error_.clear();
     result.clear();
@@ -54,9 +57,15 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         return false;
     }
 
+    if (preempt_requested && preempt_requested())
+    {
+        last_error_ = "Path optimization preempted before shortcut.";
+        return false;
+    }
+
     if (config_.shortcut)
     {
-        if (!shortcutPath(raw_path, map, result.shortcut_path))
+        if (!shortcutPath(raw_path, map, result.shortcut_path, preserve_prefix_size))
         {
             return false;
         }
@@ -82,9 +91,17 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
     fastnav::MincoGcopterOptimizer::BoundaryState minco_goal = goal_state;
     minco_start.pos = result.shortcut_path.front();
     minco_goal.pos = result.shortcut_path.back();
+    minco_optimizer_.setCancelCallback(preempt_requested);
 
     for (int attempt = 0; attempt < config_.max_retry; ++attempt)
     {
+        if (preempt_requested && preempt_requested())
+        {
+            last_error_ = "Path optimization preempted before retry.";
+            minco_optimizer_.setCancelCallback(std::function<bool()>());
+            return false;
+        }
+
         const double corridor_range_scale = std::pow(config_.corridor_range_retry_scale, attempt);
         const double corridor_progress_scale = std::pow(config_.corridor_progress_retry_scale, attempt);
         const double weight_time_scale = std::pow(config_.weight_time_retry_scale, attempt);
@@ -106,6 +123,12 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
                           " corridor failed: " + last_error_;
             continue;
         }
+        if (preempt_requested && preempt_requested())
+        {
+            last_error_ = "Path optimization preempted after corridor generation.";
+            minco_optimizer_.setCancelCallback(std::function<bool()>());
+            return false;
+        }
 
         fastnav::MincoGcopterOptimizer::Config attempt_minco_config = config_.minco;
         attempt_minco_config.weight_time *= weight_time_scale;
@@ -121,11 +144,22 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         {
             last_error_ = "Attempt " + std::to_string(attempt + 1) +
                           " MINCO failed: " + minco_optimizer_.lastError();
+            if (preempt_requested && preempt_requested())
+            {
+                minco_optimizer_.setCancelCallback(std::function<bool()>());
+                return false;
+            }
             continue;
+        }
+        if (preempt_requested && preempt_requested())
+        {
+            last_error_ = "Path optimization preempted after MINCO.";
+            minco_optimizer_.setCancelCallback(std::function<bool()>());
+            return false;
         }
 
         TrajectoryFeasibilityChecker::Result feasibility;
-        if (!feasibility_checker_.check(attempt_traj, map, feasibility))
+        if (!feasibility_checker_.check(attempt_traj, map, feasibility, touch_goal))
         {
             last_error_ = "Attempt " + std::to_string(attempt + 1) +
                           " fine check failed: " + feasibility.message;
@@ -145,15 +179,18 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         }
 
         last_error_.clear();
+        minco_optimizer_.setCancelCallback(std::function<bool()>());
         return true;
     }
 
     if (!config_.require_minco)
     {
         result.sampled_path = result.shortcut_path;
+        minco_optimizer_.setCancelCallback(std::function<bool()>());
         return true;
     }
 
+    minco_optimizer_.setCancelCallback(std::function<bool()>());
     return false;
 }
 
@@ -189,7 +226,8 @@ std::string PathOptimizer::lastError() const
 
 bool PathOptimizer::shortcutPath(const std::vector<Eigen::Vector3d>& raw_path,
                                  const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-                                 std::vector<Eigen::Vector3d>& optimized_path) const
+                                 std::vector<Eigen::Vector3d>& optimized_path,
+                                 size_t preserve_prefix_size) const
 {
     if (raw_path.size() <= 2)
     {
@@ -199,8 +237,20 @@ bool PathOptimizer::shortcutPath(const std::vector<Eigen::Vector3d>& raw_path,
 
     // 从当前点 $p_i$ 开始，寻找最远的 $p_j$，使线段 $p_i -> p_j$ 不穿过膨胀障碍。
     // 这样可以保留路径拓扑，同时删除 A* 栅格搜索带来的锯齿点。
-    optimized_path.push_back(raw_path.front());
+    // 当 preserve_prefix_size > 1 时，前缀点来自当前旧 MINCO 轨迹的剩余安全段，必须原样保留；
+    // shortcut 只从前缀末端开始处理后续 A* 桥接段，避免破坏新旧轨迹切换的连续性。
+    const size_t preserve_num = std::min(preserve_prefix_size, raw_path.size());
     size_t i = 0;
+    if (preserve_num > 1)
+    {
+        optimized_path.insert(optimized_path.end(), raw_path.begin(), raw_path.begin() + preserve_num);
+        i = preserve_num - 1;
+    }
+    else
+    {
+        optimized_path.push_back(raw_path.front());
+    }
+
     while (i + 1 < raw_path.size())
     {
         size_t best = i + 1;

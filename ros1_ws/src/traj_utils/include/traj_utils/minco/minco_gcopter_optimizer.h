@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -61,6 +62,7 @@ public:
     };
 
     void setConfig(const Config& config);
+    void setCancelCallback(const std::function<bool()>& cancel_callback);
 
     bool optimize(const BoundaryState& start,
                   const BoundaryState& goal,
@@ -79,6 +81,7 @@ private:
 
 private:
     Config config_;
+    std::function<bool()> cancel_callback_;
     std::string last_error_;
     double last_cost_{0.0};
 };

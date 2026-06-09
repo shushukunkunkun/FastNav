@@ -17,6 +17,7 @@
 
 #include <cmath>
 #include <cfloat>
+#include <functional>
 #include <iostream>
 #include <vector>
 
@@ -61,6 +62,7 @@ namespace gcopter
         double allocSpeed;
 
         lbfgs::lbfgs_parameter_t lbfgs_params;
+        std::function<bool()> cancelCallback;
 
         Eigen::Matrix3Xd points;
         Eigen::VectorXd times;
@@ -570,6 +572,18 @@ namespace gcopter
             return cost;
         }
 
+        static inline int progressFunctional(void *ptr,
+                                             const Eigen::VectorXd & /*x*/,
+                                             const Eigen::VectorXd & /*g*/,
+                                             const double /*fx*/,
+                                             const double /*step*/,
+                                             const int /*k*/,
+                                             const int /*ls*/)
+        {
+            GCOPTER_PolytopeSFC &obj = *(GCOPTER_PolytopeSFC *)ptr;
+            return (obj.cancelCallback && obj.cancelCallback()) ? 1 : 0;
+        }
+
         static inline void getShortestPath(const Eigen::Vector3d &ini,
                                            const Eigen::Vector3d &fin,
                                            const PolyhedraV &vPolys,
@@ -705,6 +719,11 @@ namespace gcopter
         }
 
     public:
+        inline void setCancelCallback(const std::function<bool()> &callback)
+        {
+            cancelCallback = callback;
+        }
+
         // magnitudeBounds = [v_max, omg_max, theta_max, thrust_min, thrust_max]^T
         // penaltyWeights = [pos_weight, vel_weight, omg_weight, theta_weight, thrust_weight]^T
         // physicalParams = [vehicle_mass, gravitational_acceleration, horitonral_drag_coeff,
@@ -812,7 +831,7 @@ namespace gcopter
                                             minCostFunctional,
                                             &GCOPTER_PolytopeSFC::costFunctional,
                                             nullptr,
-                                            nullptr,
+                                            &GCOPTER_PolytopeSFC::progressFunctional,
                                             this,
                                             lbfgs_params);
 
@@ -837,4 +856,3 @@ namespace gcopter
     };
 
 }
-

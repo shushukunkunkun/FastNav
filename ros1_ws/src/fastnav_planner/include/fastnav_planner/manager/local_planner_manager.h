@@ -18,6 +18,7 @@
 #pragma once
 
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -51,8 +52,18 @@ public:
     {
         bool use_current_traj{false};
         bool use_random_init{false};
+        // 显式起点状态由 PlannerFSM 提供。GEN_NEW_TRAJ 通常来自 odom；
+        // REPLAN_TRAJ 则应来自当前正在执行的 MINCO 轨迹 $p(t_c),v(t_c),a(t_c)$，保证新旧轨迹切换连续。
+        bool has_start_state{false};
+        Eigen::Vector3d start_pos{Eigen::Vector3d::Zero()};
+        Eigen::Vector3d start_vel{Eigen::Vector3d::Zero()};
+        Eigen::Vector3d start_acc{Eigen::Vector3d::Zero()};
+        Eigen::Vector3d goal_vel{Eigen::Vector3d::Zero()};
+        Eigen::Vector3d goal_acc{Eigen::Vector3d::Zero()};
+        bool touch_goal{true};
         int attempt{0};
         int continuous_failures{0};
+        std::function<bool()> preempt_requested;
     };
 
     // 初始化 manager：读取参数，创建 VoxelMap、AStarPlanner、PathOptimizer，并完成依赖注入。
@@ -69,6 +80,15 @@ public:
 
     // 带重规划选项的入口。use_random_init 会改变传给 corridor/MINCO 的参考路径，避免反复卡在同一局部解。
     bool planToGoal(const Eigen::Vector3d& goal, const ReplanOptions& options);
+
+    // 生成轻量全局参考轨迹。它不做避障优化，只用五次多项式连接任务起点和终点，
+    // 供 PlannerFSM::getLocalTarget() 沿 $p_g(t)$ 切出 planning horizon 内的局部目标。
+    bool planGlobalTraj(const Eigen::Vector3d& start_pos,
+                        const Eigen::Vector3d& start_vel,
+                        const Eigen::Vector3d& start_acc,
+                        const Eigen::Vector3d& end_pos,
+                        const Eigen::Vector3d& end_vel,
+                        const Eigen::Vector3d& end_acc);
 
     // 将 current_path_ 打包为 nav_msgs::Path，供 FSM 发布。
     nav_msgs::Path getPathMsg() const;
@@ -90,6 +110,12 @@ public:
 
     // 检查当前路径的每条线段是否仍然避开 inflated map，供 FSM 的 checkCollisionCallback() 调用。
     bool isCurrentPathCollisionFree(double step_size) const;
+
+    // 检查当前正在执行的 MINCO 轨迹前段是否安全，并返回第一个碰撞点距离当前时刻的时间。
+    bool isCurrentTrajectoryCollisionFree(double step_size,
+                                          double check_horizon_ratio,
+                                          bool touch_goal,
+                                          double& collision_time_from_now) const;
 
     // 状态查询接口，供 FSM 判断是否具备规划条件。
     bool hasOdom() const { return has_odom_; }
@@ -130,15 +156,18 @@ private:
 
     // 根据 EGO-v2 的随机中点思想，对 A* 路径的中间控制点做小扰动，生成不同的 MINCO/corridor 初始化参考。
     std::vector<Eigen::Vector3d> buildOptimizationReferencePath(const std::vector<Eigen::Vector3d>& raw_path,
-                                                                const ReplanOptions& options) const;
+                                                                const ReplanOptions& options,
+                                                                size_t& preserve_prefix_size) const;
+
+    // REPLAN_TRAJ 时复用当前 MINCO 的剩余安全段，并用 A* 路径桥接到目标。
+    // 这对应 EGO-Planner 使用旧局部轨迹剩余段初始化下一次优化的思想。
+    std::vector<Eigen::Vector3d> buildCurrentTrajReferencePath(const std::vector<Eigen::Vector3d>& raw_path,
+                                                               const ReplanOptions& options,
+                                                               size_t& preserve_prefix_size) const;
 
     // 将 PathOptimizer 输出的 MINCO 轨迹写入 local_data_；若 MINCO 不存在则只保留几何路径。
     void updateTrajInfo(const PathOptimizer::OptimizationResult& result,
                         const ros::Time& time_now);
-
-    // 用本次优化结果更新全局参考数据；当前以局部 MINCO 作为任务参考，后续可替换为全局 MINCO。
-    void updateGlobalTrajInfo(const PathOptimizer::OptimizationResult& result,
-                              const ros::Time& time_now);
 
 private:
     // 核心算法对象。manager 通过 shared_ptr 管理生命周期，并把 voxel_map_ 注入给 AStarPlanner / PathOptimizer。

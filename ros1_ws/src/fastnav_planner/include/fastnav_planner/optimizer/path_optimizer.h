@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <vector>
@@ -72,7 +73,10 @@ public:
                             const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
                             const fastnav::MincoGcopterOptimizer::BoundaryState& start_state,
                             const fastnav::MincoGcopterOptimizer::BoundaryState& goal_state,
-                            OptimizationResult& result);
+                            OptimizationResult& result,
+                            size_t preserve_prefix_size = 0,
+                            bool touch_goal = true,
+                            const std::function<bool()>& preempt_requested = std::function<bool()>());
 
     // 兼容旧接口：只输出几何路径；如果 MINCO 成功则输出采样路径，否则输出 shortcut 路径。
     bool optimize(const std::vector<Eigen::Vector3d>& raw_path,
@@ -84,7 +88,8 @@ public:
 private:
     bool shortcutPath(const std::vector<Eigen::Vector3d>& raw_path,
                       const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-                      std::vector<Eigen::Vector3d>& optimized_path) const;
+                      std::vector<Eigen::Vector3d>& optimized_path,
+                      size_t preserve_prefix_size = 0) const;
 
     bool generateCorridor(const std::vector<Eigen::Vector3d>& path,
                           const std::shared_ptr<fastnav_mapping::VoxelMap>& map,

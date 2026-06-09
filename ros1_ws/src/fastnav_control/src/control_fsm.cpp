@@ -25,6 +25,7 @@ ControlFSM::ControlFSM(ros::NodeHandle& nh,
       init_setpoint_counter_(0),
       request_interval_(5.0),
       control_cmd_topic_("/fastnav/control_cmd"),
+      fsm_state_topic_("/fastnav/control/fsm_state"),
       control_cmd_timeout_(0.5),
       has_control_cmd_(false),
       last_control_cmd_time_(ros::Time(0)),
@@ -38,6 +39,7 @@ ControlFSM::ControlFSM(ros::NodeHandle& nh,
         10,
         &ControlFSM::controlCommandCallback,
         this);
+    fsm_state_pub_ = nh_.advertise<std_msgs::String>(fsm_state_topic_, 1, true);
 
     hover_x_ = target_x_;
     hover_y_ = target_y_;
@@ -49,6 +51,8 @@ ControlFSM::ControlFSM(ros::NodeHandle& nh,
              target_x_, target_y_, target_z_, target_yaw_);
     ROS_INFO("[FastNav][ControlFSM] control command topic: %s",
              control_cmd_topic_.c_str());
+    ROS_INFO("[FastNav][ControlFSM] FSM state topic: %s",
+             fsm_state_topic_.c_str());
 }
 
 void ControlFSM::loadParameters()
@@ -74,6 +78,10 @@ void ControlFSM::loadParameters()
                             control_cmd_topic_,
                             "/fastnav/control_cmd");
 
+    pnh_.param<std::string>("topic/fsm_state",
+                            fsm_state_topic_,
+                            "/fastnav/control/fsm_state");
+
     pnh_.param<double>("control_cmd/timeout",
                        control_cmd_timeout_,
                        0.5);
@@ -88,6 +96,8 @@ void ControlFSM::controlCommandCallback(const fastnav_msgs::ControlCommand::Cons
 
 void ControlFSM::runOnce()
 {
+    publishFSMState();
+
     switch (current_state_)
     {
     case State::WAIT_FOR_FCU:
@@ -126,6 +136,18 @@ void ControlFSM::runOnce()
         ROS_WARN_THROTTLE(1.0, "[FastNav][ControlFSM] Unknown state.");
         break;
     }
+}
+
+void ControlFSM::publishFSMState()
+{
+    if (!fsm_state_pub_)
+    {
+        return;
+    }
+
+    std_msgs::String msg;
+    msg.data = getStateName();
+    fsm_state_pub_.publish(msg);
 }
 
 void ControlFSM::handleWaitForFcu()

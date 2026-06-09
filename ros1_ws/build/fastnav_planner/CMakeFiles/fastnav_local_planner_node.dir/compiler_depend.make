@@ -1261,6 +1261,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/ros/topic.h \
   /opt/ros/noetic/include/ros/node_handle.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h \
+  /usr/include/c++/11/atomic \
   /usr/include/eigen3/Eigen/Core \
   /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -1366,7 +1367,6 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h \
   /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
   /usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h \
-  /usr/include/c++/11/atomic \
   /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h \
   /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
   /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
@@ -1451,10 +1451,34 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
   /opt/ros/noetic/include/geometry_msgs/Twist.h \
   /opt/ros/noetic/include/geometry_msgs/Vector3.h \
   /opt/ros/noetic/include/nav_msgs/Path.h \
+  /opt/ros/noetic/include/ros/callback_queue.h \
+  /opt/ros/noetic/include/ros/callback_queue_interface.h \
+  /usr/include/boost/thread/condition_variable.hpp \
+  /usr/include/boost/thread/pthread/condition_variable.hpp \
+  /usr/include/boost/thread/interruption.hpp \
+  /usr/include/boost/thread/pthread/thread_data.hpp \
+  /usr/include/boost/thread/lock_guard.hpp \
+  /usr/include/boost/thread/detail/lockable_wrapper.hpp \
+  /usr/include/boost/thread/pthread/condition_variable_fwd.hpp \
+  /usr/include/boost/thread/cv_status.hpp \
+  /usr/include/boost/core/scoped_enum.hpp \
+  /usr/include/boost/enable_shared_from_this.hpp \
+  /usr/include/boost/smart_ptr/enable_shared_from_this.hpp \
+  /usr/include/boost/thread/shared_mutex.hpp \
+  /usr/include/boost/thread/pthread/shared_mutex.hpp \
+  /usr/include/boost/thread/detail/thread_interruption.hpp \
+  /usr/include/boost/thread/tss.hpp \
+  /usr/include/c++/11/deque \
+  /usr/include/c++/11/bits/stl_deque.h \
+  /usr/include/c++/11/bits/deque.tcc \
   /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
   /opt/ros/noetic/include/sensor_msgs/PointField.h \
   /opt/ros/noetic/include/std_msgs/Empty.h \
+  /opt/ros/noetic/include/std_msgs/String.h \
   /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h \
+  /opt/ros/noetic/include/visualization_msgs/MarkerArray.h \
+  /opt/ros/noetic/include/visualization_msgs/Marker.h \
+  /opt/ros/noetic/include/std_msgs/ColorRGBA.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
   /usr/include/eigen3/Eigen/Dense \
   /usr/include/eigen3/Eigen/Geometry \
@@ -1660,9 +1684,39 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h:
 
+/opt/ros/noetic/include/std_msgs/ColorRGBA.h:
+
+/opt/ros/noetic/include/visualization_msgs/MarkerArray.h:
+
 /opt/ros/noetic/include/std_msgs/Empty.h:
 
 /opt/ros/noetic/include/sensor_msgs/PointField.h:
+
+/usr/include/c++/11/bits/deque.tcc:
+
+/usr/include/c++/11/bits/stl_deque.h:
+
+/usr/include/c++/11/deque:
+
+/usr/include/boost/thread/tss.hpp:
+
+/usr/include/boost/thread/pthread/shared_mutex.hpp:
+
+/usr/include/boost/core/scoped_enum.hpp:
+
+/usr/include/boost/thread/pthread/condition_variable_fwd.hpp:
+
+/usr/include/boost/thread/detail/lockable_wrapper.hpp:
+
+/usr/include/boost/thread/pthread/thread_data.hpp:
+
+/usr/include/boost/thread/interruption.hpp:
+
+/usr/include/boost/thread/pthread/condition_variable.hpp:
+
+/usr/include/boost/thread/condition_variable.hpp:
+
+/opt/ros/noetic/include/ros/callback_queue_interface.h:
 
 /opt/ros/noetic/include/geometry_msgs/TwistWithCovariance.h:
 
@@ -1753,8 +1807,6 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h:
 
 /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h:
-
-/usr/include/c++/11/atomic:
 
 /usr/include/eigen3/Eigen/src/Core/PermutationMatrix.h:
 
@@ -1881,6 +1933,10 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h:
 
 /usr/include/eigen3/Eigen/Core:
+
+/usr/include/boost/thread/detail/thread_interruption.hpp:
+
+/usr/include/c++/11/atomic:
 
 /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h:
 
@@ -2175,6 +2231,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/mpl/bind.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp:
+
+/opt/ros/noetic/include/visualization_msgs/Marker.h:
 
 /usr/include/boost/preprocessor/comma_if.hpp:
 
@@ -2824,6 +2882,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
 
+/usr/include/boost/thread/lock_guard.hpp:
+
 /usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp:
 
 /usr/include/linux/errno.h:
@@ -2861,6 +2921,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
+
+/usr/include/boost/smart_ptr/enable_shared_from_this.hpp:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -3065,6 +3127,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/thread/detail/delete.hpp:
 
 /usr/include/boost/preprocessor/facilities/overload.hpp:
+
+/opt/ros/noetic/include/ros/callback_queue.h:
 
 /usr/include/c++/11/math.h:
 
@@ -3780,6 +3844,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/core/ref.hpp:
 
+/usr/include/boost/thread/shared_mutex.hpp:
+
 /usr/include/boost/mpl/iterator_range.hpp:
 
 /usr/include/boost/ratio/detail/overflow_helpers.hpp:
@@ -3962,6 +4028,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 
 /usr/include/boost/date_time/gregorian_calendar.hpp:
 
+/usr/include/boost/thread/cv_status.hpp:
+
 /usr/include/eigen3/Eigen/src/Core/VectorBlock.h:
 
 /usr/include/boost/core/use_default.hpp:
@@ -4053,6 +4121,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /usr/include/boost/range/detail/extract_optional_type.hpp:
 
 /usr/include/boost/smart_ptr/detail/sp_noexcept.hpp:
+
+/opt/ros/noetic/include/std_msgs/String.h:
 
 /usr/include/boost/core/addressof.hpp:
 
@@ -4313,6 +4383,8 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
 /opt/ros/noetic/include/ros/names.h:
 
 /usr/include/boost/thread/detail/config.hpp:
+
+/usr/include/boost/enable_shared_from_this.hpp:
 
 /usr/include/boost/date_time/date_generators.hpp:
 

@@ -53,12 +53,14 @@ public:
 
     bool check(const fastnav::MincoTraj& traj,
                const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-               Result& result) const;
+               Result& result,
+               bool touch_goal) const;
 
 private:
     bool checkCollision(const fastnav::MincoTraj& traj,
                         const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-                        Result& result) const;
+                        Result& result,
+                        bool touch_goal) const;
 
     bool checkDynamics(const fastnav::MincoTraj& traj,
                        Result& result) const;

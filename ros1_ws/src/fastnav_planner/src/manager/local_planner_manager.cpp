@@ -19,6 +19,8 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
+#include <limits>
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -96,9 +98,11 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     nh.param<bool>("/local_planner/astar/allow_diagonal", astar_config_.allow_diagonal, astar_config_.allow_diagonal);
     nh.param<bool>("/local_planner/astar/check_line_collision", astar_config_.check_line_collision, astar_config_.check_line_collision);
     nh.param<double>("/local_planner/astar/heuristic_weight", astar_config_.heuristic_weight, astar_config_.heuristic_weight);
+    nh.param<double>("/local_planner/astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
     nh.param<double>("/local_planner/astar/line_check_step", astar_config_.line_check_step, astar_config_.line_check_step);
     nh.param<int>("/local_planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
     nh.param<double>("/planner/astar/heuristic_weight", astar_config_.heuristic_weight, astar_config_.heuristic_weight);
+    nh.param<double>("/planner/astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
     nh.param<int>("/planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
     nh.param<bool>("/local_planner/optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     nh.param<bool>("/local_planner/optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
@@ -176,6 +180,7 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
 
     pnh.param<std::string>("frame_id", frame_id_, frame_id_);
     pnh.param<bool>("replan_on_cloud", replan_on_cloud_, replan_on_cloud_);
+    pnh.param<double>("astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
     pnh.param<bool>("optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     pnh.param<bool>("optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
     pnh.param<double>("optimizer/line_check_step", optimizer_config_.line_check_step, optimizer_config_.line_check_step);
@@ -187,6 +192,7 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
 
     minco_sample_dt_ = std::max(1.0e-3, optimizer_config_.minco_sample_dt);
     random_init_scale_ = std::max(0.0, random_init_scale_);
+    astar_config_.min_clearance = std::max(0.0, astar_config_.min_clearance);
 }
 
 // 更新当前无人机状态；current_odom_ 后续用于地图中心 $c$ 和 A* 搜索起点。
@@ -240,8 +246,76 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal)
     return planToGoal(goal, options);
 }
 
+bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
+                                         const Eigen::Vector3d& start_vel,
+                                         const Eigen::Vector3d& start_acc,
+                                         const Eigen::Vector3d& end_pos,
+                                         const Eigen::Vector3d& end_vel,
+                                         const Eigen::Vector3d& end_acc)
+{
+    const Eigen::Vector3d delta = end_pos - start_pos;
+    const double distance = delta.norm();
+    if (distance < 1.0e-4)
+    {
+        last_error_ = "Global trajectory start and goal are too close.";
+        return false;
+    }
+
+    const double max_vel = std::max(0.1, optimizer_config_.feasibility.max_vel);
+    const double max_acc = std::max(0.1, optimizer_config_.feasibility.max_acc);
+    // 单段五次 smooth reference 的峰值速度和加速度会高于 $d/T$ 与 $d/T^2$，
+    // 因此这里按 $T=max(2d/v_{max}, sqrt(6d/a_{max}))$ 给全局参考留足时间裕度。
+    const double duration = std::max(1.0,
+                                     std::max(2.0 * distance / max_vel,
+                                              std::sqrt(6.0 * distance / max_acc)));
+
+    Eigen::Matrix3d A;
+    A << std::pow(duration, 3), std::pow(duration, 4), std::pow(duration, 5),
+         3.0 * std::pow(duration, 2), 4.0 * std::pow(duration, 3), 5.0 * std::pow(duration, 4),
+         6.0 * duration, 12.0 * std::pow(duration, 2), 20.0 * std::pow(duration, 3);
+
+    Piece<5>::CoefficientMat coeff;
+    coeff.setZero();
+    for (int axis = 0; axis < 3; ++axis)
+    {
+        const double a0 = start_pos(axis);
+        const double a1 = start_vel(axis);
+        const double a2 = 0.5 * start_acc(axis);
+
+        Eigen::Vector3d b;
+        b(0) = end_pos(axis) - (a0 + a1 * duration + a2 * duration * duration);
+        b(1) = end_vel(axis) - (a1 + 2.0 * a2 * duration);
+        b(2) = end_acc(axis) - (2.0 * a2);
+
+        const Eigen::Vector3d high = A.lu().solve(b);
+        // GCOPTER Piece<5> 的系数列顺序是 $[t^5,t^4,t^3,t^2,t,1]$。
+        coeff(axis, 5) = a0;
+        coeff(axis, 4) = a1;
+        coeff(axis, 3) = a2;
+        coeff(axis, 2) = high(0);
+        coeff(axis, 1) = high(1);
+        coeff(axis, 0) = high(2);
+    }
+
+    fastnav::MincoTraj::TrajectoryType global_traj;
+    global_traj.emplace_back(duration, coeff);
+    global_data_.setGlobalTraj(global_traj, ros::Time::now(), frame_id_);
+    global_data_.waypoints_.clear();
+    global_data_.waypoints_.push_back(start_pos);
+    global_data_.waypoints_.push_back(end_pos);
+    last_error_.clear();
+
+    ROS_INFO("[FastNav][LocalPlannerManager] Global reference trajectory generated. duration=%.2f, distance=%.2f",
+             duration, distance);
+    return true;
+}
+
 bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOptions& options)
 {
+    const auto preempted = [&options]() {
+        return options.preempt_requested && options.preempt_requested();
+    };
+
     last_goal_ = goal;
     current_path_.clear();
     last_optimization_result_.clear();
@@ -258,10 +332,27 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
         return false;
     }
 
-    const Eigen::Vector3d start = currentPosition();
+    // 起点优先使用 FSM 传入的显式规划起点。
+    // 对 GEN_NEW_TRAJ，FSM 会传入当前 odom 状态；对 REPLAN_TRAJ，FSM 会传入旧 MINCO 轨迹在当前执行时刻的
+    // $p(t_c),v(t_c),a(t_c)$，这和 EGO-Planner 从当前执行轨迹上取重规划边界条件的原则一致。
+    const Eigen::Vector3d start = options.has_start_state ? options.start_pos : currentPosition();
+    if (preempted())
+    {
+        last_error_ = "Planning preempted before A*.";
+        return false;
+    }
+
     std::vector<Eigen::Vector3d> raw_path;
+    astar_planner_->setCancelCallback(options.preempt_requested);
     const bool success = astar_planner_->plan(start, goal, raw_path);
+    astar_planner_->setCancelCallback(std::function<bool()>());
     searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
+
+    if (preempted())
+    {
+        last_error_ = "Planning preempted after A*.";
+        return false;
+    }
 
     if (!success)
     {
@@ -269,27 +360,50 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
         return false;
     }
 
+    size_t preserve_prefix_size = 0;
     const std::vector<Eigen::Vector3d> optimization_reference_path =
-        buildOptimizationReferencePath(raw_path, options);
+        buildOptimizationReferencePath(raw_path, options, preserve_prefix_size);
+    if (preempted())
+    {
+        last_error_ = "Planning preempted after reference path generation.";
+        return false;
+    }
 
     fastnav::MincoGcopterOptimizer::BoundaryState start_state;
     start_state.pos = start;
-    start_state.vel = Eigen::Vector3d(current_odom_.twist.twist.linear.x,
-                                      current_odom_.twist.twist.linear.y,
-                                      current_odom_.twist.twist.linear.z);
-    start_state.acc.setZero();
+    if (options.has_start_state)
+    {
+        start_state.vel = options.start_vel;
+        start_state.acc = options.start_acc;
+    }
+    else
+    {
+        start_state.vel = Eigen::Vector3d(current_odom_.twist.twist.linear.x,
+                                          current_odom_.twist.twist.linear.y,
+                                          current_odom_.twist.twist.linear.z);
+        start_state.acc.setZero();
+    }
 
     fastnav::MincoGcopterOptimizer::BoundaryState goal_state;
     goal_state.pos = goal;
-    goal_state.vel.setZero();
-    goal_state.acc.setZero();
+    goal_state.vel = options.goal_vel;
+    goal_state.acc = options.goal_acc;
 
     if (path_optimizer_ && path_optimizer_->optimizeTrajectory(optimization_reference_path,
                                                                voxel_map_,
                                                                start_state,
                                                                goal_state,
-                                                               last_optimization_result_))
+                                                               last_optimization_result_,
+                                                               preserve_prefix_size,
+                                                               options.touch_goal,
+                                                               options.preempt_requested))
     {
+        if (preempted())
+        {
+            last_error_ = "Planning preempted after optimization.";
+            return false;
+        }
+
         // current_path_ 用于 RViz 和线段碰撞检查；若 MINCO 成功，保存其采样路径，否则保存 shortcut 几何路径。
         current_path_ = last_optimization_result_.sampled_path.empty()
                             ? last_optimization_result_.shortcut_path
@@ -318,8 +432,8 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     }
 
     const ros::Time time_now = ros::Time::now();
-    // raw_path / shortcut_path 用作几何回退，MINCO 成功时 local_data_ 和 global_data_ 保存连续轨迹 $p(t)$。
-    updateGlobalTrajInfo(last_optimization_result_, time_now);
+    // raw_path / shortcut_path 用作几何回退，MINCO 成功时 local_data_ 保存连续可执行轨迹 $p(t)$。
+    // global_data_ 是任务级轻量参考轨迹，只由 planGlobalTraj() 维护，不能被局部优化结果覆盖。
     updateTrajInfo(last_optimization_result_, time_now);
 
     has_path_ = true;
@@ -401,6 +515,67 @@ bool LocalPlannerManager::isCurrentPathCollisionFree(double step_size) const
     return true;
 }
 
+bool LocalPlannerManager::isCurrentTrajectoryCollisionFree(double step_size,
+                                                           double check_horizon_ratio,
+                                                           bool touch_goal,
+                                                           double& collision_time_from_now) const
+{
+    collision_time_from_now = std::numeric_limits<double>::infinity();
+    if (!voxel_map_)
+    {
+        return true;
+    }
+
+    const double ratio = std::min(1.0, std::max(0.05, check_horizon_ratio));
+    if (local_data_.valid_ && !local_data_.start_time_.isZero() && local_data_.duration_ > 1.0e-6)
+    {
+        const ros::Time time_now = ros::Time::now();
+        const double t_cur = std::min(local_data_.duration_,
+                                      std::max(0.0, local_data_.elapsedTime(time_now)));
+        const double t_end = touch_goal ? local_data_.duration_ : local_data_.duration_ * ratio;
+        if (t_cur >= t_end)
+        {
+            return true;
+        }
+
+        const double sample_dt = std::max(1.0e-3, step_size);
+        Eigen::Vector3d last_pos = local_data_.getPosition(t_cur);
+        for (double t = t_cur; t <= t_end + 1.0e-6; t += sample_dt)
+        {
+            const double t_eval = std::min(t, t_end);
+            const Eigen::Vector3d pos = local_data_.getPosition(t_eval);
+            if (!voxel_map_->isInMap(pos) ||
+                voxel_map_->isInflatedOccupied(pos) ||
+                (t_eval > t_cur && !voxel_map_->isLineFree(last_pos, pos, step_size)))
+            {
+                collision_time_from_now = std::max(0.0, t_eval - t_cur);
+                return false;
+            }
+            last_pos = pos;
+        }
+        return true;
+    }
+
+    if (!has_path_ || current_path_.size() < 2)
+    {
+        return true;
+    }
+
+    // 几何路径回退：若当前没有 MINCO，则只检查采样 path 的前 $2/3$ 或完整 path。
+    const size_t check_size = touch_goal ? current_path_.size()
+                                         : std::max<size_t>(2, static_cast<size_t>(std::ceil(current_path_.size() * ratio)));
+    for (size_t i = 1; i < check_size; ++i)
+    {
+        if (!voxel_map_->isLineFree(current_path_[i - 1], current_path_[i], step_size))
+        {
+            collision_time_from_now = static_cast<double>(i) * step_size;
+            return false;
+        }
+    }
+
+    return true;
+}
+
 // 从 VoxelMap 读取当前 occupied / inflated 体素中心，并转换为 debug PointCloud2 缓存。
 void LocalPlannerManager::updateDebugClouds(const ros::Time& stamp)
 {
@@ -432,25 +607,37 @@ sensor_msgs::PointCloud2 LocalPlannerManager::centersToCloud(
 
 std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath(
     const std::vector<Eigen::Vector3d>& raw_path,
-    const ReplanOptions& options) const
+    const ReplanOptions& options,
+    size_t& preserve_prefix_size) const
 {
-    if (!options.use_random_init || raw_path.size() < 2 || !voxel_map_ || random_init_scale_ <= 1.0e-6)
+    preserve_prefix_size = 0;
+    std::vector<Eigen::Vector3d> reference_path =
+        options.use_current_traj ? buildCurrentTrajReferencePath(raw_path, options, preserve_prefix_size) : raw_path;
+
+    if (!options.use_random_init || reference_path.size() < 2 || !voxel_map_ || random_init_scale_ <= 1.0e-6)
     {
-        return raw_path;
+        return reference_path;
+    }
+
+    // 若 reference_path 前缀来自旧 MINCO 剩余段，则随机扰动只能作用于后续桥接段。
+    // 这样连续失败时仍能产生不同初始化，但不会破坏旧轨迹前缀 $p_{old}(t_c..)$。
+    const size_t mutable_begin = std::min(preserve_prefix_size, reference_path.size() - 1);
+    if (mutable_begin + 1 >= reference_path.size())
+    {
+        return reference_path;
     }
 
     // EGO-v2 在连续失败后会扰动初始多项式的中间点。
     // FastNav 使用 A* path 生成 safe corridor，因此这里扰动路径中点 $r_m$，让 FIRI/MINCO 得到不同的初始走廊。
-    std::vector<Eigen::Vector3d> reference_path = raw_path;
-    const Eigen::Vector3d start = raw_path.front();
-    const Eigen::Vector3d goal = raw_path.back();
+    const Eigen::Vector3d start = reference_path.front();
+    const Eigen::Vector3d goal = reference_path.back();
     const double path_span = std::max(0.5, (goal - start).norm());
 
-    const bool has_middle_point = raw_path.size() > 2;
-    const size_t mid_id = has_middle_point ? raw_path.size() / 2 : 1;
-    const Eigen::Vector3d prev = has_middle_point ? raw_path[mid_id - 1] : start;
-    const Eigen::Vector3d next = has_middle_point ? raw_path[mid_id + 1] : goal;
-    const Eigen::Vector3d center = has_middle_point ? raw_path[mid_id] : 0.5 * (start + goal);
+    const bool has_middle_point = reference_path.size() > mutable_begin + 2;
+    const size_t mid_id = has_middle_point ? mutable_begin + (reference_path.size() - mutable_begin) / 2 : mutable_begin;
+    const Eigen::Vector3d prev = has_middle_point ? reference_path[mid_id - 1] : start;
+    const Eigen::Vector3d next = has_middle_point ? reference_path[mid_id + 1] : goal;
+    const Eigen::Vector3d center = has_middle_point ? reference_path[mid_id] : 0.5 * (start + goal);
 
     Eigen::Vector3d dir = next - prev;
     if (dir.norm() < 1.0e-6)
@@ -459,7 +646,7 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath
     }
     if (dir.norm() < 1.0e-6)
     {
-        return raw_path;
+        return reference_path;
     }
     dir.normalize();
 
@@ -499,12 +686,111 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath
         }
         else
         {
-            reference_path.insert(reference_path.begin() + 1, candidate);
+            const size_t insert_id = preserve_prefix_size > 0 ? mutable_begin : 1;
+            reference_path.insert(reference_path.begin() + static_cast<std::ptrdiff_t>(insert_id), candidate);
         }
         return reference_path;
     }
 
-    return raw_path;
+    return reference_path;
+}
+
+std::vector<Eigen::Vector3d> LocalPlannerManager::buildCurrentTrajReferencePath(
+    const std::vector<Eigen::Vector3d>& raw_path,
+    const ReplanOptions& options,
+    size_t& preserve_prefix_size) const
+{
+    preserve_prefix_size = 0;
+    if (raw_path.size() < 2 || !voxel_map_ || !local_data_.valid_ || local_data_.duration_ <= 1.0e-6)
+    {
+        return raw_path;
+    }
+
+    const ros::Time time_now = ros::Time::now();
+    const double t_cur = std::min(local_data_.duration_,
+                                  std::max(0.0, local_data_.elapsedTime(time_now)));
+    const double sample_dt = std::max(0.05, minco_sample_dt_);
+    const double min_dist = std::max(0.5 * voxel_map_->resolution(), 1.0e-3);
+
+    std::vector<Eigen::Vector3d> old_segment;
+    old_segment.reserve(static_cast<size_t>(std::ceil((local_data_.duration_ - t_cur) / sample_dt)) + 2);
+
+    Eigen::Vector3d last = options.has_start_state ? options.start_pos : local_data_.getPosition(t_cur);
+    if (!voxel_map_->isInMap(last) || voxel_map_->isInflatedOccupied(last))
+    {
+        return raw_path;
+    }
+    old_segment.push_back(last);
+
+    // 从当前旧 MINCO 轨迹时间 $t_c$ 向后采样，只保留仍在地图内且不穿过 inflated voxel 的安全剩余段。
+    // 一旦旧轨迹前方被新障碍截断，就停止复用，后续交给 A* 桥接到目标。
+    for (double t = t_cur + sample_dt; t <= local_data_.duration_ + 1.0e-4; t += sample_dt)
+    {
+        const Eigen::Vector3d pos = local_data_.getPosition(std::min(t, local_data_.duration_));
+        if (!voxel_map_->isInMap(pos) ||
+            voxel_map_->isInflatedOccupied(pos) ||
+            !voxel_map_->isLineFree(last, pos, astar_config_.line_check_step))
+        {
+            break;
+        }
+
+        if ((pos - old_segment.back()).norm() > min_dist)
+        {
+            old_segment.push_back(pos);
+            last = pos;
+        }
+    }
+
+    if (old_segment.size() < 2)
+    {
+        return raw_path;
+    }
+
+    const Eigen::Vector3d bridge_start = old_segment.back();
+    int bridge_id = -1;
+    double best_dist = std::numeric_limits<double>::infinity();
+    for (int i = 0; i < static_cast<int>(raw_path.size()); ++i)
+    {
+        if (!voxel_map_->isLineFree(bridge_start, raw_path[i], astar_config_.line_check_step))
+        {
+            continue;
+        }
+
+        const double dist = (bridge_start - raw_path[i]).norm();
+        if (dist < best_dist)
+        {
+            best_dist = dist;
+            bridge_id = i;
+        }
+    }
+
+    if (bridge_id < 0)
+    {
+        return raw_path;
+    }
+
+    std::vector<Eigen::Vector3d> reference_path = old_segment;
+    for (int i = bridge_id; i < static_cast<int>(raw_path.size()); ++i)
+    {
+        if ((raw_path[i] - reference_path.back()).norm() <= min_dist)
+        {
+            continue;
+        }
+        reference_path.push_back(raw_path[i]);
+    }
+
+    if ((reference_path.back() - raw_path.back()).norm() > min_dist)
+    {
+        reference_path.push_back(raw_path.back());
+    }
+
+    if (reference_path.size() < 2)
+    {
+        return raw_path;
+    }
+
+    preserve_prefix_size = old_segment.size();
+    return reference_path;
 }
 
 void LocalPlannerManager::updateTrajInfo(const PathOptimizer::OptimizationResult& result,
@@ -526,21 +812,6 @@ void LocalPlannerManager::updateTrajInfo(const PathOptimizer::OptimizationResult
     {
         local_data_.sampled_path_ = result.sampled_path;
     }
-}
-
-void LocalPlannerManager::updateGlobalTrajInfo(const PathOptimizer::OptimizationResult& result,
-                                               const ros::Time& time_now)
-{
-    global_data_.reset();
-    if (!result.has_minco || !result.minco_traj.valid())
-    {
-        return;
-    }
-
-    // 当前阶段局部 MINCO 同时作为全局参考缓存；后续加入全局规划后，可在这里替换为任务级 MINCO $p_g(t)$。
-    global_data_.setGlobalTraj(result.minco_traj.trajectory(), time_now, frame_id_);
-    global_data_.waypoints_ = result.shortcut_path.empty() ? result.raw_path : result.shortcut_path;
-    global_data_.corridor_ = result.corridors;
 }
 
 // 从 current_odom_ 中提取当前位置向量，作为局部地图中心和规划起点。

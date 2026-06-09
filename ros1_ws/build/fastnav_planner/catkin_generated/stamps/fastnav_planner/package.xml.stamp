@@ -21,4 +21,5 @@
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>traj_utils</depend>
+  <depend>visualization_msgs</depend>
 </package>

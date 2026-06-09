@@ -1138,7 +1138,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
  /opt/ros/noetic/include/ros/param.h /opt/ros/noetic/include/ros/topic.h \
  /opt/ros/noetic/include/ros/node_handle.h \
  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h \
- /usr/include/eigen3/Eigen/Core \
+ /usr/include/c++/11/atomic /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
  /usr/include/eigen3/Eigen/src/Core/util/ConfigureVectorization.h \
@@ -1243,7 +1243,6 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
  /usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h \
  /usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h \
- /usr/include/c++/11/atomic \
  /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h \
  /usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h \
@@ -1324,10 +1323,32 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/src/local_planner_node
  /opt/ros/noetic/include/geometry_msgs/Twist.h \
  /opt/ros/noetic/include/geometry_msgs/Vector3.h \
  /opt/ros/noetic/include/nav_msgs/Path.h \
+ /opt/ros/noetic/include/ros/callback_queue.h \
+ /opt/ros/noetic/include/ros/callback_queue_interface.h \
+ /usr/include/boost/thread/condition_variable.hpp \
+ /usr/include/boost/thread/pthread/condition_variable.hpp \
+ /usr/include/boost/thread/interruption.hpp \
+ /usr/include/boost/thread/pthread/thread_data.hpp \
+ /usr/include/boost/thread/lock_guard.hpp \
+ /usr/include/boost/thread/detail/lockable_wrapper.hpp \
+ /usr/include/boost/thread/pthread/condition_variable_fwd.hpp \
+ /usr/include/boost/thread/cv_status.hpp \
+ /usr/include/boost/core/scoped_enum.hpp \
+ /usr/include/boost/enable_shared_from_this.hpp \
+ /usr/include/boost/smart_ptr/enable_shared_from_this.hpp \
+ /usr/include/boost/thread/shared_mutex.hpp \
+ /usr/include/boost/thread/pthread/shared_mutex.hpp \
+ /usr/include/boost/thread/detail/thread_interruption.hpp \
+ /usr/include/boost/thread/tss.hpp /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
  /opt/ros/noetic/include/sensor_msgs/PointCloud2.h \
  /opt/ros/noetic/include/sensor_msgs/PointField.h \
  /opt/ros/noetic/include/std_msgs/Empty.h \
+ /opt/ros/noetic/include/std_msgs/String.h \
  /home/shukun/Project/FastNav/ros1_ws/devel/include/traj_utils/MincoTrajectory.h \
+ /opt/ros/noetic/include/visualization_msgs/MarkerArray.h \
+ /opt/ros/noetic/include/visualization_msgs/Marker.h \
+ /opt/ros/noetic/include/std_msgs/ColorRGBA.h \
  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/manager/local_planner_manager.h \
  /usr/include/eigen3/Eigen/Dense /usr/include/eigen3/Eigen/Geometry \
  /usr/include/eigen3/Eigen/Eigenvalues \

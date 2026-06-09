@@ -31,7 +31,8 @@ void TrajectoryFeasibilityChecker::setConfig(const Config& config)
 
 bool TrajectoryFeasibilityChecker::check(const fastnav::MincoTraj& traj,
                                          const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-                                         Result& result) const
+                                         Result& result,
+                                         bool touch_goal) const
 {
     result.reset();
     if (!traj.valid())
@@ -41,7 +42,7 @@ bool TrajectoryFeasibilityChecker::check(const fastnav::MincoTraj& traj,
         return false;
     }
 
-    if (config_.check_collision && !checkCollision(traj, map, result))
+    if (config_.check_collision && !checkCollision(traj, map, result, touch_goal))
     {
         result.message = formatViolation(result);
         return false;
@@ -61,7 +62,8 @@ bool TrajectoryFeasibilityChecker::check(const fastnav::MincoTraj& traj,
 bool TrajectoryFeasibilityChecker::checkCollision(
     const fastnav::MincoTraj& traj,
     const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
-    Result& result) const
+    Result& result,
+    bool touch_goal) const
 {
     if (!map)
     {
@@ -70,7 +72,9 @@ bool TrajectoryFeasibilityChecker::checkCollision(
     }
 
     const double duration = traj.getDuration();
-    const double horizon = duration * config_.check_horizon_ratio;
+    // EGO-v2 的局部轨迹 fine check 只检查靠近执行端的前段；如果当前 local target 已经是最终目标，
+    // 则必须检查完整轨迹。这里用 $T_c=T$ 或 $T_c=\rho T$ 表示实际碰撞检查时长。
+    const double horizon = touch_goal ? duration : duration * config_.check_horizon_ratio;
     const int sample_num = std::max(1, static_cast<int>(std::ceil(horizon / config_.sample_dt)));
 
     Eigen::Vector3d last_pos = traj.getPosition(0.0);

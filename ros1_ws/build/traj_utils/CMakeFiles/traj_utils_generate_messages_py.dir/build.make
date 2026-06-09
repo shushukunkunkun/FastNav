@@ -92,8 +92,8 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_py: /home/shukun/Project/Fast
 
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg/_MultiBsplines.py: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG traj_utils/MultiBsplines"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/traj_utils/msg
 

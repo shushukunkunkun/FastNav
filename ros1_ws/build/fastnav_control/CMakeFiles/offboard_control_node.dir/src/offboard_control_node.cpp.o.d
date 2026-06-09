@@ -1161,4 +1161,5 @@ fastnav_control/CMakeFiles/offboard_control_node.dir/src/offboard_control_node.c
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/SetModeRequest.h \
  /home/shukun/ThirdPackages/Mavros/devel/.private/mavros_msgs/include/mavros_msgs/SetModeResponse.h \
  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_control/include/fastnav_control/control_fsm.h \
+ /opt/ros/noetic/include/std_msgs/String.h \
  /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h

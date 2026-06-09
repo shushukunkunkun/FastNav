@@ -2,6 +2,7 @@
 #include <string>
 
 #include <ros/ros.h>
+#include <std_msgs/String.h>
 
 #include <fastnav_msgs/ControlCommand.h>
 
@@ -62,6 +63,7 @@ private:
 
     void transitTo(State new_state);
     std::string stateToString(State state) const;
+    void publishFSMState();
 
 private:
     ros::NodeHandle nh_;
@@ -72,6 +74,7 @@ private:
     State current_state_;
 
     ros::Subscriber control_cmd_sub_;
+    ros::Publisher fsm_state_pub_;
 
     double target_x_;
     double target_y_;
@@ -91,6 +94,7 @@ private:
     double request_interval_;
 
     std::string control_cmd_topic_;
+    std::string fsm_state_topic_;
     double control_cmd_timeout_;
 
     bool has_control_cmd_;

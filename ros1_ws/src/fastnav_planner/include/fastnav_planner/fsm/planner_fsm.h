@@ -20,7 +20,9 @@
 
 #pragma once
 
+#include <atomic>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -29,10 +31,13 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/Path.h>
+#include <ros/callback_queue.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <std_msgs/Empty.h>
+#include <std_msgs/String.h>
 #include <traj_utils/MincoTrajectory.h>
+#include <visualization_msgs/MarkerArray.h>
 
 #include "fastnav_planner/manager/local_planner_manager.h"
 
@@ -71,6 +76,9 @@ private:
     // ROS goal 回调：保存最终目标点，触发新规划或执行中重规划。
     void waypointCallback(const geometry_msgs::PoseStampedConstPtr& msg);
 
+    // 将异步收到的新目标应用到 FSM 主线程；成功应用后强制进入 GEN_NEW_TRAJ。
+    bool applyPendingGoal(const std::string& caller);
+
     // ROS trigger 回调：真实实验或预设任务中用于显式允许 planner 开始工作。
     void triggerCallback(const geometry_msgs::PoseStampedConstPtr& msg);
 
@@ -99,7 +107,8 @@ private:
     bool planFromCurrentTraj(int trial_times = 1);
 
     // EGO 风格 helper：统一调用 manager 执行具体规划，当前底层是 A* + PathOptimizer。
-    bool callReplan(bool use_current_path, bool use_random_init);
+    // retry_index 只用于打散随机初始化的 seed，避免多次随机尝试得到同一条参考路径。
+    bool callReplan(bool use_current_path, bool use_random_init, int retry_index = 0);
 
     // EGO 风格 helper：生成急停路径；当前 path 表达下先发布停在当前位置的单点路径。
     bool callEmergencyStop(const Eigen::Vector3d& stop_pos);
@@ -107,17 +116,31 @@ private:
     // 根据全局目标选择局部目标；当前第一版没有全局轨迹，局部目标直接等于 end_pt_。
     void getLocalTarget();
 
+    // 判断任务终点是否已经到达，并在到达后清理目标标志，使 FSM 回到 WAIT_TARGET。
+    bool hasReachedGoal() const;
+    void finishCurrentTarget(const std::string& caller);
+
     // 发布 manager 当前路径和 A* 搜索节点。
     void publishTrajectory();
 
     // 发布 planner 内部 occupied / inflated debug cloud。
     void publishPlannerOutputs();
 
+    // 发布当前 MINCO 优化使用的 safe corridor。每段走廊是半空间 $\mathcal{P}_i=\{x|H_i[x^T,1]^T\le0\}$，
+    // 可视化时先枚举顶点，再用 LINE_LIST 画出凸多面体边线。
+    void publishCorridorMarkers();
+
     // 发布当前 MINCO 轨迹消息；traj_utils/minco_traj_server 会按时间采样成控制指令。
     void publishMincoTrajectory();
 
+    // local target 变化时发布调试事件，实时曲线工具用它计数并画竖线。
+    void publishLocalTargetIfChanged();
+
     // 发布 planner heartbeat，traj_server 用它判断 planner 是否仍然存活。
     void publishHeartbeat();
+
+    // 发布 planner FSM 当前状态，供实时曲线工具显示。
+    void publishFSMState();
 
 private:
     // ROS 句柄。nh_ 访问全局命名空间，pnh_ 访问节点私有命名空间。
@@ -131,13 +154,20 @@ private:
     ros::Subscriber extra_goal_sub_;
     ros::Subscriber trigger_sub_;
 
+    // 目标点使用独立 callback queue，避免 REPLAN 中长时间优化阻塞新目标接收。
+    ros::CallbackQueue goal_callback_queue_;
+    std::unique_ptr<ros::AsyncSpinner> goal_spinner_;
+
     // ROS 输出：路径、A* 搜索节点、planner 内部地图可视化。
     ros::Publisher path_pub_;
     ros::Publisher searched_nodes_pub_;
     ros::Publisher debug_occupied_pub_;
     ros::Publisher debug_inflated_pub_;
+    ros::Publisher debug_corridor_pub_;
     ros::Publisher minco_traj_pub_;
     ros::Publisher heartbeat_pub_;
+    ros::Publisher fsm_state_pub_;
+    ros::Publisher local_target_pub_;
 
     // 定时器：FSM 主循环、安全检查和 debug map 发布。
     ros::Timer exec_timer_;
@@ -180,6 +210,15 @@ private:
     Eigen::Vector3d end_vel_{0.0, 0.0, 0.0};
     Eigen::Vector3d local_target_pt_{0.0, 0.0, 0.0};
     Eigen::Vector3d local_target_vel_{0.0, 0.0, 0.0};
+    bool touch_goal_{true};
+    Eigen::Vector3d last_published_local_target_pt_{0.0, 0.0, 0.0};
+    bool have_published_local_target_{false};
+
+    // waypointCallback 在独立线程里只写 pending goal；FSM 主循环再统一应用，避免旧 REPLAN 卡住新目标。
+    std::mutex pending_goal_mutex_;
+    bool pending_goal_available_{false};
+    Eigen::Vector3d pending_goal_pt_{0.0, 0.0, 0.0};
+    std::atomic<bool> goal_preempt_requested_{false};
 
     // waypoint data: 后续支持多航点任务时，wps_ 保存整段任务航点，current_wp_ 表示当前目标航点编号。
     std::vector<Eigen::Vector3d> wps_;
@@ -198,14 +237,29 @@ private:
     std::string searched_nodes_topic_{"/fastnav/planner/searched_nodes"};
     std::string debug_occupied_cloud_topic_{"/fastnav/planner/debug_occupied_cloud"};
     std::string debug_inflated_cloud_topic_{"/fastnav/planner/debug_inflated_cloud"};
+    std::string debug_corridor_topic_{"/fastnav/planner/debug_corridor"};
     std::string minco_trajectory_topic_{"/fastnav/planner/minco_trajectory"};
     std::string heartbeat_topic_{"/fastnav/planner/heartbeat"};
+    std::string fsm_state_topic_{"/fastnav/planner/fsm_state"};
+    std::string local_target_topic_{"/fastnav/planner/local_target"};
 
     // FSM 运行频率和行为开关。
+    bool debug_enable_{true};
     double exec_rate_{20.0};
     double safety_rate_{10.0};
     double debug_map_publish_rate_{5.0};
     double collision_check_step_{0.1};
+    double collision_check_horizon_ratio_{2.0 / 3.0};
+    double emergency_time_{1.0};
+    double planning_horizon_{5.0};
+    double goal_tolerance_{0.3};
+    bool replan_time_auto_{true};
+    double replan_time_ratio_{2.0 / 3.0};
+    double replan_time_{1.85};
+    int replan_trial_times_{10};
+    double no_replan_distance_{1.0};
+    double max_vel_{1.8};
+    double max_acc_{2.0};
 };
 
 }  // namespace fastnav_planner

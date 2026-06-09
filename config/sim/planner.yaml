@@ -10,8 +10,18 @@ local_planner:
   searched_nodes_topic: "/fastnav/planner/searched_nodes"
   debug_occupied_cloud_topic: "/fastnav/planner/debug_occupied_cloud"
   debug_inflated_cloud_topic: "/fastnav/planner/debug_inflated_cloud"
+  debug_corridor_topic: "/fastnav/planner/debug_corridor"
   minco_trajectory_topic: "/fastnav/planner/minco_trajectory"
   heartbeat_topic: "/fastnav/planner/heartbeat"
+  fsm_state_topic: "/fastnav/planner/fsm_state"
+  local_target_topic: "/fastnav/planner/local_target"
+
+  # planner debug 输出开关。
+  # true: 发布 searched_nodes、debug map、FSM state、local_target 等调试 topic；
+  # false: 不创建这些调试 publisher，只保留 path、minco_trajectory、heartbeat，减少通信冗余。
+  debug:
+    enable: true
+
   # planner 内部 debug map 使用独立 timer 固定频率发布，类似 EGO 的 GridMap::visCallback。
   # cloud 回调只更新 VoxelMap，不直接触发 RViz 地图发布。
   debug_map_publish_rate: 5.0
@@ -21,6 +31,22 @@ local_planner:
     exec_rate: 20.0
     safety_rate: 10.0
     collision_check_step: 0.1
+    collision_check_horizon_ratio: 0.6666667
+    emergency_time: 1.0
+    planning_horizon: 10.0
+    goal_tolerance: 0.3
+    # EGO 风格主动重规划：当前局部轨迹执行超过 replan_time 后才滚动重规划。
+    # 当前 local target 大多选在 planning_horizon 处，因此默认用 $T_r=\alpha H/v_{max}$ 自动计算；
+    # 其中 $\alpha=2/3$ 表示飞完 horizon 的前 2/3 后触发下一次滚动规划。
+    replan_time_auto: true
+    replan_time_ratio: 0.6666667
+    # 若 local target 已经是最终目标，且无人机离终点小于 no_replan_distance，则不再主动重规划，避免末端急刹和抖动。
+    # 当 replan_time_auto=false 时，才使用下面这个手动值。
+    replan_time: 1.85
+    # 每次 REPLAN_TRAJ 允许的随机重规划次数。
+    # 一次 planFromCurrentTraj 会先尝试“旧轨迹剩余段拼接规划”和“完整 A* 规划”，随后最多执行这里配置的随机扰动尝试。
+    replan_trial_times: 10
+    no_replan_distance: 1.0
     have_trigger: true
 
   # PathOptimizer 由 LocalPlannerManager 持有：A* path -> shortcut -> safe corridor -> GCOPTER/MINCO。
@@ -59,7 +85,7 @@ local_planner:
       integral_intervals: 16
       rel_cost_tol: 1.0e-5
       length_per_piece: 1.0
-      max_vel: 2.0
+      max_vel: 1.8
       max_body_rate: 2.0
       max_tilt_angle: 0.52
       min_thrust: 2.0
@@ -81,20 +107,23 @@ local_planner:
       check_dynamics: true
       sample_dt: 0.03
       collision_check_step: 0.1
-      check_horizon_ratio: 1.0
-      max_vel: 2.0
-      max_acc: 3.0
+      # EGO-v2 风格 fine check：非最终 local target 只检查前 $2/3$，最终目标由代码强制检查完整轨迹。
+      check_horizon_ratio: 0.6666667
+      max_vel: 1.8
+      max_acc: 2.0
       max_jerk: 4.0
       tolerance: 0.05
 
   frame_id: "odom"
-  # 收到目标点后，每次局部点云刷新都重新尝试一次规划。
-  # 这样即使 goal 先于第一帧地图到达，地图准备好之后也会自动补一次 A*。
-  replan_on_cloud: true
+  planning_horizon: 10.0
+  goal_tolerance: 0.3
+  # 点云只更新地图，不直接触发重规划；执行中是否重规划由 FSM 的时间阈值和安全检查决定。
+  # 这与 EGO-Planner 一致，可避免每帧点云导致 EXEC_TRAJ / REPLAN_TRAJ 高频切换。
+  replan_on_cloud: false
 
   # planner 内部持有自己的 VoxelMap，地图中心跟随无人机位置 $c$。
   map:
-    resolution: 0.2
+    resolution: 0.2  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     # 三张 forest 地图的障碍主要落在 $x,y in [-7,7]$，24m 局部窗口让目标点可以放在森林边缘或穿越到对侧。
     local_x_size: 24.0
     local_y_size: 24.0
@@ -103,8 +132,8 @@ local_planner:
     local_z_size: 4.2
     local_z_min: -1.2
     local_z_max: 3.0
-    drone_radius: 0.35
-    safety_margin: 0.15
+    drone_radius: 0.3   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
+    safety_margin: 0.1  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
     # 当前没有 raycasting free-space，p_miss 先作为后续接口保留；旧障碍通过 temporal_decay_log 缓慢回到未知 $l=0$。
     p_hit: 0.70
@@ -118,6 +147,10 @@ local_planner:
   astar:
     allow_diagonal: true
     heuristic_weight: 1.2
+    # A* 已经避开 inflated voxel，这里再要求路径点距离 inflated voxel 至少保留额外余量。
+    # $min_clearance=0$ 时跳过该检查，基本退化为当前只查 inflated occupancy 的前端搜索。
+    # 建议从 0.1~0.2m 试起；过大会让窄通道直接被前端判为不可通行。
+    min_clearance: 0.0
     # 24m x 24m x 4.2m 在 $0.2m$ 分辨率下约为 $120 * 120 * 21$ 个体素。
     # hard forest 中通道更弯，允许更多展开节点，避免过早触发 max_search_nodes。
     max_search_nodes: 180000

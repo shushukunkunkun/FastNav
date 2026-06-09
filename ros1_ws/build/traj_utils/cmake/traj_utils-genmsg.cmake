@@ -29,7 +29,7 @@ add_custom_target(_traj_utils_generate_messages_check_deps_${_filename}
 
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg" NAME_WE)
 add_custom_target(_traj_utils_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "traj_utils" "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg" "traj_utils/Bspline:geometry_msgs/Point"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "traj_utils" "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg" "geometry_msgs/Point:traj_utils/Bspline"
 )
 
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MincoTrajectory.msg" NAME_WE)
@@ -58,7 +58,7 @@ _generate_msg_cpp(traj_utils
 _generate_msg_cpp(traj_utils
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
   "${MSG_I_FLAGS}"
-  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/traj_utils
 )
 _generate_msg_cpp(traj_utils
@@ -115,7 +115,7 @@ _generate_msg_eus(traj_utils
 _generate_msg_eus(traj_utils
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
   "${MSG_I_FLAGS}"
-  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/traj_utils
 )
 _generate_msg_eus(traj_utils
@@ -172,7 +172,7 @@ _generate_msg_lisp(traj_utils
 _generate_msg_lisp(traj_utils
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
   "${MSG_I_FLAGS}"
-  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/traj_utils
 )
 _generate_msg_lisp(traj_utils
@@ -229,7 +229,7 @@ _generate_msg_nodejs(traj_utils
 _generate_msg_nodejs(traj_utils
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
   "${MSG_I_FLAGS}"
-  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/traj_utils
 )
 _generate_msg_nodejs(traj_utils
@@ -286,7 +286,7 @@ _generate_msg_py(traj_utils
 _generate_msg_py(traj_utils
   "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg"
   "${MSG_I_FLAGS}"
-  "/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/traj_utils
 )
 _generate_msg_py(traj_utils
