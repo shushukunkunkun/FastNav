@@ -822,6 +822,19 @@ _fastnav_msgs_generate_messages_check_deps_ObstacleInfo/fast:
 .PHONY : _fastnav_msgs_generate_messages_check_deps_ObstacleInfo/fast
 
 #=============================================================================
+# Target rules for targets named _fastnav_msgs_generate_messages_check_deps_PlannerTiming
+
+# Build rule for target.
+_fastnav_msgs_generate_messages_check_deps_PlannerTiming: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 _fastnav_msgs_generate_messages_check_deps_PlannerTiming
+.PHONY : _fastnav_msgs_generate_messages_check_deps_PlannerTiming
+
+# fast build rule for target.
+_fastnav_msgs_generate_messages_check_deps_PlannerTiming/fast:
+	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build.make fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build
+.PHONY : _fastnav_msgs_generate_messages_check_deps_PlannerTiming/fast
+
+#=============================================================================
 # Target rules for targets named _fastnav_msgs_generate_messages_check_deps_PlannerState
 
 # Build rule for target.
@@ -2229,6 +2242,7 @@ help:
 	@echo "... _fastnav_msgs_generate_messages_check_deps_ControlCommand"
 	@echo "... _fastnav_msgs_generate_messages_check_deps_ObstacleInfo"
 	@echo "... _fastnav_msgs_generate_messages_check_deps_PlannerState"
+	@echo "... _fastnav_msgs_generate_messages_check_deps_PlannerTiming"
 	@echo "... _traj_utils_generate_messages_check_deps_Bspline"
 	@echo "... _traj_utils_generate_messages_check_deps_DataDisp"
 	@echo "... _traj_utils_generate_messages_check_deps_MincoTrajectory"

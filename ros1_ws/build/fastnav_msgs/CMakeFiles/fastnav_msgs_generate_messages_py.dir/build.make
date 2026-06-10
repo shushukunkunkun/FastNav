@@ -68,13 +68,14 @@ include fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/progress.m
 
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ObstacleInfo.py
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerState.py
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py
 
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg
-/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python from MSG fastnav_msgs/ControlCommand"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg -Ifastnav_msgs:/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p fastnav_msgs -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg
@@ -93,17 +94,25 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py: /home/shukun/Project/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Generating Python from MSG fastnav_msgs/PlannerState"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg -Ifastnav_msgs:/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p fastnav_msgs -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg
 
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py: /opt/ros/noetic/share/std_msgs/msg/Header.msg
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python from MSG fastnav_msgs/PlannerTiming"
+	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg -Ifastnav_msgs:/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg -Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg -Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg -p fastnav_msgs -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg
+
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py: /opt/ros/noetic/lib/genpy/genmsg_py.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ObstacleInfo.py
+/home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py
 /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerState.py
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Python msg __init__.py for fastnav_msgs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Generating Python msg __init__.py for fastnav_msgs"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/fastnav_msgs && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/genpy/cmake/../../../lib/genpy/genmsg_py.py -o /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg --initpy
 
 fastnav_msgs_generate_messages_py: fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py
 fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ControlCommand.py
 fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_ObstacleInfo.py
 fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerState.py
+fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/_PlannerTiming.py
 fastnav_msgs_generate_messages_py: /home/shukun/Project/FastNav/ros1_ws/devel/lib/python3/dist-packages/fastnav_msgs/msg/__init__.py
 fastnav_msgs_generate_messages_py: fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/build.make
 .PHONY : fastnav_msgs_generate_messages_py

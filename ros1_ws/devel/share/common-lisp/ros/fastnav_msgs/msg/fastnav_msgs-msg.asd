@@ -12,4 +12,6 @@
     (:file "_package_ObstacleInfo" :depends-on ("_package"))
     (:file "PlannerState" :depends-on ("_package_PlannerState"))
     (:file "_package_PlannerState" :depends-on ("_package"))
+    (:file "PlannerTiming" :depends-on ("_package_PlannerTiming"))
+    (:file "_package_PlannerTiming" :depends-on ("_package"))
   ))

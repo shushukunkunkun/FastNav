@@ -4,8 +4,7 @@
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp \
   /usr/include/stdc-predef.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/frontend/astar_planner.h \
-  /usr/include/c++/11/memory \
-  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/functional \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -18,14 +17,24 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/array \
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/ext/type_traits.h \
   /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
   /usr/include/c++/11/bits/stl_iterator_base_types.h \
   /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/11/bits/concept_check.h \
@@ -34,93 +43,115 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/c++/11/bits/ptr_traits.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/stl_construct.h \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/bits/stl_tempbuf.h \
-  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
-  /usr/include/c++/11/bits/align.h \
-  /usr/include/c++/11/bit \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/include/x86_64-linux-gnu/bits/types.h \
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/initializer_list \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/bits/shared_ptr.h \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/ext/aligned_buffer.h \
-  /usr/include/c++/11/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/memory \
+  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/11/bits/align.h \
+  /usr/include/c++/11/bit \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
@@ -152,20 +183,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/string_view.tcc \
   /usr/include/c++/11/ext/string_conversions.h \
-  /usr/include/c++/11/cstdlib \
-  /usr/include/stdlib.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -183,10 +200,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/eigen3/Eigen/Core \
   /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -251,19 +264,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/c++/11/cstddef \
   /usr/include/c++/11/cassert \
   /usr/include/assert.h \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -408,7 +408,417 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
   /usr/include/c++/11/deque \
   /usr/include/c++/11/bits/stl_deque.h \
   /usr/include/c++/11/bits/deque.tcc \
-  /usr/include/c++/11/bits/stl_queue.h
+  /usr/include/c++/11/bits/stl_queue.h \
+  /opt/ros/noetic/include/ros/time.h \
+  /opt/ros/noetic/include/ros/platform.h \
+  /usr/include/c++/11/iostream \
+  /opt/ros/noetic/include/ros/exception.h \
+  /opt/ros/noetic/include/ros/duration.h \
+  /usr/include/c++/11/math.h \
+  /opt/ros/noetic/include/ros/rostime_decl.h \
+  /opt/ros/noetic/include/ros/macros.h \
+  /usr/include/boost/math/special_functions/round.hpp \
+  /usr/include/boost/math/tools/config.hpp \
+  /usr/include/boost/config.hpp \
+  /usr/include/boost/config/user.hpp \
+  /usr/include/boost/config/detail/select_compiler_config.hpp \
+  /usr/include/boost/config/compiler/gcc.hpp \
+  /usr/include/boost/config/detail/select_stdlib_config.hpp \
+  /usr/include/c++/11/version \
+  /usr/include/boost/config/stdlib/libstdcpp3.hpp \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
+  /usr/include/boost/config/detail/select_platform_config.hpp \
+  /usr/include/boost/config/platform/linux.hpp \
+  /usr/include/boost/config/detail/posix_features.hpp \
+  /usr/include/boost/config/detail/suffix.hpp \
+  /usr/include/boost/config/helper_macros.hpp \
+  /usr/include/boost/predef/architecture/x86.h \
+  /usr/include/boost/predef/architecture/x86/32.h \
+  /usr/include/boost/predef/version_number.h \
+  /usr/include/boost/predef/make.h \
+  /usr/include/boost/predef/detail/test.h \
+  /usr/include/boost/predef/architecture/x86/64.h \
+  /usr/include/boost/cstdint.hpp \
+  /usr/include/boost/detail/workaround.hpp \
+  /usr/include/boost/config/workaround.hpp \
+  /usr/include/boost/type_traits/is_integral.hpp \
+  /usr/include/boost/type_traits/integral_constant.hpp \
+  /usr/include/boost/config/no_tr1/cmath.hpp \
+  /usr/include/c++/11/cfloat \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
+  /usr/include/boost/math/tools/user.hpp \
+  /usr/include/boost/math/policies/error_handling.hpp \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/c++/11/ctime \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
+  /usr/include/c++/11/bits/quoted_string.h \
+  /usr/include/boost/config/no_tr1/complex.hpp \
+  /usr/include/boost/math/policies/policy.hpp \
+  /usr/include/boost/mpl/list.hpp \
+  /usr/include/boost/mpl/limits/list.hpp \
+  /usr/include/boost/mpl/aux_/na.hpp \
+  /usr/include/boost/mpl/bool.hpp \
+  /usr/include/boost/mpl/bool_fwd.hpp \
+  /usr/include/boost/mpl/aux_/adl_barrier.hpp \
+  /usr/include/boost/mpl/aux_/config/adl.hpp \
+  /usr/include/boost/mpl/aux_/config/msvc.hpp \
+  /usr/include/boost/mpl/aux_/config/intel.hpp \
+  /usr/include/boost/mpl/aux_/config/gcc.hpp \
+  /usr/include/boost/mpl/aux_/config/workaround.hpp \
+  /usr/include/boost/mpl/integral_c_tag.hpp \
+  /usr/include/boost/mpl/aux_/config/static_constant.hpp \
+  /usr/include/boost/mpl/aux_/na_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/ctps.hpp \
+  /usr/include/boost/mpl/aux_/config/preprocessor.hpp \
+  /usr/include/boost/preprocessor/inc.hpp \
+  /usr/include/boost/preprocessor/arithmetic/inc.hpp \
+  /usr/include/boost/preprocessor/config/config.hpp \
+  /usr/include/boost/preprocessor/cat.hpp \
+  /usr/include/boost/preprocessor/stringize.hpp \
+  /usr/include/boost/mpl/list/list20.hpp \
+  /usr/include/boost/mpl/list/list10.hpp \
+  /usr/include/boost/mpl/list/list0.hpp \
+  /usr/include/boost/mpl/long.hpp \
+  /usr/include/boost/mpl/long_fwd.hpp \
+  /usr/include/boost/mpl/aux_/nttp_decl.hpp \
+  /usr/include/boost/mpl/aux_/config/nttp.hpp \
+  /usr/include/boost/mpl/aux_/integral_wrapper.hpp \
+  /usr/include/boost/mpl/aux_/static_cast.hpp \
+  /usr/include/boost/mpl/list/aux_/push_front.hpp \
+  /usr/include/boost/mpl/push_front_fwd.hpp \
+  /usr/include/boost/mpl/next.hpp \
+  /usr/include/boost/mpl/next_prior.hpp \
+  /usr/include/boost/mpl/aux_/common_name_wknd.hpp \
+  /usr/include/boost/mpl/aux_/na_spec.hpp \
+  /usr/include/boost/mpl/lambda_fwd.hpp \
+  /usr/include/boost/mpl/void_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/lambda.hpp \
+  /usr/include/boost/mpl/aux_/config/ttp.hpp \
+  /usr/include/boost/mpl/int.hpp \
+  /usr/include/boost/mpl/int_fwd.hpp \
+  /usr/include/boost/mpl/aux_/lambda_arity_param.hpp \
+  /usr/include/boost/mpl/aux_/template_arity_fwd.hpp \
+  /usr/include/boost/mpl/aux_/arity.hpp \
+  /usr/include/boost/mpl/aux_/config/dtp.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/params.hpp \
+  /usr/include/boost/preprocessor/comma_if.hpp \
+  /usr/include/boost/preprocessor/punctuation/comma_if.hpp \
+  /usr/include/boost/preprocessor/control/if.hpp \
+  /usr/include/boost/preprocessor/control/iif.hpp \
+  /usr/include/boost/preprocessor/logical/bool.hpp \
+  /usr/include/boost/preprocessor/facilities/empty.hpp \
+  /usr/include/boost/preprocessor/punctuation/comma.hpp \
+  /usr/include/boost/preprocessor/repeat.hpp \
+  /usr/include/boost/preprocessor/repetition/repeat.hpp \
+  /usr/include/boost/preprocessor/debug/error.hpp \
+  /usr/include/boost/preprocessor/detail/auto_rec.hpp \
+  /usr/include/boost/preprocessor/tuple/eat.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/enum.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp \
+  /usr/include/boost/mpl/limits/arity.hpp \
+  /usr/include/boost/preprocessor/logical/and.hpp \
+  /usr/include/boost/preprocessor/logical/bitand.hpp \
+  /usr/include/boost/preprocessor/identity.hpp \
+  /usr/include/boost/preprocessor/facilities/identity.hpp \
+  /usr/include/boost/preprocessor/empty.hpp \
+  /usr/include/boost/preprocessor/arithmetic/add.hpp \
+  /usr/include/boost/preprocessor/arithmetic/dec.hpp \
+  /usr/include/boost/preprocessor/control/while.hpp \
+  /usr/include/boost/preprocessor/list/fold_left.hpp \
+  /usr/include/boost/preprocessor/list/detail/fold_left.hpp \
+  /usr/include/boost/preprocessor/control/expr_iif.hpp \
+  /usr/include/boost/preprocessor/list/adt.hpp \
+  /usr/include/boost/preprocessor/detail/is_binary.hpp \
+  /usr/include/boost/preprocessor/detail/check.hpp \
+  /usr/include/boost/preprocessor/logical/compl.hpp \
+  /usr/include/boost/preprocessor/list/fold_right.hpp \
+  /usr/include/boost/preprocessor/list/detail/fold_right.hpp \
+  /usr/include/boost/preprocessor/list/reverse.hpp \
+  /usr/include/boost/preprocessor/control/detail/while.hpp \
+  /usr/include/boost/preprocessor/tuple/elem.hpp \
+  /usr/include/boost/preprocessor/facilities/expand.hpp \
+  /usr/include/boost/preprocessor/facilities/overload.hpp \
+  /usr/include/boost/preprocessor/variadic/size.hpp \
+  /usr/include/boost/preprocessor/tuple/rem.hpp \
+  /usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp \
+  /usr/include/boost/preprocessor/variadic/elem.hpp \
+  /usr/include/boost/preprocessor/arithmetic/sub.hpp \
+  /usr/include/boost/mpl/aux_/config/eti.hpp \
+  /usr/include/boost/mpl/aux_/config/overload_resolution.hpp \
+  /usr/include/boost/mpl/aux_/lambda_support.hpp \
+  /usr/include/boost/mpl/list/aux_/item.hpp \
+  /usr/include/boost/mpl/list/aux_/tag.hpp \
+  /usr/include/boost/mpl/list/aux_/pop_front.hpp \
+  /usr/include/boost/mpl/pop_front_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/push_back.hpp \
+  /usr/include/boost/mpl/push_back_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/front.hpp \
+  /usr/include/boost/mpl/front_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/clear.hpp \
+  /usr/include/boost/mpl/clear_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/O1_size.hpp \
+  /usr/include/boost/mpl/O1_size_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/size.hpp \
+  /usr/include/boost/mpl/size_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/empty.hpp \
+  /usr/include/boost/mpl/empty_fwd.hpp \
+  /usr/include/boost/mpl/not.hpp \
+  /usr/include/boost/mpl/aux_/nested_type_wknd.hpp \
+  /usr/include/boost/mpl/list/aux_/begin_end.hpp \
+  /usr/include/boost/mpl/begin_end_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/iterator.hpp \
+  /usr/include/boost/mpl/iterator_tags.hpp \
+  /usr/include/boost/mpl/deref.hpp \
+  /usr/include/boost/mpl/aux_/msvc_type.hpp \
+  /usr/include/boost/mpl/aux_/is_msvc_eti_arg.hpp \
+  /usr/include/boost/mpl/aux_/yes_no.hpp \
+  /usr/include/boost/mpl/aux_/config/arrays.hpp \
+  /usr/include/boost/mpl/aux_/lambda_spec.hpp \
+  /usr/include/boost/mpl/void.hpp \
+  /usr/include/boost/mpl/aux_/config/use_preprocessed.hpp \
+  /usr/include/boost/mpl/list/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/list/aux_/preprocessed/plain/list10.hpp \
+  /usr/include/boost/mpl/list/aux_/preprocessed/plain/list20.hpp \
+  /usr/include/boost/mpl/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/aux_/config/compiler.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/list.hpp \
+  /usr/include/boost/mpl/contains.hpp \
+  /usr/include/boost/mpl/contains_fwd.hpp \
+  /usr/include/boost/mpl/sequence_tag.hpp \
+  /usr/include/boost/mpl/sequence_tag_fwd.hpp \
+  /usr/include/boost/mpl/aux_/has_tag.hpp \
+  /usr/include/boost/mpl/has_xxx.hpp \
+  /usr/include/boost/mpl/aux_/type_wrapper.hpp \
+  /usr/include/boost/mpl/aux_/config/has_xxx.hpp \
+  /usr/include/boost/mpl/aux_/config/msvc_typename.hpp \
+  /usr/include/boost/preprocessor/array/elem.hpp \
+  /usr/include/boost/preprocessor/array/data.hpp \
+  /usr/include/boost/preprocessor/array/size.hpp \
+  /usr/include/boost/preprocessor/repetition/enum_params.hpp \
+  /usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp \
+  /usr/include/boost/mpl/aux_/has_begin.hpp \
+  /usr/include/boost/mpl/aux_/contains_impl.hpp \
+  /usr/include/boost/mpl/begin_end.hpp \
+  /usr/include/boost/mpl/aux_/begin_end_impl.hpp \
+  /usr/include/boost/mpl/eval_if.hpp \
+  /usr/include/boost/mpl/if.hpp \
+  /usr/include/boost/mpl/aux_/value_wknd.hpp \
+  /usr/include/boost/mpl/aux_/config/integral.hpp \
+  /usr/include/boost/mpl/aux_/traits_lambda_spec.hpp \
+  /usr/include/boost/mpl/find.hpp \
+  /usr/include/boost/mpl/find_if.hpp \
+  /usr/include/boost/mpl/aux_/find_if_pred.hpp \
+  /usr/include/boost/mpl/aux_/iter_apply.hpp \
+  /usr/include/boost/mpl/apply.hpp \
+  /usr/include/boost/mpl/apply_fwd.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_fwd.hpp \
+  /usr/include/boost/mpl/apply_wrap.hpp \
+  /usr/include/boost/mpl/aux_/has_apply.hpp \
+  /usr/include/boost/mpl/aux_/config/has_apply.hpp \
+  /usr/include/boost/mpl/aux_/msvc_never_true.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp \
+  /usr/include/boost/mpl/placeholders.hpp \
+  /usr/include/boost/mpl/arg.hpp \
+  /usr/include/boost/mpl/arg_fwd.hpp \
+  /usr/include/boost/mpl/aux_/na_assert.hpp \
+  /usr/include/boost/mpl/assert.hpp \
+  /usr/include/boost/mpl/aux_/config/gpu.hpp \
+  /usr/include/boost/mpl/aux_/config/pp_counter.hpp \
+  /usr/include/boost/mpl/aux_/arity_spec.hpp \
+  /usr/include/boost/mpl/aux_/arg_typedef.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/placeholders.hpp \
+  /usr/include/boost/mpl/lambda.hpp \
+  /usr/include/boost/mpl/bind.hpp \
+  /usr/include/boost/mpl/bind_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/bind.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp \
+  /usr/include/boost/mpl/protect.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/bind.hpp \
+  /usr/include/boost/mpl/aux_/full_lambda.hpp \
+  /usr/include/boost/mpl/quote.hpp \
+  /usr/include/boost/mpl/aux_/has_type.hpp \
+  /usr/include/boost/mpl/aux_/config/bcc.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp \
+  /usr/include/boost/mpl/aux_/template_arity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/template_arity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/full_lambda.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply.hpp \
+  /usr/include/boost/mpl/iter_fold_if.hpp \
+  /usr/include/boost/mpl/logical.hpp \
+  /usr/include/boost/mpl/or.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/or.hpp \
+  /usr/include/boost/mpl/and.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp \
+  /usr/include/boost/mpl/always.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/default_params.hpp \
+  /usr/include/boost/mpl/pair.hpp \
+  /usr/include/boost/mpl/aux_/msvc_eti_base.hpp \
+  /usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp \
+  /usr/include/boost/mpl/identity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/iter_fold_if_impl.hpp \
+  /usr/include/boost/mpl/aux_/config/forwarding.hpp \
+  /usr/include/boost/type_traits/is_same.hpp \
+  /usr/include/boost/mpl/same_as.hpp \
+  /usr/include/boost/mpl/remove_if.hpp \
+  /usr/include/boost/mpl/fold.hpp \
+  /usr/include/boost/mpl/O1_size.hpp \
+  /usr/include/boost/mpl/aux_/O1_size_impl.hpp \
+  /usr/include/boost/mpl/aux_/has_size.hpp \
+  /usr/include/boost/mpl/aux_/fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/fold_impl.hpp \
+  /usr/include/boost/mpl/reverse_fold.hpp \
+  /usr/include/boost/mpl/aux_/reverse_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/reverse_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/inserter_algorithm.hpp \
+  /usr/include/boost/mpl/back_inserter.hpp \
+  /usr/include/boost/mpl/push_back.hpp \
+  /usr/include/boost/mpl/aux_/push_back_impl.hpp \
+  /usr/include/boost/mpl/inserter.hpp \
+  /usr/include/boost/mpl/front_inserter.hpp \
+  /usr/include/boost/mpl/push_front.hpp \
+  /usr/include/boost/mpl/aux_/push_front_impl.hpp \
+  /usr/include/boost/mpl/clear.hpp \
+  /usr/include/boost/mpl/aux_/clear_impl.hpp \
+  /usr/include/boost/mpl/vector.hpp \
+  /usr/include/boost/mpl/limits/vector.hpp \
+  /usr/include/boost/mpl/vector/vector20.hpp \
+  /usr/include/boost/mpl/vector/vector10.hpp \
+  /usr/include/boost/mpl/vector/vector0.hpp \
+  /usr/include/boost/mpl/vector/aux_/at.hpp \
+  /usr/include/boost/mpl/at_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/tag.hpp \
+  /usr/include/boost/mpl/aux_/config/typeof.hpp \
+  /usr/include/boost/mpl/vector/aux_/front.hpp \
+  /usr/include/boost/mpl/vector/aux_/push_front.hpp \
+  /usr/include/boost/mpl/vector/aux_/item.hpp \
+  /usr/include/boost/mpl/vector/aux_/pop_front.hpp \
+  /usr/include/boost/mpl/vector/aux_/push_back.hpp \
+  /usr/include/boost/mpl/vector/aux_/pop_back.hpp \
+  /usr/include/boost/mpl/pop_back_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/back.hpp \
+  /usr/include/boost/mpl/back_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/clear.hpp \
+  /usr/include/boost/mpl/vector/aux_/vector0.hpp \
+  /usr/include/boost/mpl/vector/aux_/iterator.hpp \
+  /usr/include/boost/mpl/plus.hpp \
+  /usr/include/boost/mpl/aux_/arithmetic_op.hpp \
+  /usr/include/boost/mpl/integral_c.hpp \
+  /usr/include/boost/mpl/integral_c_fwd.hpp \
+  /usr/include/boost/mpl/aux_/largest_int.hpp \
+  /usr/include/boost/mpl/aux_/numeric_op.hpp \
+  /usr/include/boost/mpl/numeric_cast.hpp \
+  /usr/include/boost/mpl/tag.hpp \
+  /usr/include/boost/mpl/aux_/numeric_cast_utils.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/plus.hpp \
+  /usr/include/boost/mpl/minus.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp \
+  /usr/include/boost/mpl/advance_fwd.hpp \
+  /usr/include/boost/mpl/distance_fwd.hpp \
+  /usr/include/boost/mpl/prior.hpp \
+  /usr/include/boost/mpl/vector/aux_/O1_size.hpp \
+  /usr/include/boost/mpl/vector/aux_/size.hpp \
+  /usr/include/boost/mpl/vector/aux_/empty.hpp \
+  /usr/include/boost/mpl/vector/aux_/begin_end.hpp \
+  /usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector10.hpp \
+  /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector20.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/vector.hpp \
+  /usr/include/boost/mpl/at.hpp \
+  /usr/include/boost/mpl/aux_/at_impl.hpp \
+  /usr/include/boost/mpl/advance.hpp \
+  /usr/include/boost/mpl/less.hpp \
+  /usr/include/boost/mpl/aux_/comparison_op.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/less.hpp \
+  /usr/include/boost/mpl/negate.hpp \
+  /usr/include/boost/mpl/aux_/advance_forward.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/advance_forward.hpp \
+  /usr/include/boost/mpl/aux_/advance_backward.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/advance_backward.hpp \
+  /usr/include/boost/mpl/size.hpp \
+  /usr/include/boost/mpl/aux_/size_impl.hpp \
+  /usr/include/boost/mpl/distance.hpp \
+  /usr/include/boost/mpl/iter_fold.hpp \
+  /usr/include/boost/mpl/aux_/iter_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/iter_fold_impl.hpp \
+  /usr/include/boost/mpl/iterator_range.hpp \
+  /usr/include/boost/mpl/comparison.hpp \
+  /usr/include/boost/mpl/equal_to.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp \
+  /usr/include/boost/mpl/not_equal_to.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/not_equal_to.hpp \
+  /usr/include/boost/mpl/greater.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/greater.hpp \
+  /usr/include/boost/mpl/less_equal.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/less_equal.hpp \
+  /usr/include/boost/mpl/greater_equal.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp \
+  /usr/include/boost/static_assert.hpp \
+  /usr/include/boost/assert.hpp \
+  /usr/include/boost/math/tools/precision.hpp \
+  /usr/include/boost/limits.hpp \
+  /usr/include/boost/throw_exception.hpp \
+  /usr/include/boost/assert/source_location.hpp \
+  /usr/include/boost/current_function.hpp \
+  /usr/include/boost/exception/exception.hpp \
+  /usr/include/boost/math/special_functions/math_fwd.hpp \
+  /usr/include/boost/math/special_functions/detail/round_fwd.hpp \
+  /usr/include/boost/math/tools/promotion.hpp \
+  /usr/include/boost/type_traits/is_floating_point.hpp \
+  /usr/include/boost/type_traits/is_convertible.hpp \
+  /usr/include/boost/type_traits/intrinsics.hpp \
+  /usr/include/boost/type_traits/detail/config.hpp \
+  /usr/include/boost/version.hpp \
+  /usr/include/boost/type_traits/is_complete.hpp \
+  /usr/include/boost/type_traits/declval.hpp \
+  /usr/include/boost/type_traits/add_rvalue_reference.hpp \
+  /usr/include/boost/type_traits/is_void.hpp \
+  /usr/include/boost/type_traits/is_reference.hpp \
+  /usr/include/boost/type_traits/is_lvalue_reference.hpp \
+  /usr/include/boost/type_traits/is_rvalue_reference.hpp \
+  /usr/include/boost/type_traits/remove_reference.hpp \
+  /usr/include/boost/type_traits/is_function.hpp \
+  /usr/include/boost/type_traits/detail/is_function_cxx_11.hpp \
+  /usr/include/boost/type_traits/detail/yes_no_type.hpp \
+  /usr/include/boost/type_traits/is_array.hpp \
+  /usr/include/boost/type_traits/is_arithmetic.hpp \
+  /usr/include/boost/type_traits/is_abstract.hpp \
+  /usr/include/boost/type_traits/add_lvalue_reference.hpp \
+  /usr/include/boost/type_traits/add_reference.hpp \
+  /usr/include/boost/type_traits/remove_cv.hpp \
+  /usr/include/boost/utility/enable_if.hpp \
+  /usr/include/boost/core/enable_if.hpp \
+  /usr/include/boost/math/special_functions/fpclassify.hpp \
+  /usr/include/boost/math/tools/real_cast.hpp \
+  /usr/include/boost/math/special_functions/detail/fp_traits.hpp \
+  /usr/include/boost/predef/other/endian.h \
+  /usr/include/boost/predef/library/c/gnu.h \
+  /usr/include/boost/predef/library/c/_prefix.h \
+  /usr/include/boost/predef/detail/_cassert.h \
+  /usr/include/boost/predef/os/macos.h \
+  /usr/include/boost/predef/os/ios.h \
+  /usr/include/boost/predef/os/bsd.h \
+  /usr/include/boost/predef/os/bsd/bsdi.h \
+  /usr/include/boost/predef/os/bsd/dragonfly.h \
+  /usr/include/boost/predef/os/bsd/free.h \
+  /usr/include/boost/predef/os/bsd/open.h \
+  /usr/include/boost/predef/os/bsd/net.h \
+  /usr/include/boost/predef/platform/android.h \
+  /usr/include/x86_64-linux-gnu/sys/time.h
 
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp \
   /usr/include/stdc-predef.h \
@@ -864,7 +1274,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: /
   /usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h \
   /usr/include/eigen3/Eigen/src/Geometry/Umeyama.h \
   /usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h \
-  /opt/ros/noetic/include/geometry_msgs/PoseStamped.h \
+  /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/PlannerTiming.h \
   /opt/ros/noetic/include/ros/types.h \
   /opt/ros/noetic/include/ros/serialization.h \
   /opt/ros/noetic/include/ros/roscpp_serialization_macros.h \
@@ -1334,6 +1744,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/fsm/planner_fsm.cpp.o: /
   /usr/include/boost/type_traits/is_pointer.hpp \
   /opt/ros/noetic/include/ros/message_operations.h \
   /opt/ros/noetic/include/std_msgs/Header.h \
+  /opt/ros/noetic/include/geometry_msgs/PoseStamped.h \
   /opt/ros/noetic/include/geometry_msgs/Pose.h \
   /opt/ros/noetic/include/geometry_msgs/Point.h \
   /opt/ros/noetic/include/geometry_msgs/Quaternion.h \
@@ -2105,18 +2516,51 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/include/c++/11/memory \
+  /usr/include/c++/11/functional \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/stl_construct.h \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/bits/stl_heap.h \
   /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/memory \
   /usr/include/c++/11/bits/stl_raw_storage_iter.h \
   /usr/include/c++/11/bits/align.h \
   /usr/include/c++/11/bit \
@@ -2124,19 +2568,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/uses_allocator.h \
   /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/initializer_list \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
   /usr/include/c++/11/bits/shared_ptr.h \
   /usr/include/c++/11/iosfwd \
   /usr/include/c++/11/bits/stringfwd.h \
@@ -2150,10 +2582,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
   /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
   /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/typeinfo \
   /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/ext/aligned_buffer.h \
   /usr/include/c++/11/ext/atomicity.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
@@ -2199,7 +2628,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/string_view.tcc \
   /usr/include/c++/11/ext/string_conversions.h \
-  /usr/include/c++/11/cstdlib \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -2217,10 +2645,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/eigen3/Eigen/Core \
   /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -2260,19 +2684,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
   /usr/include/c++/11/cstddef \
   /usr/include/c++/11/cassert \
   /usr/include/assert.h \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -3697,8 +4108,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/manager/local_planner_ma
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/path_optimizer.cpp \
   /usr/include/stdc-predef.h \
   /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/path_optimizer.h \
-  /usr/include/c++/11/memory \
-  /usr/include/c++/11/bits/stl_algobase.h \
+  /usr/include/c++/11/functional \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
   /usr/include/features.h \
@@ -3711,14 +4121,24 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
   /usr/include/c++/11/pstl/pstl_config.h \
+  /usr/include/c++/11/bits/stl_function.h \
+  /usr/include/c++/11/bits/move.h \
+  /usr/include/c++/11/type_traits \
+  /usr/include/c++/11/backward/binders.h \
+  /usr/include/c++/11/new \
+  /usr/include/c++/11/bits/exception.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/bits/stl_pair.h \
+  /usr/include/c++/11/initializer_list \
+  /usr/include/c++/11/array \
   /usr/include/c++/11/bits/functexcept.h \
   /usr/include/c++/11/bits/exception_defines.h \
+  /usr/include/c++/11/bits/stl_algobase.h \
   /usr/include/c++/11/bits/cpp_type_traits.h \
   /usr/include/c++/11/ext/type_traits.h \
   /usr/include/c++/11/ext/numeric_traits.h \
-  /usr/include/c++/11/bits/stl_pair.h \
-  /usr/include/c++/11/bits/move.h \
-  /usr/include/c++/11/type_traits \
   /usr/include/c++/11/bits/stl_iterator_base_types.h \
   /usr/include/c++/11/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/11/bits/concept_check.h \
@@ -3727,93 +4147,115 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/c++/11/bits/ptr_traits.h \
   /usr/include/c++/11/debug/debug.h \
   /usr/include/c++/11/bits/predefined_ops.h \
+  /usr/include/c++/11/bits/range_access.h \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/functional_hash.h \
+  /usr/include/c++/11/bits/hash_bytes.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/std_function.h \
+  /usr/include/c++/11/typeinfo \
+  /usr/include/c++/11/unordered_map \
   /usr/include/c++/11/bits/allocator.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h \
   /usr/include/c++/11/ext/new_allocator.h \
-  /usr/include/c++/11/new \
-  /usr/include/c++/11/bits/exception.h \
   /usr/include/c++/11/bits/memoryfwd.h \
-  /usr/include/c++/11/bits/stl_construct.h \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/ext/alloc_traits.h \
   /usr/include/c++/11/bits/alloc_traits.h \
-  /usr/include/c++/11/bits/stl_tempbuf.h \
-  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
-  /usr/include/c++/11/bits/align.h \
-  /usr/include/c++/11/bit \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
-  /usr/include/stdint.h \
+  /usr/include/c++/11/bits/stl_construct.h \
+  /usr/include/c++/11/ext/aligned_buffer.h \
+  /usr/include/c++/11/bits/hashtable.h \
+  /usr/include/c++/11/bits/hashtable_policy.h \
+  /usr/include/c++/11/bits/enable_special_members.h \
+  /usr/include/c++/11/bits/node_handle.h \
+  /usr/include/c++/11/bits/unordered_map.h \
+  /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  /usr/include/c++/11/bits/stl_algo.h \
+  /usr/include/c++/11/cstdlib \
+  /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
   /usr/include/x86_64-linux-gnu/bits/types.h \
   /usr/include/x86_64-linux-gnu/bits/typesizes.h \
   /usr/include/x86_64-linux-gnu/bits/time64.h \
-  /usr/include/x86_64-linux-gnu/bits/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
-  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/initializer_list \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/range_access.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/bits/stl_function.h \
-  /usr/include/c++/11/backward/binders.h \
-  /usr/include/c++/11/bits/functional_hash.h \
-  /usr/include/c++/11/bits/hash_bytes.h \
-  /usr/include/c++/11/bits/shared_ptr.h \
-  /usr/include/c++/11/iosfwd \
-  /usr/include/c++/11/bits/stringfwd.h \
-  /usr/include/c++/11/bits/postypes.h \
-  /usr/include/c++/11/cwchar \
-  /usr/include/wchar.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn.h \
-  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
-  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
-  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
-  /usr/include/c++/11/bits/shared_ptr_base.h \
-  /usr/include/c++/11/typeinfo \
-  /usr/include/c++/11/bits/allocated_ptr.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/ext/aligned_buffer.h \
-  /usr/include/c++/11/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endian.h \
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
   /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
   /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  /usr/include/c++/11/bits/std_abs.h \
+  /usr/include/c++/11/bits/algorithmfwd.h \
+  /usr/include/c++/11/bits/stl_heap.h \
+  /usr/include/c++/11/bits/stl_tempbuf.h \
+  /usr/include/c++/11/bits/uniform_int_dist.h \
+  /usr/include/c++/11/memory \
+  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/11/bits/align.h \
+  /usr/include/c++/11/bit \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/x86_64-linux-gnu/bits/wchar.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/iosfwd \
+  /usr/include/c++/11/bits/stringfwd.h \
+  /usr/include/c++/11/bits/postypes.h \
+  /usr/include/c++/11/cwchar \
+  /usr/include/wchar.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
+  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
   /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h \
@@ -3845,20 +4287,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/c++/11/string_view \
   /usr/include/c++/11/bits/string_view.tcc \
   /usr/include/c++/11/ext/string_conversions.h \
-  /usr/include/c++/11/cstdlib \
-  /usr/include/stdlib.h \
-  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
-  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
-  /usr/include/x86_64-linux-gnu/sys/types.h \
-  /usr/include/endian.h \
-  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
-  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
-  /usr/include/x86_64-linux-gnu/sys/select.h \
-  /usr/include/x86_64-linux-gnu/bits/select.h \
-  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
-  /usr/include/alloca.h \
-  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
-  /usr/include/c++/11/bits/std_abs.h \
   /usr/include/c++/11/cstdio \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
@@ -3876,10 +4304,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
   /usr/include/eigen3/Eigen/Core \
   /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
   /usr/include/eigen3/Eigen/src/Core/util/Macros.h \
@@ -3944,19 +4368,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/c++/11/cstddef \
   /usr/include/c++/11/cassert \
   /usr/include/assert.h \
-  /usr/include/c++/11/functional \
-  /usr/include/c++/11/bits/std_function.h \
-  /usr/include/c++/11/unordered_map \
-  /usr/include/c++/11/bits/hashtable.h \
-  /usr/include/c++/11/bits/hashtable_policy.h \
-  /usr/include/c++/11/bits/enable_special_members.h \
-  /usr/include/c++/11/bits/node_handle.h \
-  /usr/include/c++/11/bits/unordered_map.h \
-  /usr/include/c++/11/bits/erase_if.h \
-  /usr/include/c++/11/bits/stl_algo.h \
-  /usr/include/c++/11/bits/algorithmfwd.h \
-  /usr/include/c++/11/bits/stl_heap.h \
-  /usr/include/c++/11/bits/uniform_int_dist.h \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
   /usr/include/strings.h \
@@ -4252,7 +4663,414 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/path_optimizer
   /usr/include/c++/11/bits/stl_set.h \
   /usr/include/c++/11/bits/stl_multiset.h \
   /usr/include/c++/11/iostream \
-  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/trajectory_feasibility_checker.h
+  /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/optimizer/trajectory_feasibility_checker.h \
+  /opt/ros/noetic/include/ros/time.h \
+  /opt/ros/noetic/include/ros/platform.h \
+  /opt/ros/noetic/include/ros/exception.h \
+  /opt/ros/noetic/include/ros/duration.h \
+  /usr/include/c++/11/math.h \
+  /opt/ros/noetic/include/ros/rostime_decl.h \
+  /opt/ros/noetic/include/ros/macros.h \
+  /usr/include/boost/math/special_functions/round.hpp \
+  /usr/include/boost/math/tools/config.hpp \
+  /usr/include/boost/config.hpp \
+  /usr/include/boost/config/user.hpp \
+  /usr/include/boost/config/detail/select_compiler_config.hpp \
+  /usr/include/boost/config/compiler/gcc.hpp \
+  /usr/include/boost/config/detail/select_stdlib_config.hpp \
+  /usr/include/c++/11/version \
+  /usr/include/boost/config/stdlib/libstdcpp3.hpp \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
+  /usr/include/boost/config/detail/select_platform_config.hpp \
+  /usr/include/boost/config/platform/linux.hpp \
+  /usr/include/boost/config/detail/posix_features.hpp \
+  /usr/include/boost/config/detail/suffix.hpp \
+  /usr/include/boost/config/helper_macros.hpp \
+  /usr/include/boost/predef/architecture/x86.h \
+  /usr/include/boost/predef/architecture/x86/32.h \
+  /usr/include/boost/predef/version_number.h \
+  /usr/include/boost/predef/make.h \
+  /usr/include/boost/predef/detail/test.h \
+  /usr/include/boost/predef/architecture/x86/64.h \
+  /usr/include/boost/cstdint.hpp \
+  /usr/include/boost/detail/workaround.hpp \
+  /usr/include/boost/config/workaround.hpp \
+  /usr/include/boost/type_traits/is_integral.hpp \
+  /usr/include/boost/type_traits/integral_constant.hpp \
+  /usr/include/boost/config/no_tr1/cmath.hpp \
+  /usr/include/boost/math/tools/user.hpp \
+  /usr/include/boost/math/policies/error_handling.hpp \
+  /usr/include/c++/11/iomanip \
+  /usr/include/c++/11/locale \
+  /usr/include/c++/11/bits/locale_facets_nonio.h \
+  /usr/include/c++/11/ctime \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/c++/11/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/11/bits/locale_conv.h \
+  /usr/include/c++/11/bits/quoted_string.h \
+  /usr/include/boost/config/no_tr1/complex.hpp \
+  /usr/include/boost/math/policies/policy.hpp \
+  /usr/include/boost/mpl/list.hpp \
+  /usr/include/boost/mpl/limits/list.hpp \
+  /usr/include/boost/mpl/aux_/na.hpp \
+  /usr/include/boost/mpl/bool.hpp \
+  /usr/include/boost/mpl/bool_fwd.hpp \
+  /usr/include/boost/mpl/aux_/adl_barrier.hpp \
+  /usr/include/boost/mpl/aux_/config/adl.hpp \
+  /usr/include/boost/mpl/aux_/config/msvc.hpp \
+  /usr/include/boost/mpl/aux_/config/intel.hpp \
+  /usr/include/boost/mpl/aux_/config/gcc.hpp \
+  /usr/include/boost/mpl/aux_/config/workaround.hpp \
+  /usr/include/boost/mpl/integral_c_tag.hpp \
+  /usr/include/boost/mpl/aux_/config/static_constant.hpp \
+  /usr/include/boost/mpl/aux_/na_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/ctps.hpp \
+  /usr/include/boost/mpl/aux_/config/preprocessor.hpp \
+  /usr/include/boost/preprocessor/inc.hpp \
+  /usr/include/boost/preprocessor/arithmetic/inc.hpp \
+  /usr/include/boost/preprocessor/config/config.hpp \
+  /usr/include/boost/preprocessor/cat.hpp \
+  /usr/include/boost/preprocessor/stringize.hpp \
+  /usr/include/boost/mpl/list/list20.hpp \
+  /usr/include/boost/mpl/list/list10.hpp \
+  /usr/include/boost/mpl/list/list0.hpp \
+  /usr/include/boost/mpl/long.hpp \
+  /usr/include/boost/mpl/long_fwd.hpp \
+  /usr/include/boost/mpl/aux_/nttp_decl.hpp \
+  /usr/include/boost/mpl/aux_/config/nttp.hpp \
+  /usr/include/boost/mpl/aux_/integral_wrapper.hpp \
+  /usr/include/boost/mpl/aux_/static_cast.hpp \
+  /usr/include/boost/mpl/list/aux_/push_front.hpp \
+  /usr/include/boost/mpl/push_front_fwd.hpp \
+  /usr/include/boost/mpl/next.hpp \
+  /usr/include/boost/mpl/next_prior.hpp \
+  /usr/include/boost/mpl/aux_/common_name_wknd.hpp \
+  /usr/include/boost/mpl/aux_/na_spec.hpp \
+  /usr/include/boost/mpl/lambda_fwd.hpp \
+  /usr/include/boost/mpl/void_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/lambda.hpp \
+  /usr/include/boost/mpl/aux_/config/ttp.hpp \
+  /usr/include/boost/mpl/int.hpp \
+  /usr/include/boost/mpl/int_fwd.hpp \
+  /usr/include/boost/mpl/aux_/lambda_arity_param.hpp \
+  /usr/include/boost/mpl/aux_/template_arity_fwd.hpp \
+  /usr/include/boost/mpl/aux_/arity.hpp \
+  /usr/include/boost/mpl/aux_/config/dtp.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/params.hpp \
+  /usr/include/boost/preprocessor/comma_if.hpp \
+  /usr/include/boost/preprocessor/punctuation/comma_if.hpp \
+  /usr/include/boost/preprocessor/control/if.hpp \
+  /usr/include/boost/preprocessor/control/iif.hpp \
+  /usr/include/boost/preprocessor/logical/bool.hpp \
+  /usr/include/boost/preprocessor/facilities/empty.hpp \
+  /usr/include/boost/preprocessor/punctuation/comma.hpp \
+  /usr/include/boost/preprocessor/repeat.hpp \
+  /usr/include/boost/preprocessor/repetition/repeat.hpp \
+  /usr/include/boost/preprocessor/debug/error.hpp \
+  /usr/include/boost/preprocessor/detail/auto_rec.hpp \
+  /usr/include/boost/preprocessor/tuple/eat.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/enum.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp \
+  /usr/include/boost/mpl/limits/arity.hpp \
+  /usr/include/boost/preprocessor/logical/and.hpp \
+  /usr/include/boost/preprocessor/logical/bitand.hpp \
+  /usr/include/boost/preprocessor/identity.hpp \
+  /usr/include/boost/preprocessor/facilities/identity.hpp \
+  /usr/include/boost/preprocessor/empty.hpp \
+  /usr/include/boost/preprocessor/arithmetic/add.hpp \
+  /usr/include/boost/preprocessor/arithmetic/dec.hpp \
+  /usr/include/boost/preprocessor/control/while.hpp \
+  /usr/include/boost/preprocessor/list/fold_left.hpp \
+  /usr/include/boost/preprocessor/list/detail/fold_left.hpp \
+  /usr/include/boost/preprocessor/control/expr_iif.hpp \
+  /usr/include/boost/preprocessor/list/adt.hpp \
+  /usr/include/boost/preprocessor/detail/is_binary.hpp \
+  /usr/include/boost/preprocessor/detail/check.hpp \
+  /usr/include/boost/preprocessor/logical/compl.hpp \
+  /usr/include/boost/preprocessor/list/fold_right.hpp \
+  /usr/include/boost/preprocessor/list/detail/fold_right.hpp \
+  /usr/include/boost/preprocessor/list/reverse.hpp \
+  /usr/include/boost/preprocessor/control/detail/while.hpp \
+  /usr/include/boost/preprocessor/tuple/elem.hpp \
+  /usr/include/boost/preprocessor/facilities/expand.hpp \
+  /usr/include/boost/preprocessor/facilities/overload.hpp \
+  /usr/include/boost/preprocessor/variadic/size.hpp \
+  /usr/include/boost/preprocessor/tuple/rem.hpp \
+  /usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp \
+  /usr/include/boost/preprocessor/variadic/elem.hpp \
+  /usr/include/boost/preprocessor/arithmetic/sub.hpp \
+  /usr/include/boost/mpl/aux_/config/eti.hpp \
+  /usr/include/boost/mpl/aux_/config/overload_resolution.hpp \
+  /usr/include/boost/mpl/aux_/lambda_support.hpp \
+  /usr/include/boost/mpl/list/aux_/item.hpp \
+  /usr/include/boost/mpl/list/aux_/tag.hpp \
+  /usr/include/boost/mpl/list/aux_/pop_front.hpp \
+  /usr/include/boost/mpl/pop_front_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/push_back.hpp \
+  /usr/include/boost/mpl/push_back_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/front.hpp \
+  /usr/include/boost/mpl/front_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/clear.hpp \
+  /usr/include/boost/mpl/clear_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/O1_size.hpp \
+  /usr/include/boost/mpl/O1_size_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/size.hpp \
+  /usr/include/boost/mpl/size_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/empty.hpp \
+  /usr/include/boost/mpl/empty_fwd.hpp \
+  /usr/include/boost/mpl/not.hpp \
+  /usr/include/boost/mpl/aux_/nested_type_wknd.hpp \
+  /usr/include/boost/mpl/list/aux_/begin_end.hpp \
+  /usr/include/boost/mpl/begin_end_fwd.hpp \
+  /usr/include/boost/mpl/list/aux_/iterator.hpp \
+  /usr/include/boost/mpl/iterator_tags.hpp \
+  /usr/include/boost/mpl/deref.hpp \
+  /usr/include/boost/mpl/aux_/msvc_type.hpp \
+  /usr/include/boost/mpl/aux_/is_msvc_eti_arg.hpp \
+  /usr/include/boost/mpl/aux_/yes_no.hpp \
+  /usr/include/boost/mpl/aux_/config/arrays.hpp \
+  /usr/include/boost/mpl/aux_/lambda_spec.hpp \
+  /usr/include/boost/mpl/void.hpp \
+  /usr/include/boost/mpl/aux_/config/use_preprocessed.hpp \
+  /usr/include/boost/mpl/list/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/list/aux_/preprocessed/plain/list10.hpp \
+  /usr/include/boost/mpl/list/aux_/preprocessed/plain/list20.hpp \
+  /usr/include/boost/mpl/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/aux_/config/compiler.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/list.hpp \
+  /usr/include/boost/mpl/contains.hpp \
+  /usr/include/boost/mpl/contains_fwd.hpp \
+  /usr/include/boost/mpl/sequence_tag.hpp \
+  /usr/include/boost/mpl/sequence_tag_fwd.hpp \
+  /usr/include/boost/mpl/aux_/has_tag.hpp \
+  /usr/include/boost/mpl/has_xxx.hpp \
+  /usr/include/boost/mpl/aux_/type_wrapper.hpp \
+  /usr/include/boost/mpl/aux_/config/has_xxx.hpp \
+  /usr/include/boost/mpl/aux_/config/msvc_typename.hpp \
+  /usr/include/boost/preprocessor/array/elem.hpp \
+  /usr/include/boost/preprocessor/array/data.hpp \
+  /usr/include/boost/preprocessor/array/size.hpp \
+  /usr/include/boost/preprocessor/repetition/enum_params.hpp \
+  /usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp \
+  /usr/include/boost/mpl/aux_/has_begin.hpp \
+  /usr/include/boost/mpl/aux_/contains_impl.hpp \
+  /usr/include/boost/mpl/begin_end.hpp \
+  /usr/include/boost/mpl/aux_/begin_end_impl.hpp \
+  /usr/include/boost/mpl/eval_if.hpp \
+  /usr/include/boost/mpl/if.hpp \
+  /usr/include/boost/mpl/aux_/value_wknd.hpp \
+  /usr/include/boost/mpl/aux_/config/integral.hpp \
+  /usr/include/boost/mpl/aux_/traits_lambda_spec.hpp \
+  /usr/include/boost/mpl/find.hpp \
+  /usr/include/boost/mpl/find_if.hpp \
+  /usr/include/boost/mpl/aux_/find_if_pred.hpp \
+  /usr/include/boost/mpl/aux_/iter_apply.hpp \
+  /usr/include/boost/mpl/apply.hpp \
+  /usr/include/boost/mpl/apply_fwd.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_fwd.hpp \
+  /usr/include/boost/mpl/apply_wrap.hpp \
+  /usr/include/boost/mpl/aux_/has_apply.hpp \
+  /usr/include/boost/mpl/aux_/config/has_apply.hpp \
+  /usr/include/boost/mpl/aux_/msvc_never_true.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp \
+  /usr/include/boost/mpl/placeholders.hpp \
+  /usr/include/boost/mpl/arg.hpp \
+  /usr/include/boost/mpl/arg_fwd.hpp \
+  /usr/include/boost/mpl/aux_/na_assert.hpp \
+  /usr/include/boost/mpl/assert.hpp \
+  /usr/include/boost/mpl/aux_/config/gpu.hpp \
+  /usr/include/boost/mpl/aux_/config/pp_counter.hpp \
+  /usr/include/boost/mpl/aux_/arity_spec.hpp \
+  /usr/include/boost/mpl/aux_/arg_typedef.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/placeholders.hpp \
+  /usr/include/boost/mpl/lambda.hpp \
+  /usr/include/boost/mpl/bind.hpp \
+  /usr/include/boost/mpl/bind_fwd.hpp \
+  /usr/include/boost/mpl/aux_/config/bind.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp \
+  /usr/include/boost/mpl/protect.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/bind.hpp \
+  /usr/include/boost/mpl/aux_/full_lambda.hpp \
+  /usr/include/boost/mpl/quote.hpp \
+  /usr/include/boost/mpl/aux_/has_type.hpp \
+  /usr/include/boost/mpl/aux_/config/bcc.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp \
+  /usr/include/boost/mpl/aux_/template_arity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/template_arity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/full_lambda.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/apply.hpp \
+  /usr/include/boost/mpl/iter_fold_if.hpp \
+  /usr/include/boost/mpl/logical.hpp \
+  /usr/include/boost/mpl/or.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/or.hpp \
+  /usr/include/boost/mpl/and.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp \
+  /usr/include/boost/mpl/always.hpp \
+  /usr/include/boost/mpl/aux_/preprocessor/default_params.hpp \
+  /usr/include/boost/mpl/pair.hpp \
+  /usr/include/boost/mpl/aux_/msvc_eti_base.hpp \
+  /usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp \
+  /usr/include/boost/mpl/identity.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/iter_fold_if_impl.hpp \
+  /usr/include/boost/mpl/aux_/config/forwarding.hpp \
+  /usr/include/boost/type_traits/is_same.hpp \
+  /usr/include/boost/mpl/same_as.hpp \
+  /usr/include/boost/mpl/remove_if.hpp \
+  /usr/include/boost/mpl/fold.hpp \
+  /usr/include/boost/mpl/O1_size.hpp \
+  /usr/include/boost/mpl/aux_/O1_size_impl.hpp \
+  /usr/include/boost/mpl/aux_/has_size.hpp \
+  /usr/include/boost/mpl/aux_/fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/fold_impl.hpp \
+  /usr/include/boost/mpl/reverse_fold.hpp \
+  /usr/include/boost/mpl/aux_/reverse_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/reverse_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/inserter_algorithm.hpp \
+  /usr/include/boost/mpl/back_inserter.hpp \
+  /usr/include/boost/mpl/push_back.hpp \
+  /usr/include/boost/mpl/aux_/push_back_impl.hpp \
+  /usr/include/boost/mpl/inserter.hpp \
+  /usr/include/boost/mpl/front_inserter.hpp \
+  /usr/include/boost/mpl/push_front.hpp \
+  /usr/include/boost/mpl/aux_/push_front_impl.hpp \
+  /usr/include/boost/mpl/clear.hpp \
+  /usr/include/boost/mpl/aux_/clear_impl.hpp \
+  /usr/include/boost/mpl/vector.hpp \
+  /usr/include/boost/mpl/limits/vector.hpp \
+  /usr/include/boost/mpl/vector/vector20.hpp \
+  /usr/include/boost/mpl/vector/vector10.hpp \
+  /usr/include/boost/mpl/vector/vector0.hpp \
+  /usr/include/boost/mpl/vector/aux_/at.hpp \
+  /usr/include/boost/mpl/at_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/tag.hpp \
+  /usr/include/boost/mpl/aux_/config/typeof.hpp \
+  /usr/include/boost/mpl/vector/aux_/front.hpp \
+  /usr/include/boost/mpl/vector/aux_/push_front.hpp \
+  /usr/include/boost/mpl/vector/aux_/item.hpp \
+  /usr/include/boost/mpl/vector/aux_/pop_front.hpp \
+  /usr/include/boost/mpl/vector/aux_/push_back.hpp \
+  /usr/include/boost/mpl/vector/aux_/pop_back.hpp \
+  /usr/include/boost/mpl/pop_back_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/back.hpp \
+  /usr/include/boost/mpl/back_fwd.hpp \
+  /usr/include/boost/mpl/vector/aux_/clear.hpp \
+  /usr/include/boost/mpl/vector/aux_/vector0.hpp \
+  /usr/include/boost/mpl/vector/aux_/iterator.hpp \
+  /usr/include/boost/mpl/plus.hpp \
+  /usr/include/boost/mpl/aux_/arithmetic_op.hpp \
+  /usr/include/boost/mpl/integral_c.hpp \
+  /usr/include/boost/mpl/integral_c_fwd.hpp \
+  /usr/include/boost/mpl/aux_/largest_int.hpp \
+  /usr/include/boost/mpl/aux_/numeric_op.hpp \
+  /usr/include/boost/mpl/numeric_cast.hpp \
+  /usr/include/boost/mpl/tag.hpp \
+  /usr/include/boost/mpl/aux_/numeric_cast_utils.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/plus.hpp \
+  /usr/include/boost/mpl/minus.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp \
+  /usr/include/boost/mpl/advance_fwd.hpp \
+  /usr/include/boost/mpl/distance_fwd.hpp \
+  /usr/include/boost/mpl/prior.hpp \
+  /usr/include/boost/mpl/vector/aux_/O1_size.hpp \
+  /usr/include/boost/mpl/vector/aux_/size.hpp \
+  /usr/include/boost/mpl/vector/aux_/empty.hpp \
+  /usr/include/boost/mpl/vector/aux_/begin_end.hpp \
+  /usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp \
+  /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector10.hpp \
+  /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector20.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/vector.hpp \
+  /usr/include/boost/mpl/at.hpp \
+  /usr/include/boost/mpl/aux_/at_impl.hpp \
+  /usr/include/boost/mpl/advance.hpp \
+  /usr/include/boost/mpl/less.hpp \
+  /usr/include/boost/mpl/aux_/comparison_op.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/less.hpp \
+  /usr/include/boost/mpl/negate.hpp \
+  /usr/include/boost/mpl/aux_/advance_forward.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/advance_forward.hpp \
+  /usr/include/boost/mpl/aux_/advance_backward.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/advance_backward.hpp \
+  /usr/include/boost/mpl/size.hpp \
+  /usr/include/boost/mpl/aux_/size_impl.hpp \
+  /usr/include/boost/mpl/distance.hpp \
+  /usr/include/boost/mpl/iter_fold.hpp \
+  /usr/include/boost/mpl/aux_/iter_fold_impl.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/iter_fold_impl.hpp \
+  /usr/include/boost/mpl/iterator_range.hpp \
+  /usr/include/boost/mpl/comparison.hpp \
+  /usr/include/boost/mpl/equal_to.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp \
+  /usr/include/boost/mpl/not_equal_to.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/not_equal_to.hpp \
+  /usr/include/boost/mpl/greater.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/greater.hpp \
+  /usr/include/boost/mpl/less_equal.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/less_equal.hpp \
+  /usr/include/boost/mpl/greater_equal.hpp \
+  /usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp \
+  /usr/include/boost/static_assert.hpp \
+  /usr/include/boost/assert.hpp \
+  /usr/include/boost/math/tools/precision.hpp \
+  /usr/include/boost/limits.hpp \
+  /usr/include/boost/throw_exception.hpp \
+  /usr/include/boost/assert/source_location.hpp \
+  /usr/include/boost/current_function.hpp \
+  /usr/include/boost/exception/exception.hpp \
+  /usr/include/boost/math/special_functions/math_fwd.hpp \
+  /usr/include/boost/math/special_functions/detail/round_fwd.hpp \
+  /usr/include/boost/math/tools/promotion.hpp \
+  /usr/include/boost/type_traits/is_floating_point.hpp \
+  /usr/include/boost/type_traits/is_convertible.hpp \
+  /usr/include/boost/type_traits/intrinsics.hpp \
+  /usr/include/boost/type_traits/detail/config.hpp \
+  /usr/include/boost/version.hpp \
+  /usr/include/boost/type_traits/is_complete.hpp \
+  /usr/include/boost/type_traits/declval.hpp \
+  /usr/include/boost/type_traits/add_rvalue_reference.hpp \
+  /usr/include/boost/type_traits/is_void.hpp \
+  /usr/include/boost/type_traits/is_reference.hpp \
+  /usr/include/boost/type_traits/is_lvalue_reference.hpp \
+  /usr/include/boost/type_traits/is_rvalue_reference.hpp \
+  /usr/include/boost/type_traits/remove_reference.hpp \
+  /usr/include/boost/type_traits/is_function.hpp \
+  /usr/include/boost/type_traits/detail/is_function_cxx_11.hpp \
+  /usr/include/boost/type_traits/detail/yes_no_type.hpp \
+  /usr/include/boost/type_traits/is_array.hpp \
+  /usr/include/boost/type_traits/is_arithmetic.hpp \
+  /usr/include/boost/type_traits/is_abstract.hpp \
+  /usr/include/boost/type_traits/add_lvalue_reference.hpp \
+  /usr/include/boost/type_traits/add_reference.hpp \
+  /usr/include/boost/type_traits/remove_cv.hpp \
+  /usr/include/boost/utility/enable_if.hpp \
+  /usr/include/boost/core/enable_if.hpp \
+  /usr/include/boost/math/special_functions/fpclassify.hpp \
+  /usr/include/boost/math/tools/real_cast.hpp \
+  /usr/include/boost/math/special_functions/detail/fp_traits.hpp \
+  /usr/include/boost/predef/other/endian.h \
+  /usr/include/boost/predef/library/c/gnu.h \
+  /usr/include/boost/predef/library/c/_prefix.h \
+  /usr/include/boost/predef/detail/_cassert.h \
+  /usr/include/boost/predef/os/macos.h \
+  /usr/include/boost/predef/os/ios.h \
+  /usr/include/boost/predef/os/bsd.h \
+  /usr/include/boost/predef/os/bsd/bsdi.h \
+  /usr/include/boost/predef/os/bsd/dragonfly.h \
+  /usr/include/boost/predef/os/bsd/free.h \
+  /usr/include/boost/predef/os/bsd/open.h \
+  /usr/include/boost/predef/os/bsd/net.h \
+  /usr/include/boost/predef/platform/android.h \
+  /usr/include/x86_64-linux-gnu/sys/time.h
 
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_feasibility_checker.cpp.o: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/optimizer/trajectory_feasibility_checker.cpp \
   /usr/include/stdc-predef.h \
@@ -5564,6 +6382,74 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/multiplies.hpp:
 
+/usr/include/eigen3/Eigen/src/SparseCore/SparseSelfAdjointView.h:
+
+/usr/include/boost/preprocessor/detail/check.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Scaling.h:
+
+/usr/include/boost/preprocessor/list/adt.hpp:
+
+/usr/include/boost/mpl/aux_/type_wrapper.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
+
+/usr/include/c++/11/bits/std_function.h:
+
+/usr/include/eigen3/Eigen/src/SVD/JacobiSVD.h:
+
+/usr/include/boost/mpl/void_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h:
+
+/usr/include/x86_64-linux-gnu/sys/stat.h:
+
+/usr/include/boost/config/pragma_message.hpp:
+
+/usr/include/boost/preprocessor/arithmetic/add.hpp:
+
+/usr/include/boost/config/detail/posix_features.hpp:
+
+/usr/include/c++/11/iterator:
+
+/usr/include/boost/preprocessor/empty.hpp:
+
+/usr/include/boost/preprocessor/control/while.hpp:
+
+/usr/include/boost/preprocessor/logical/bitand.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp:
+
+/usr/include/boost/mpl/pop_back_fwd.hpp:
+
+/usr/include/boost/preprocessor/repeat.hpp:
+
+/usr/include/boost/preprocessor/logical/bool.hpp:
+
+/usr/include/boost/mpl/integral_c_fwd.hpp:
+
+/opt/ros/noetic/include/geometry_msgs/TwistWithCovariance.h:
+
+/usr/include/boost/preprocessor/control/if.hpp:
+
+/opt/ros/noetic/include/visualization_msgs/Marker.h:
+
+/usr/include/boost/preprocessor/comma_if.hpp:
+
+/usr/include/boost/mpl/aux_/arg_typedef.hpp:
+
+/usr/include/boost/preprocessor/seq/for_each.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp:
+
+/usr/include/boost/mpl/aux_/config/dtp.hpp:
+
+/usr/include/boost/mpl/vector/vector10.hpp:
+
+/usr/include/boost/mpl/list/aux_/push_front.hpp:
+
+/usr/include/boost/mpl/long.hpp:
+
 /usr/include/boost/preprocessor/config/config.hpp:
 
 /usr/include/boost/preprocessor/arithmetic/inc.hpp:
@@ -5574,9 +6460,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/na_fwd.hpp:
 
+/usr/include/boost/mpl/lambda_fwd.hpp:
+
 /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pruneL.h:
 
 /usr/include/boost/mpl/aux_/config/static_constant.hpp:
+
+/usr/include/boost/mpl/aux_/common_name_wknd.hpp:
+
+/usr/include/boost/mpl/aux_/config/workaround.hpp:
+
+/usr/include/boost/date_time/dst_rules.hpp:
+
+/usr/include/c++/11/bits/uses_allocator.h:
 
 /usr/include/boost/mpl/aux_/adl_barrier.hpp:
 
@@ -5636,6 +6532,10 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/linux/close_range.h:
 
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp:
+
 /usr/include/boost/date_time/gregorian/conversion.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
@@ -5648,95 +6548,17 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/config/detail/select_compiler_config.hpp:
 
-/usr/include/eigen3/Eigen/src/LU/PartialPivLU.h:
+/usr/include/boost/mpl/apply.hpp:
 
 /usr/include/eigen3/Eigen/src/Jacobi/Jacobi.h:
 
-/usr/include/boost/mpl/apply.hpp:
+/usr/include/eigen3/Eigen/src/LU/PartialPivLU.h:
 
 /opt/ros/noetic/include/ros/rostime_decl.h:
 
 /opt/ros/noetic/include/ros/time.h:
 
 /usr/include/boost/mpl/not_equal_to.hpp:
-
-/opt/ros/noetic/include/ros/types.h:
-
-/usr/include/boost/config.hpp:
-
-/usr/include/c++/11/cstdio:
-
-/usr/include/boost/mpl/aux_/config/workaround.hpp:
-
-/usr/include/boost/date_time/dst_rules.hpp:
-
-/usr/include/c++/11/bits/uses_allocator.h:
-
-/usr/include/c++/11/sstream:
-
-/usr/include/eigen3/Eigen/src/Geometry/ParametrizedLine.h:
-
-/usr/include/c++/11/cstring:
-
-/usr/include/features.h:
-
-/usr/include/eigen3/Eigen/src/Geometry/Scaling.h:
-
-/usr/include/eigen3/Eigen/src/SparseCore/SparseSelfAdjointView.h:
-
-/usr/include/boost/preprocessor/detail/check.hpp:
-
-/usr/include/eigen3/Eigen/src/Geometry/AngleAxis.h:
-
-/usr/include/eigen3/Eigen/src/Geometry/Quaternion.h:
-
-/usr/include/c++/11/bits/codecvt.h:
-
-/usr/include/pcl-1.12/pcl/io/low_level_io.h:
-
-/usr/include/boost/move/detail/type_traits.hpp:
-
-/usr/include/eigen3/Eigen/src/Geometry/Homogeneous.h:
-
-/usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
-
-/usr/include/boost/mpl/aux_/config/eti.hpp:
-
-/usr/include/eigen3/Eigen/src/LU/InverseImpl.h:
-
-/usr/include/eigen3/Eigen/src/misc/Kernel.h:
-
-/usr/include/eigen3/Eigen/src/SVD/BDCSVD.h:
-
-/usr/include/eigen3/Eigen/src/SVD/SVDBase.h:
-
-/usr/include/c++/11/bits/stl_iterator.h:
-
-/usr/include/c++/11/ext/atomicity.h:
-
-/usr/include/eigen3/Eigen/src/Householder/Householder.h:
-
-/usr/include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h:
-
-/usr/include/boost/numeric/conversion/converter.hpp:
-
-/usr/include/eigen3/Eigen/Jacobi:
-
-/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-
-/usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp:
-
-/usr/include/boost/predef/architecture/z.h:
-
-/usr/include/c++/11/bits/invoke.h:
-
-/usr/include/c++/11/bits/parse_numbers.h:
-
-/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h:
-
-/usr/include/boost/date_time/gregorian_calendar.hpp:
-
-/usr/include/c++/11/ratio:
 
 /usr/include/c++/11/bits/deque.tcc:
 
@@ -5756,9 +6578,21 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/Reverse.h:
 
+/usr/include/boost/mpl/list/list10.hpp:
+
+/usr/include/boost/move/detail/meta_utils_core.hpp:
+
+/usr/include/boost/mpl/list/list20.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/Reshaped.h:
+
 /usr/include/boost/mpl/list.hpp:
 
 /usr/include/boost/mpl/deref.hpp:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/bind.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/Random.h:
 
@@ -5768,15 +6602,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/preprocessor/repetition/enum_params.hpp:
 
-/usr/include/boost/predef/library/std/cxx.h:
-
-/usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h:
-
-/usr/include/boost/preprocessor/logical/and.hpp:
-
-/usr/include/boost/foreach_fwd.hpp:
-
-/usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h:
+/usr/include/boost/mpl/aux_/na_spec.hpp:
 
 /usr/include/boost/range/detail/misc_concept.hpp:
 
@@ -5798,25 +6624,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/numeric/conversion/detail/int_float_mixture.hpp:
 
-/usr/include/eigen3/Eigen/src/SVD/JacobiSVD.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
-
-/usr/include/c++/11/bits/std_function.h:
-
-/usr/include/eigen3/Eigen/Cholesky:
-
-/usr/include/boost/preprocessor/control/expr_iif.hpp:
-
-/usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h:
-
 /usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h:
-
-/usr/include/eigen3/Eigen/QR:
 
 /usr/include/boost/thread/detail/thread_interruption.hpp:
 
 /usr/include/c++/11/atomic:
+
+/usr/include/boost/predef/library/std/cxx.h:
+
+/usr/include/boost/preprocessor/logical/and.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/products/Parallelizer.h:
+
+/usr/include/eigen3/Eigen/src/LU/InverseImpl.h:
 
 /usr/include/boost/mpl/int_fwd.hpp:
 
@@ -5832,6 +6652,12 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/GeneralProduct.h:
 
+/usr/include/boost/preprocessor/control/iif.hpp:
+
+/usr/include/c++/11/bits/enable_special_members.h:
+
+/usr/include/boost/mpl/aux_/largest_int.hpp:
+
 /usr/include/eigen3/Eigen/src/Core/Fuzzy.h:
 
 /usr/include/boost/predef/compiler/nvcc.h:
@@ -5843,18 +6669,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/predef/library/std/stlport.h:
 
 /usr/include/eigen3/Eigen/src/Core/Transpose.h:
-
-/usr/include/eigen3/Eigen/src/Core/Reshaped.h:
-
-/usr/include/boost/mpl/list/list20.hpp:
-
-/usr/include/eigen3/Eigen/src/Geometry/Transform.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
-
-/opt/ros/noetic/include/ros/console_backend.h:
-
-/usr/include/boost/mpl/list/aux_/push_front.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/Ref.h:
 
@@ -5875,10 +6689,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/container_hash/hash_fwd.hpp:
 
 /usr/include/boost/date_time/gregorian/greg_year.hpp:
-
-/opt/ros/noetic/include/ros/callback_queue.h:
-
-/usr/include/c++/11/math.h:
 
 /usr/include/boost/predef/os/bsd/net.h:
 
@@ -5910,6 +6720,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/ctime:
 
+/usr/include/eigen3/Eigen/src/SVD/BDCSVD.h:
+
 /usr/include/eigen3/Eigen/src/Core/ArrayBase.h:
 
 /opt/ros/noetic/include/ros/serialization.h:
@@ -5921,6 +6733,10 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/eigen3/Eigen/src/Core/ArrayWrapper.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/fold_impl.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp:
+
+/usr/include/boost/mpl/at.hpp:
 
 /usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h:
 
@@ -5936,6 +6752,12 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/config/bcc.hpp:
 
+/usr/include/boost/mpl/aux_/config/lambda.hpp:
+
+/usr/include/boost/interprocess/detail/os_file_functions.hpp:
+
+/usr/include/boost/math/special_functions/round.hpp:
+
 /usr/include/eigen3/Eigen/src/Core/MatrixBase.h:
 
 /usr/include/boost/config/platform/linux.hpp:
@@ -5947,14 +6769,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp:
 
 /usr/include/eigen3/Eigen/src/plugins/ReshapedMethods.h:
-
-/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h:
-
-/usr/include/boost/mpl/void_fwd.hpp:
-
-/usr/include/x86_64-linux-gnu/sys/stat.h:
-
-/usr/include/boost/config/pragma_message.hpp:
 
 /usr/include/boost/move/detail/std_ns_begin.hpp:
 
@@ -6018,6 +6832,16 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/Settings.h:
 
+/usr/include/boost/mpl/pair.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/Half.h:
+
+/usr/include/boost/preprocessor/facilities/identity.hpp:
+
+/usr/include/boost/range/size.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/NestByValue.h:
+
 /usr/include/boost/range/has_range_iterator.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/Visitor.h:
@@ -6036,15 +6860,13 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/arch/Default/TypeCasting.h:
 
+/usr/include/eigen3/Eigen/src/OrderingMethods/Eigen_Colamd.h:
+
+/usr/include/boost/preprocessor/tuple/eat.hpp:
+
 /usr/include/boost/mpl/aux_/config/msvc.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/products/TriangularSolverMatrix.h:
-
-/usr/include/eigen3/Eigen/SparseCore:
-
-/usr/include/eigen3/Eigen/Geometry:
-
-/usr/include/boost/mpl/prior.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/MathFunctionsImpl.h:
 
@@ -6084,12 +6906,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/plus.hpp:
 
-/usr/include/boost/config/detail/posix_features.hpp:
-
-/usr/include/boost/preprocessor/arithmetic/add.hpp:
-
-/usr/include/c++/11/iterator:
-
 /usr/include/eigen3/Eigen/src/Core/util/ForwardDeclarations.h:
 
 /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
@@ -6116,6 +6932,16 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
 
+/usr/include/eigen3/Eigen/src/Core/Replicate.h:
+
+/usr/include/boost/preprocessor/detail/auto_rec.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseBlock.h:
+
+/usr/include/boost/math/policies/error_handling.hpp:
+
+/usr/include/boost/type_traits/is_complete.hpp:
+
 /usr/include/eigen3/Eigen/src/Core/arch/Default/ConjHelper.h:
 
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
@@ -6123,10 +6949,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_Memory.h:
 
 /usr/include/boost/mpl/aux_/lambda_arity_param.hpp:
-
-/usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -6138,57 +6960,51 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/strings.h:
 
-/usr/include/eigen3/Eigen/src/Core/BooleanRedux.h:
+/usr/include/boost/mpl/long_fwd.hpp:
 
-/usr/include/boost/thread/shared_mutex.hpp:
+/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverVector.h:
 
-/usr/include/boost/mpl/iterator_range.hpp:
+/usr/include/boost/move/detail/config_begin.hpp:
 
-/usr/include/boost/range/size.hpp:
+/usr/include/c++/11/bits/stl_iterator.h:
 
-/usr/include/eigen3/Eigen/src/Core/NestByValue.h:
+/usr/include/c++/11/ext/atomicity.h:
 
-/usr/include/boost/preprocessor/facilities/identity.hpp:
+/usr/include/eigen3/Eigen/src/SVD/SVDBase.h:
 
-/usr/include/boost/date_time/date.hpp:
+/usr/include/c++/11/bits/allocated_ptr.h:
 
-/usr/include/c++/11/bits/stl_algo.h:
+/usr/include/pcl-1.12/pcl/PCLPointCloud2.h:
 
-/usr/include/c++/11/bits/unordered_map.h:
+/usr/include/c++/11/cassert:
 
-/usr/include/boost/type_traits/is_arithmetic.hpp:
+/usr/include/eigen3/Eigen/src/Core/EigenBase.h:
 
-/usr/include/c++/11/exception:
+/usr/include/eigen3/Eigen/src/Core/Diagonal.h:
 
-/usr/include/boost/predef/architecture/x86/32.h:
+/usr/include/boost/mpl/list/aux_/tag.hpp:
 
-/usr/include/boost/predef/make.h:
+/usr/include/c++/11/tr1/special_function_util.h:
 
-/usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h:
+/usr/include/boost/mpl/aux_/has_type.hpp:
 
-/usr/include/boost/date_time/date_clock_device.hpp:
+/usr/include/boost/preprocessor/list/fold_left.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
+/usr/include/boost/core/noinit_adaptor.hpp:
 
-/usr/include/boost/mpl/bool.hpp:
+/usr/include/x86_64-linux-gnu/bits/dirent.h:
 
-/usr/include/boost/mpl/vector/vector20.hpp:
+/usr/include/boost/mpl/list/aux_/push_back.hpp:
 
-/usr/include/boost/predef/architecture/arm.h:
+/usr/include/c++/11/bit:
 
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+/usr/include/linux/stddef.h:
 
-/usr/include/boost/preprocessor/slot/detail/def.hpp:
+/usr/include/boost/mpl/vector/aux_/at.hpp:
 
-/usr/include/boost/function/function_fwd.hpp:
+/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h:
 
-/usr/include/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/timex.h:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
-
-/usr/include/boost/mpl/bool_fwd.hpp:
+/usr/include/alloca.h:
 
 /usr/include/boost/numeric/conversion/sign_mixture_enum.hpp:
 
@@ -6200,119 +7016,31 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/plugins/IndexedViewMethods.h:
 
-/usr/include/boost/predef/architecture/x86.h:
+/usr/include/eigen3/Eigen/src/Geometry/Transform.h:
 
-/usr/include/boost/mpl/aux_/config/intel.hpp:
+/usr/include/eigen3/Eigen/StdVector:
 
-/usr/include/boost/mpl/vector/aux_/pop_back.hpp:
+/usr/include/boost/preprocessor/identity.hpp:
 
-/usr/include/boost/type_traits/is_unsigned.hpp:
+/usr/include/c++/11/set:
 
-/usr/include/c++/11/bits/shared_ptr_base.h:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 
-/usr/include/c++/11/bits/basic_string.h:
+/opt/ros/noetic/include/ros/console_backend.h:
 
-/usr/include/boost/mpl/integral_c_tag.hpp:
+/usr/include/boost/type_traits/is_scalar.hpp:
 
-/usr/include/boost/preprocessor/punctuation/comma.hpp:
+/usr/include/c++/11/cfloat:
 
-/usr/include/boost/interprocess/detail/std_fwd.hpp:
+/usr/include/eigen3/Eigen/src/Core/Redux.h:
 
-/usr/include/eigen3/Eigen/src/misc/Image.h:
+/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
-/usr/include/boost/predef/library/c/zos.h:
+/usr/include/c++/11/bits/range_access.h:
 
-/usr/include/eigen3/Eigen/src/Core/StlIterators.h:
+/usr/include/x86_64-linux-gnu/bits/types.h:
 
-/opt/ros/noetic/include/sensor_msgs/Image.h:
-
-/usr/include/boost/mpl/aux_/template_arity_fwd.hpp:
-
-/usr/include/boost/mpl/list/aux_/preprocessed/plain/list10.hpp:
-
-/usr/include/boost/interprocess/detail/os_file_functions.hpp:
-
-/usr/include/boost/math/special_functions/round.hpp:
-
-/usr/include/boost/mpl/aux_/config/lambda.hpp:
-
-/usr/include/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h:
-
-/usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/c++/11/bits/allocated_ptr.h:
-
-/usr/include/boost/mpl/aux_/config/has_xxx.hpp:
-
-/usr/include/assert.h:
-
-/usr/include/boost/date_time/period.hpp:
-
-/usr/include/pthread.h:
-
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/frontend/astar_planner.h:
-
-/usr/include/eigen3/Eigen/src/Core/Assign.h:
-
-/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h:
-
-/usr/include/pcl-1.12/pcl/io/pcd_io.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
-
-/usr/include/features-time64.h:
-
-/usr/include/c++/11/system_error:
-
-/usr/include/eigen3/Eigen/src/Geometry/Umeyama.h:
-
-/usr/include/c++/11/bits/stringfwd.h:
-
-/usr/include/boost/mpl/aux_/has_type.hpp:
-
-/usr/include/boost/preprocessor/list/fold_left.hpp:
-
-/usr/include/boost/core/noinit_adaptor.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
-
-/usr/include/boost/type_traits/conditional.hpp:
-
-/usr/include/boost/config/stdlib/libstdcpp3.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/eigen3/Eigen/src/Core/IO.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
-
-/usr/include/eigen3/Eigen/src/OrderingMethods/Ordering.h:
-
-/usr/include/eigen3/Eigen/src/Core/CoreIterators.h:
-
-/usr/include/boost/date_time/posix_time/posix_time_types.hpp:
-
-/usr/include/boost/is_placeholder.hpp:
-
-/usr/include/wchar.h:
-
-/usr/include/boost/algorithm/string/detail/predicate.hpp:
-
-/usr/include/boost/predef/library/std/vacpp.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/include/boost/date_time/gregorian/greg_duration_types.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/Select.h:
-
-/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h:
-
-/usr/include/c++/11/bits/stl_iterator_base_types.h:
-
-/usr/include/boost/smart_ptr/make_shared_object.hpp:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
 
 /usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_long_long.hpp:
 
@@ -6326,89 +7054,135 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /opt/ros/noetic/include/ros/message_traits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
+/usr/include/boost/mpl/aux_/arity.hpp:
 
-/usr/include/c++/11/tr1/special_function_util.h:
+/usr/include/eigen3/Eigen/src/Core/DenseBase.h:
 
-/usr/include/boost/preprocessor/comparison/not_equal.hpp:
+/usr/include/x86_64-linux-gnu/sys/cdefs.h:
 
-/usr/include/c++/11/bits/string_view.tcc:
+/usr/include/boost/iterator/detail/config_undef.hpp:
 
-/usr/include/c++/11/bits/functional_hash.h:
-
-/usr/include/boost/date_time/gregorian/greg_ymd.hpp:
-
-/usr/include/c++/11/backward/binders.h:
-
-/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
-
-/opt/ros/noetic/include/ros/master.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:
-
-/usr/include/x86_64-linux-gnu/bits/time.h:
-
-/usr/include/c++/11/bits/stl_function.h:
-
-/usr/include/c++/11/ext/type_traits.h:
-
-/usr/include/eigen3/Eigen/src/Core/CwiseBinaryOp.h:
-
-/usr/include/boost/mpl/list/aux_/front.hpp:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:
-
-/usr/include/boost/mpl/begin_end.hpp:
-
-/usr/include/boost/date_time/compiler_config.hpp:
-
-/usr/include/c++/11/bit:
-
-/usr/include/linux/stddef.h:
-
-/usr/include/boost/mpl/vector/aux_/at.hpp:
-
-/usr/include/c++/11/bits/std_mutex.h:
-
-/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
-
-/usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp:
-
-/usr/include/boost/concept/detail/has_constraints.hpp:
-
-/usr/include/eigen3/Eigen/Householder:
-
-/usr/include/c++/11/pstl/glue_memory_defs.h:
-
-/usr/include/boost/type_traits/is_base_and_derived.hpp:
-
-/usr/include/boost/mpl/aux_/advance_backward.hpp:
-
-/usr/include/boost/config/detail/select_stdlib_config.hpp:
-
-/usr/include/boost/mpl/aux_/O1_size_impl.hpp:
-
-/usr/include/boost/mpl/equal_to.hpp:
+/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
 /usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h:
 
-/usr/include/c++/11/tr1/exp_integral.tcc:
-
-/usr/include/boost/mpl/limits/vector.hpp:
-
 /usr/include/boost/date_time/gregorian/greg_weekday.hpp:
 
-/usr/include/c++/11/bits/hash_bytes.h:
+/usr/include/c++/11/bits/functexcept.h:
 
-/usr/include/x86_64-linux-gnu/bits/types.h:
+/usr/include/eigen3/Eigen/src/Core/SolveTriangular.h:
 
-/usr/include/eigen3/Eigen/src/Core/Redux.h:
+/usr/include/c++/11/ext/aligned_buffer.h:
 
-/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+/usr/include/boost/smart_ptr/enable_shared_from_this.hpp:
 
-/usr/include/c++/11/bits/range_access.h:
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/boost/config.hpp:
+
+/opt/ros/noetic/include/ros/types.h:
+
+/usr/include/pcl-1.12/pcl/io/pcd_io.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
+
+/usr/include/features-time64.h:
+
+/usr/include/c++/11/system_error:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/usr/include/boost/mpl/aux_/lambda_spec.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/usr/include/boost/preprocessor/slot/detail/def.hpp:
+
+/usr/include/boost/function/function_fwd.hpp:
+
+/usr/include/boost/predef/architecture/x86.h:
+
+/usr/include/boost/mpl/aux_/config/intel.hpp:
+
+/usr/include/boost/mpl/vector/aux_/pop_back.hpp:
+
+/usr/include/c++/11/bits/basic_string.h:
+
+/usr/include/boost/type_traits/is_unsigned.hpp:
+
+/usr/include/c++/11/bits/shared_ptr_base.h:
+
+/usr/include/x86_64-linux-gnu/bits/timex.h:
+
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/boost/mpl/bool_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/SparseCore/AmbiVector.h:
+
+/usr/include/c++/11/cstddef:
+
+/usr/include/c++/11/bits/stl_vector.h:
+
+/usr/include/boost/date_time/time_defs.hpp:
+
+/usr/include/boost/mpl/aux_/size_impl.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/boost/config/stdlib/libstdcpp3.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
+
+/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+
+/usr/include/c++/11/backward/binders.h:
+
+/usr/include/c++/11/bits/hashtable_policy.h:
+
+/usr/include/c++/11/bits/hashtable.h:
+
+/usr/include/boost/algorithm/string/detail/predicate.hpp:
+
+/usr/include/boost/predef/library/std/vacpp.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/boost/is_placeholder.hpp:
+
+/usr/include/wchar.h:
+
+/usr/include/boost/date_time/gregorian/greg_duration_types.hpp:
+
+/usr/include/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h:
+
+/usr/include/boost/predef/os/cygwin.h:
+
+/usr/include/boost/predef/compiler/dignus.h:
+
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/boost/mpl/aux_/has_tag.hpp:
+
+/usr/include/c++/11/iostream:
+
+/usr/include/boost/preprocessor/arithmetic/dec.hpp:
+
+/usr/include/boost/preprocessor/variadic/size.hpp:
+
+/usr/include/boost/mpl/push_front_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h:
+
+/usr/include/boost/mpl/arg_fwd.hpp:
+
+/usr/include/boost/mpl/int.hpp:
+
+/usr/include/c++/11/streambuf:
+
+/usr/include/boost/mpl/quote.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp:
 
 /usr/include/boost/preprocessor/list/fold_right.hpp:
 
@@ -6418,49 +7192,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/assert.hpp:
 
-/usr/include/c++/11/tr1/ell_integral.tcc:
+/usr/include/assert.h:
 
-/usr/include/eigen3/Eigen/src/Core/util/BlasUtil.h:
+/usr/include/boost/mpl/aux_/config/has_xxx.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+/opt/ros/noetic/include/ros/master.h:
 
-/usr/include/boost/smart_ptr/detail/spinlock_gcc_atomic.hpp:
+/usr/include/eigen3/Eigen/src/Core/util/IndexedViewHelper.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
+/usr/include/x86_64-linux-gnu/bits/time.h:
 
-/usr/include/c++/11/bits/stl_bvector.h:
+/usr/include/c++/11/bits/stl_function.h:
 
-/usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
-
-/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h:
-
-/usr/include/boost/mpl/arg_fwd.hpp:
-
-/usr/include/c++/11/streambuf:
-
-/usr/include/c++/11/climits:
-
-/usr/include/boost/mpl/aux_/value_wknd.hpp:
-
-/usr/include/c++/11/new:
-
-/usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
-
-/usr/include/eigen3/Eigen/src/SparseCore/SparseView.h:
-
-/usr/include/c++/11/debug/assertions.h:
-
-/usr/include/c++/11/chrono:
-
-/usr/include/boost/mpl/protect.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
-
-/usr/include/boost/mpl/vector/aux_/back.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp:
-
-/usr/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
+/usr/include/c++/11/tuple:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
@@ -6472,21 +7216,35 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/config/no_tr1/complex.hpp:
 
-/usr/include/eigen3/Eigen/src/Core/PlainObjectBase.h:
+/usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/DiagonalProduct.h:
 
-/usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp:
+/usr/include/eigen3/Eigen/src/Core/PlainObjectBase.h:
 
-/usr/include/eigen3/Eigen/src/Core/DenseBase.h:
+/usr/include/eigen3/Eigen/src/OrderingMethods/Ordering.h:
 
-/usr/include/x86_64-linux-gnu/sys/cdefs.h:
+/usr/include/eigen3/Eigen/src/Core/CoreIterators.h:
 
-/usr/include/boost/mpl/aux_/arity.hpp:
+/usr/include/boost/date_time/posix_time/posix_time_types.hpp:
 
-/usr/include/c++/11/bits/alloc_traits.h:
+/usr/include/c++/11/bits/locale_classes.tcc:
 
-/usr/include/errno.h:
+/usr/include/c++/11/bits/cxxabi_init_exception.h:
+
+/usr/include/c++/11/bits/stl_iterator_base_types.h:
+
+/usr/include/eigen3/Eigen/src/Core/Select.h:
+
+/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h:
+
+/usr/include/boost/smart_ptr/make_shared_object.hpp:
+
+/usr/include/boost/preprocessor/cat.hpp:
+
+/usr/include/stdlib.h:
+
+/usr/include/boost/date_time/locale_config.hpp:
 
 /usr/include/locale.h:
 
@@ -6496,21 +7254,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/bits/basic_string.tcc:
 
-/usr/include/eigen3/Eigen/src/Core/ReturnByValue.h:
+/usr/include/eigen3/Eigen/src/Core/IO.h:
 
-/usr/include/eigen3/Eigen/Core:
+/usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
-/usr/include/eigen3/Eigen/src/Core/CommaInitializer.h:
+/usr/include/c++/11/climits:
 
-/usr/include/boost/smart_ptr/detail/sp_has_sync_intrinsics.hpp:
+/usr/include/boost/mpl/aux_/value_wknd.hpp:
 
-/usr/include/c++/11/type_traits:
+/usr/include/c++/11/new:
 
-/usr/include/boost/mpl/vector/aux_/tag.hpp:
+/usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
-/usr/include/c++/11/tuple:
-
-/usr/include/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
+/usr/include/c++/11/bits/unique_ptr.h:
 
 /usr/include/eigen3/Eigen/src/SparseCore/SparseUtil.h:
 
@@ -6522,95 +7278,29 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/bits/stl_relops.h:
 
-/usr/include/c++/11/bits/unique_ptr.h:
+/opt/ros/noetic/include/ros/transport_hints.h:
 
-/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+/usr/include/eigen3/Eigen/src/Core/BandMatrix.h:
 
-/usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp:
+/usr/include/asm-generic/errno-base.h:
 
-/usr/include/c++/11/debug/debug.h:
+/usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h:
 
-/usr/include/c++/11/bits/shared_ptr.h:
+/usr/include/c++/11/ext/type_traits.h:
 
-/usr/include/boost/mpl/aux_/msvc_eti_base.hpp:
+/usr/include/eigen3/Eigen/src/Core/CwiseBinaryOp.h:
 
-/opt/ros/noetic/include/ros/roscpp_serialization_macros.h:
+/usr/include/c++/11/bits/functional_hash.h:
 
-/usr/include/c++/11/initializer_list:
+/usr/include/boost/date_time/gregorian/greg_ymd.hpp:
 
-/usr/include/c++/11/iosfwd:
+/usr/include/c++/11/bits/unordered_map.h:
 
-/usr/include/boost/bind/mem_fn_template.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/time64.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h:
-
-/usr/include/eigen3/Eigen/src/Core/Solve.h:
-
-/usr/include/boost/current_function.hpp:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
-
-/usr/include/x86_64-linux-gnu/bits/timesize.h:
-
-/usr/include/c++/11/bits/exception_ptr.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
-/usr/include/eigen3/Eigen/src/StlSupport/details.h:
-
-/usr/include/c++/11/bits/charconv.h:
-
-/usr/include/math.h:
-
-/usr/include/boost/mpl/limits/list.hpp:
-
-/usr/include/c++/11/bits/char_traits.h:
-
-/usr/include/eigen3/Eigen/src/Core/CwiseTernaryOp.h:
-
-/usr/include/c++/11/bits/concept_check.h:
-
-/usr/include/c++/11/bits/erase_if.h:
-
-/usr/include/c++/11/bits/ptr_traits.h:
-
-/usr/include/c++/11/bits/stl_construct.h:
-
-/usr/include/boost/mpl/aux_/find_if_pred.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/dirent.h:
-
-/usr/include/boost/mpl/list/aux_/push_back.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
-
-/usr/include/boost/core/use_default.hpp:
-
-/usr/include/boost/thread/cv_status.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/VectorBlock.h:
-
-/usr/include/c++/11/memory:
-
-/usr/include/boost/system/detail/config.hpp:
-
-/usr/include/c++/11/bits/unique_lock.h:
-
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp:
+/usr/include/boost/type_traits/is_arithmetic.hpp:
 
 /usr/include/boost/mpl/aux_/config/preprocessor.hpp:
 
 /usr/include/c++/11/ext/numeric_traits.h:
-
-/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
-
-/usr/include/c++/11/ext/string_conversions.h:
-
-/usr/include/boost/preprocessor/list/detail/fold_right.hpp:
 
 /usr/include/pcl-1.12/pcl/Vertices.h:
 
@@ -6622,19 +7312,227 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/date_time/gregorian/greg_month.hpp:
 
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h:
-
 /usr/include/eigen3/Eigen/src/Eigenvalues/ComplexEigenSolver.h:
 
 /usr/include/c++/11/bits/atomic_base.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
+/usr/include/errno.h:
 
-/usr/include/boost/iterator/detail/config_undef.hpp:
+/usr/include/c++/11/bits/alloc_traits.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
+/usr/include/features.h:
+
+/usr/include/boost/predef/architecture/x86/32.h:
+
+/usr/include/eigen3/Eigen/src/Core/CommaInitializer.h:
+
+/usr/include/boost/smart_ptr/detail/sp_has_sync_intrinsics.hpp:
+
+/usr/include/c++/11/type_traits:
+
+/usr/include/boost/mpl/vector/aux_/tag.hpp:
+
+/usr/include/boost/mpl/limits/vector.hpp:
+
+/usr/include/c++/11/tr1/exp_integral.tcc:
+
+/usr/include/boost/mpl/aux_/advance_backward.hpp:
+
+/usr/include/boost/config/detail/select_stdlib_config.hpp:
+
+/usr/include/boost/mpl/aux_/O1_size_impl.hpp:
+
+/usr/include/boost/mpl/equal_to.hpp:
+
+/usr/include/c++/11/bits/vector.tcc:
+
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
+
+/usr/include/boost/preprocessor/debug/error.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/BooleanRedux.h:
+
+/usr/include/boost/thread/shared_mutex.hpp:
+
+/usr/include/boost/mpl/iterator_range.hpp:
+
+/usr/include/boost/date_time/date.hpp:
+
+/usr/include/c++/11/bits/stl_algo.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/boost/math/special_functions/sign.hpp:
+
+/usr/include/boost/predef/architecture/alpha.h:
+
+/usr/include/c++/11/complex:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/reverse_fold_impl.hpp:
+
+/usr/include/boost/smart_ptr/detail/local_counted_base.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/Solve.h:
+
+/usr/include/boost/current_function.hpp:
+
+/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
+
+/usr/include/boost/mpl/contains_fwd.hpp:
+
+/usr/include/boost/mpl/list/aux_/front.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:
+
+/usr/include/boost/mpl/begin_end.hpp:
+
+/usr/include/boost/date_time/compiler_config.hpp:
+
+/usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
+
+/usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h:
+
+/usr/include/c++/11/debug/debug.h:
+
+/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/boost/mpl/integral_c_tag.hpp:
+
+/usr/include/boost/preprocessor/punctuation/comma.hpp:
+
+/usr/include/boost/predef/library/c/zos.h:
+
+/usr/include/eigen3/Eigen/src/Core/StlIterators.h:
+
+/opt/ros/noetic/include/sensor_msgs/Image.h:
+
+/usr/include/boost/mpl/aux_/template_arity_fwd.hpp:
+
+/usr/include/boost/date_time/period.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/frontend/astar_planner.h:
+
+/usr/include/pthread.h:
+
+/usr/include/boost/core/use_default.hpp:
+
+/usr/include/boost/thread/cv_status.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/VectorBlock.h:
+
+/usr/include/c++/11/memory:
+
+/usr/include/c++/11/bits/stl_heap.h:
+
+/usr/include/boost/range/reverse_iterator.hpp:
+
+/usr/include/c++/11/bits/std_abs.h:
+
+/usr/include/eigen3/Eigen/src/Core/util/Macros.h:
+
+/usr/include/boost/preprocessor/logical/compl.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
+
+/usr/include/c++/11/bits/stl_uninitialized.h:
+
+/usr/include/boost/mpl/aux_/reverse_fold_impl.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/boost/assert.hpp:
+
+/usr/include/c++/11/bits/erase_if.h:
+
+/usr/include/c++/11/bits/ptr_traits.h:
+
+/usr/include/c++/11/bits/stl_construct.h:
+
+/usr/include/boost/mpl/aux_/find_if_pred.hpp:
+
+/usr/include/boost/mpl/limits/list.hpp:
+
+/usr/include/c++/11/bits/char_traits.h:
+
+/usr/include/eigen3/Eigen/src/Core/CwiseTernaryOp.h:
+
+/usr/include/c++/11/bits/concept_check.h:
+
+/usr/include/c++/11/unordered_map:
+
+/usr/include/boost/shared_ptr.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h:
+
+/usr/include/boost/smart_ptr/allocate_shared_array.hpp:
+
+/usr/include/c++/11/cctype:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
+
+/usr/include/c++/11/bits/predefined_ops.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/floatn.h:
+
+/usr/include/boost/mpl/begin_end_fwd.hpp:
+
+/usr/include/boost/mpl/vector/aux_/back.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp:
+
+/usr/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/Assign.h:
+
+/usr/include/boost/preprocessor/facilities/empty.hpp:
+
+/usr/include/c++/11/bits/basic_ios.tcc:
+
+/usr/include/boost/predef/architecture/z.h:
+
+/usr/include/c++/11/bits/invoke.h:
+
+/usr/include/boost/preprocessor/control/expr_iif.hpp:
+
+/usr/include/eigen3/Eigen/Cholesky:
+
+/usr/include/c++/11/bits/hash_bytes.h:
+
+/usr/include/boost/preprocessor/comparison/not_equal.hpp:
+
+/usr/include/c++/11/bits/string_view.tcc:
+
+/usr/include/eigen3/Eigen/src/plugins/ArrayCwiseBinaryOps.h:
+
+/usr/include/c++/11/bits/refwrap.h:
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
+
+/usr/include/c++/11/bits/exception_ptr.h:
+
+/usr/include/eigen3/Eigen/src/StlSupport/details.h:
+
+/usr/include/c++/11/bits/charconv.h:
+
+/usr/include/math.h:
+
+/usr/include/c++/11/typeinfo:
+
+/usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
 /usr/include/eigen3/Eigen/src/Core/DiagonalMatrix.h:
 
@@ -6650,49 +7548,123 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/cmath:
 
+/usr/include/c++/11/initializer_list:
+
+/usr/include/c++/11/iosfwd:
+
+/usr/include/boost/bind/mem_fn_template.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseView.h:
+
+/usr/include/c++/11/debug/assertions.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/boost/type_traits/conditional.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
+
+/usr/include/boost/preprocessor/list/detail/fold_left.hpp:
+
+/usr/include/boost/mpl/aux_/config/use_preprocessed.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/timesize.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
+
+/usr/include/boost/mpl/list/aux_/preprocessed/plain/list10.hpp:
+
+/opt/ros/noetic/include/ros/platform.h:
+
+/usr/include/boost/numeric/conversion/detail/is_subranged.hpp:
+
+/usr/include/c++/11/ext/alloc_traits.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/fsm/planner_fsm.cpp:
+
 /usr/include/x86_64-linux-gnu/bits/sched.h:
 
-/usr/include/x86_64-linux-gnu/bits/floatn.h:
+/usr/include/boost/mpl/same_as.hpp:
 
-/usr/include/boost/mpl/begin_end_fwd.hpp:
+/usr/include/c++/11/bits/sstream.tcc:
 
-/usr/include/x86_64-linux-gnu/bits/wchar.h:
+/usr/include/boost/mpl/limits/arity.hpp:
 
-/usr/include/boost/mpl/contains_fwd.hpp:
+/usr/include/eigen3/Eigen/src/plugins/BlockMethods.h:
 
-/usr/include/c++/11/bits/stl_iterator_base_funcs.h:
+/usr/include/boost/mem_fn.hpp:
 
-/usr/include/boost/preprocessor/control/if.hpp:
+/usr/include/boost/predef/architecture/arm.h:
 
-/usr/include/c++/11/bits/stl_uninitialized.h:
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
-/usr/include/boost/mpl/aux_/reverse_fold_impl.hpp:
+/usr/include/time.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__locale_t.h:
+/usr/include/boost/predef/make.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+/usr/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h:
 
-/usr/include/boost/assert.hpp:
+/usr/include/boost/date_time/date_clock_device.hpp:
 
-/usr/include/c++/11/typeinfo:
+/usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h:
 
-/usr/include/boost/mpl/aux_/size_impl.hpp:
+/usr/include/boost/mpl/bool.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/setjmp.h:
+/usr/include/boost/mpl/vector/vector20.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+/usr/include/c++/11/tr1/ell_integral.tcc:
 
-/usr/include/c++/11/bits/predefined_ops.h:
+/usr/include/eigen3/Eigen/src/Core/util/BlasUtil.h:
 
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+/usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
-/usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
+/usr/include/c++/11/bits/stl_bvector.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+
+/usr/include/boost/smart_ptr/detail/spinlock_gcc_atomic.hpp:
+
+/usr/include/boost/preprocessor/arithmetic/mod.hpp:
+
+/usr/include/c++/11/functional:
+
+/usr/include/linux/errno.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
+
+/usr/include/boost/thread/lock_guard.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/ReturnByValue.h:
+
+/usr/include/boost/mpl/aux_/msvc_eti_base.hpp:
+
+/usr/include/c++/11/bits/shared_ptr.h:
+
+/usr/include/eigen3/Eigen/Core:
+
+/usr/include/c++/11/exception:
+
+/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
+
+/usr/include/boost/preprocessor/list/detail/fold_right.hpp:
+
+/usr/include/c++/11/ext/string_conversions.h:
 
 /usr/include/c++/11/bits/nested_exception.h:
 
 /usr/include/c++/11/queue:
 
 /usr/include/log4cxx/helpers/transcoder.h:
+
+/usr/include/c++/11/iomanip:
+
+/usr/include/c++/11/bits/shared_ptr_atomic.h:
 
 /usr/include/c++/11/bits/atomic_lockfree_defines.h:
 
@@ -6708,26 +7680,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/string:
 
-/opt/ros/noetic/include/ros/transport_hints.h:
-
-/usr/include/eigen3/Eigen/src/Core/BandMatrix.h:
-
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h:
-
-/usr/include/linux/errno.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
-
-/usr/include/boost/thread/lock_guard.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp:
-
-/usr/include/boost/preprocessor/arithmetic/mod.hpp:
-
-/usr/include/c++/11/functional:
-
 /usr/include/x86_64-linux-gnu/bits/waitstatus.h:
 
 /opt/ros/noetic/include/rosconsole/macros_generated.h:
@@ -6740,119 +7692,31 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/config/adl.hpp:
 
-/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h:
-
-/usr/include/boost/mpl/aux_/config/has_apply.hpp:
-
-/usr/include/boost/type_traits/remove_cv.hpp:
-
 /usr/include/c++/11/tr1/hypergeometric.tcc:
 
 /usr/include/boost/config/no_tr1/cmath.hpp:
+
+/usr/include/c++/11/bits/istream.tcc:
+
+/usr/include/c++/11/clocale:
 
 /usr/include/fcntl.h:
 
 /usr/include/boost/config/no_tr1/memory.hpp:
 
-/usr/include/c++/11/bits/shared_ptr_atomic.h:
-
-/usr/include/c++/11/iomanip:
-
-/usr/include/boost/shared_ptr.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h:
-
-/usr/include/boost/smart_ptr/allocate_shared_array.hpp:
-
-/usr/include/c++/11/cctype:
-
-/usr/include/eigen3/Eigen/src/Core/Array.h:
-
 /usr/include/log4cxx/log4cxx.h:
 
-/usr/include/c++/11/unordered_map:
+/usr/include/eigen3/Eigen/src/Core/Array.h:
 
 /usr/include/c++/11/locale:
 
 /usr/include/ctype.h:
 
-/usr/include/eigen3/Eigen/src/Core/functors/TernaryFunctors.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
-/usr/include/boost/math/special_functions/sign.hpp:
-
-/usr/include/boost/predef/architecture/alpha.h:
-
-/usr/include/c++/11/complex:
-
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/reverse_fold_impl.hpp:
-
-/usr/include/boost/smart_ptr/detail/local_counted_base.hpp:
-
-/usr/include/boost/preprocessor/cat.hpp:
-
-/usr/include/stdlib.h:
-
-/usr/include/boost/date_time/locale_config.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/include/c++/11/bits/functexcept.h:
-
-/usr/include/eigen3/Eigen/src/Core/SolveTriangular.h:
-
-/usr/include/c++/11/ext/aligned_buffer.h:
-
-/usr/include/c++/11/bits/cxxabi_init_exception.h:
-
-/usr/include/c++/11/bits/locale_classes.tcc:
-
-/usr/include/boost/smart_ptr/enable_shared_from_this.hpp:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
-
-/usr/include/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h:
-
-/usr/include/boost/predef/os/cygwin.h:
-
-/usr/include/boost/predef/compiler/dignus.h:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/boost/mpl/aux_/has_tag.hpp:
-
-/usr/include/c++/11/iostream:
-
-/usr/include/eigen3/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h:
-
-/usr/include/alloca.h:
-
-/usr/include/c++/11/bits/stl_heap.h:
-
-/usr/include/boost/range/reverse_iterator.hpp:
-
-/usr/include/c++/11/bits/std_abs.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/Macros.h:
-
-/usr/include/boost/preprocessor/logical/compl.hpp:
+/usr/include/c++/11/cstdio:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
-
-/usr/include/c++/11/bits/locale_facets_nonio.tcc:
-
-/usr/include/eigen3/Eigen/LU:
-
-/usr/include/boost/predef/library/c/_prefix.h:
-
-/usr/include/eigen3/Eigen/src/SparseCore/SparseAssign.h:
-
-/usr/include/boost/core/alloc_construct.hpp:
 
 /usr/include/boost/preprocessor/list/reverse.hpp:
 
@@ -6890,18 +7754,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
 
-/usr/include/eigen3/Eigen/src/SparseCore/AmbiVector.h:
-
-/usr/include/c++/11/cstddef:
-
-/usr/include/c++/11/bits/stl_vector.h:
-
-/usr/include/boost/date_time/time_defs.hpp:
-
-/opt/ros/noetic/include/ros/platform.h:
-
-/usr/include/c++/11/bits/vector.tcc:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h:
 
 /usr/include/boost/predef/architecture/x86/64.h:
@@ -6910,29 +7762,9 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/config/ctps.hpp:
 
-/usr/include/pcl-1.12/pcl/PCLPointCloud2.h:
+/usr/include/c++/11/cstring:
 
-/usr/include/c++/11/cassert:
-
-/usr/include/eigen3/Eigen/src/LU/Determinant.h:
-
-/usr/include/eigen3/Eigen/src/Core/Transpositions.h:
-
-/usr/include/boost/mpl/list/aux_/pop_front.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/Replicate.h:
-
-/usr/include/boost/preprocessor/detail/auto_rec.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
-
-/usr/include/boost/mpl/aux_/lambda_spec.hpp:
-
-/usr/include/eigen3/Eigen/src/SparseCore/SparseBlock.h:
-
-/usr/include/boost/math/policies/error_handling.hpp:
-
-/usr/include/boost/type_traits/is_complete.hpp:
+/usr/include/eigen3/Eigen/src/Geometry/ParametrizedLine.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
@@ -6958,16 +7790,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/bits/node_handle.h:
 
-/usr/include/eigen3/Eigen/src/SparseCore/SparseRef.h:
-
-/usr/include/boost/range/rend.hpp:
-
-/usr/include/c++/11/cstdarg:
-
-/usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h:
-
-/usr/include/boost/mpl/arg.hpp:
-
 /usr/include/boost/type_traits/is_integral.hpp:
 
 /usr/include/boost/config/detail/suffix.hpp:
@@ -6986,9 +7808,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/preprocessor/slot/slot.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/eigen3/Eigen/src/Core/functors/TernaryFunctors.h:
+
+/usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
+
+/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
+
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/c++/11/bits/specfun.h:
+
+/opt/ros/noetic/include/geometry_msgs/PoseWithCovariance.h:
 
 /usr/include/c++/11/limits:
 
@@ -6996,15 +7828,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/tr1/gamma.tcc:
 
-/usr/include/eigen3/Eigen/SVD:
-
 /usr/include/c++/11/bits/locale_classes.h:
-
-/usr/include/eigen3/Eigen/src/Geometry/RotationBase.h:
-
-/usr/include/c++/11/tr1/poly_laguerre.tcc:
-
-/usr/include/c++/11/array:
 
 /usr/include/c++/11/tr1/beta_function.tcc:
 
@@ -7012,19 +7836,21 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h:
 
-/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
-/usr/include/boost/mpl/vector/aux_/O1_size.hpp:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
+
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/boost/mpl/vector/aux_/O1_size.hpp:
 
 /usr/include/boost/bind/arg.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
 /usr/include/c++/11/tr1/legendre_function.tcc:
+
+/usr/include/boost/mpl/aux_/static_cast.hpp:
 
 /usr/include/c++/11/bits/memoryfwd.h:
 
@@ -7052,10 +7878,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/list:
 
-/usr/include/boost/mpl/aux_/preprocessed/gcc/bind.hpp:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h:
 
 /usr/include/boost/mpl/has_xxx.hpp:
@@ -7064,11 +7886,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/eigen3/Eigen/src/Core/CwiseUnaryView.h:
 
-/usr/include/boost/numeric/conversion/bounds.hpp:
+/usr/include/boost/predef/hardware/simd/ppc/versions.h:
 
-/usr/include/eigen3/Eigen/src/Geometry/Translation.h:
+/usr/include/boost/predef/os/os400.h:
 
-/usr/include/boost/mpl/aux_/config/gcc.hpp:
+/usr/include/boost/mpl/aux_/config/ttp.hpp:
+
+/usr/include/boost/smart_ptr/detail/sp_has_gcc_intrinsics.hpp:
+
+/usr/include/c++/11/sstream:
+
+/usr/include/c++/11/bits/stringfwd.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/Umeyama.h:
 
 /usr/include/c++/11/istream:
 
@@ -7080,9 +7910,15 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/stdexcept:
 
-/usr/include/boost/predef/compiler/pgi.h:
+/usr/include/boost/type_traits/is_member_function_pointer.hpp:
 
-/usr/include/eigen3/Eigen/src/LU/arch/InverseSize4.h:
+/usr/include/c++/11/bits/uniform_int_dist.h:
+
+/usr/include/boost/predef/compiler/llvm.h:
+
+/usr/include/boost/mpl/next_prior.hpp:
+
+/usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
 
 /usr/include/c++/11/cwctype:
 
@@ -7098,177 +7934,17 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/c++/11/bits/locale_facets.tcc:
 
-/usr/include/eigen3/Eigen/src/Core/EigenBase.h:
+/usr/include/c++/11/bits/codecvt.h:
 
-/usr/include/eigen3/Eigen/src/Core/Diagonal.h:
+/usr/include/c++/11/tr1/poly_laguerre.tcc:
 
-/usr/include/boost/mpl/list/aux_/tag.hpp:
+/usr/include/c++/11/array:
 
-/usr/include/c++/11/clocale:
-
-/usr/include/c++/11/bits/istream.tcc:
-
-/usr/include/c++/11/bits/hashtable.h:
-
-/usr/include/c++/11/bits/hashtable_policy.h:
+/usr/include/eigen3/Eigen/src/Geometry/RotationBase.h:
 
 /usr/include/boost/chrono/detail/system.hpp:
 
 /usr/include/boost/predef/detail/test.h:
-
-/usr/include/c++/11/bits/basic_ios.tcc:
-
-/usr/include/boost/preprocessor/facilities/empty.hpp:
-
-/usr/include/c++/11/bits/enable_special_members.h:
-
-/usr/include/boost/preprocessor/control/iif.hpp:
-
-/usr/include/boost/mpl/aux_/largest_int.hpp:
-
-/usr/include/boost/mpl/vector/aux_/push_back.hpp:
-
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_mapping/include/fastnav_mapping/voxel_map.h:
-
-/usr/include/boost/mpl/next.hpp:
-
-/usr/include/boost/move/detail/meta_utils_core.hpp:
-
-/usr/include/boost/mpl/list/list10.hpp:
-
-/opt/ros/noetic/include/ros/common.h:
-
-/usr/include/boost/cstdint.hpp:
-
-/usr/include/boost/preprocessor/stringize.hpp:
-
-/usr/include/boost/mpl/list/list0.hpp:
-
-/opt/ros/noetic/include/geometry_msgs/PoseWithCovariance.h:
-
-/usr/include/boost/mpl/long.hpp:
-
-/usr/include/boost/mpl/long_fwd.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverVector.h:
-
-/usr/include/boost/move/detail/config_begin.hpp:
-
-/usr/include/eigen3/Eigen/src/QR/FullPivHouseholderQR.h:
-
-/usr/include/boost/mpl/aux_/integral_wrapper.hpp:
-
-/usr/include/c++/11/cfloat:
-
-/usr/include/boost/type_traits/is_scalar.hpp:
-
-/usr/include/boost/mpl/aux_/static_cast.hpp:
-
-/usr/include/boost/preprocessor/variadic/size.hpp:
-
-/usr/include/boost/mpl/push_front_fwd.hpp:
-
-/usr/include/boost/predef/compiler/llvm.h:
-
-/usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
-
-/usr/include/boost/mpl/next_prior.hpp:
-
-/usr/include/boost/mpl/aux_/common_name_wknd.hpp:
-
-/usr/include/boost/mpl/at.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp:
-
-/usr/include/boost/mpl/aux_/na_spec.hpp:
-
-/usr/include/boost/mpl/lambda_fwd.hpp:
-
-/usr/include/boost/predef/hardware/simd/ppc/versions.h:
-
-/usr/include/boost/predef/os/os400.h:
-
-/usr/include/boost/mpl/aux_/config/ttp.hpp:
-
-/usr/include/boost/smart_ptr/detail/sp_has_gcc_intrinsics.hpp:
-
-/usr/include/boost/mpl/int.hpp:
-
-/usr/include/boost/mpl/aux_/config/dtp.hpp:
-
-/usr/include/boost/mpl/vector/vector10.hpp:
-
-/opt/ros/noetic/include/visualization_msgs/Marker.h:
-
-/usr/include/boost/preprocessor/comma_if.hpp:
-
-/usr/include/boost/mpl/aux_/arg_typedef.hpp:
-
-/usr/include/boost/preprocessor/seq/for_each.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp:
-
-/usr/include/boost/preprocessor/logical/bool.hpp:
-
-/usr/include/boost/mpl/integral_c_fwd.hpp:
-
-/opt/ros/noetic/include/geometry_msgs/TwistWithCovariance.h:
-
-/usr/include/boost/preprocessor/repeat.hpp:
-
-/usr/include/boost/preprocessor/debug/error.hpp:
-
-/usr/include/eigen3/Eigen/src/OrderingMethods/Eigen_Colamd.h:
-
-/usr/include/boost/preprocessor/tuple/eat.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp:
-
-/usr/include/boost/mpl/pop_back_fwd.hpp:
-
-/usr/include/boost/mpl/same_as.hpp:
-
-/usr/include/c++/11/bits/sstream.tcc:
-
-/usr/include/boost/mpl/limits/arity.hpp:
-
-/usr/include/eigen3/Eigen/src/plugins/BlockMethods.h:
-
-/usr/include/boost/mem_fn.hpp:
-
-/usr/include/boost/preprocessor/logical/bitand.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/arch/Default/Half.h:
-
-/usr/include/boost/mpl/pair.hpp:
-
-/usr/include/c++/11/bits/uniform_int_dist.h:
-
-/usr/include/boost/type_traits/is_member_function_pointer.hpp:
-
-/usr/include/eigen3/Eigen/StdVector:
-
-/usr/include/c++/11/set:
-
-/usr/include/boost/preprocessor/identity.hpp:
-
-/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/src/frontend/astar_planner.cpp:
-
-/usr/include/boost/mpl/quote.hpp:
-
-/usr/include/boost/preprocessor/empty.hpp:
-
-/usr/include/boost/preprocessor/arithmetic/dec.hpp:
-
-/usr/include/boost/preprocessor/control/while.hpp:
-
-/usr/include/boost/mpl/aux_/config/use_preprocessed.hpp:
-
-/usr/include/boost/preprocessor/list/detail/fold_left.hpp:
-
-/usr/include/boost/preprocessor/list/adt.hpp:
-
-/usr/include/boost/mpl/aux_/type_wrapper.hpp:
 
 /usr/include/boost/preprocessor/control/detail/while.hpp:
 
@@ -7302,6 +7978,10 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/list/aux_/O1_size.hpp:
 
+/usr/include/boost/mpl/aux_/config/eti.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
+
 /usr/include/boost/mpl/aux_/config/overload_resolution.hpp:
 
 /usr/include/boost/mpl/and.hpp:
@@ -7312,13 +7992,19 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/list/aux_/item.hpp:
 
+/usr/include/eigen3/Eigen/src/Core/Transpositions.h:
+
+/usr/include/boost/mpl/list/aux_/pop_front.hpp:
+
+/usr/include/eigen3/Eigen/src/LU/Determinant.h:
+
 /usr/include/boost/system/system_error.hpp:
 
 /usr/include/boost/mpl/pop_front_fwd.hpp:
 
-/usr/include/c++/11/bits/ostream_insert.h:
-
 /usr/include/boost/mpl/aux_/config/nttp.hpp:
+
+/usr/include/c++/11/bits/ostream_insert.h:
 
 /usr/include/boost/mpl/push_back_fwd.hpp:
 
@@ -7350,9 +8036,9 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/at_impl.hpp:
 
-/usr/include/c++/11/bits/ostream.tcc:
-
 /usr/include/c++/11/tr1/modified_bessel_func.tcc:
+
+/usr/include/c++/11/bits/ostream.tcc:
 
 /usr/include/boost/mpl/size_fwd.hpp:
 
@@ -7362,15 +8048,15 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/nested_type_wknd.hpp:
 
-/usr/include/c++/11/cstdlib:
-
 /usr/include/c++/11/string_view:
+
+/usr/include/c++/11/cstdlib:
 
 /usr/include/boost/mpl/list/aux_/begin_end.hpp:
 
-/usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h:
-
 /usr/include/eigen3/Eigen/src/Core/IndexedView.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/arch/Geometry_SIMD.h:
 
 /usr/include/boost/mpl/iterator_tags.hpp:
 
@@ -7444,15 +8130,9 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/smart_ptr/detail/sp_thread_pause.hpp:
 
-/opt/ros/noetic/include/geometry_msgs/PoseStamped.h:
-
-/usr/include/c++/11/vector:
-
-/usr/include/boost/mpl/aux_/traits_lambda_spec.hpp:
+/usr/include/boost/date_time/time_clock.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
-
-/usr/include/boost/date_time/time_clock.hpp:
 
 /usr/include/boost/mpl/find.hpp:
 
@@ -7479,12 +8159,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/c++/11/pstl/glue_algorithm_defs.h:
 
 /usr/include/boost/mpl/aux_/msvc_never_true.hpp:
-
-/usr/include/c++/11/mutex:
-
-/usr/include/boost/preprocessor/repetition/repeat.hpp:
-
-/usr/include/boost/mpl/push_back.hpp:
 
 /usr/include/c++/11/pstl/execution_defs.h:
 
@@ -7518,6 +8192,10 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp:
 
+/usr/include/boost/mpl/protect.hpp:
+
+/usr/include/c++/11/chrono:
+
 /usr/include/boost/mpl/aux_/full_lambda.hpp:
 
 /usr/include/boost/mpl/identity.hpp:
@@ -7525,6 +8203,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/mpl/aux_/preprocessed/gcc/template_arity.hpp:
 
 /usr/include/boost/mpl/remove_if.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/PlannerTiming.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/apply.hpp:
 
@@ -7614,14 +8294,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/type_traits/has_trivial_copy.hpp:
 
-/usr/include/boost/interprocess/permissions.hpp:
-
-/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/sdlp.hpp:
-
-/usr/include/eigen3/Eigen/src/Geometry/OrthoMethods.h:
-
-/usr/include/boost/date_time/gregorian/greg_duration.hpp:
-
 /usr/include/boost/mpl/vector/aux_/front.hpp:
 
 /usr/include/boost/bind.hpp:
@@ -7637,6 +8309,14 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/c++/11/bits/fstream.tcc:
 
 /usr/include/boost/type_traits/is_floating_point.hpp:
+
+/usr/include/boost/mpl/next.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_mapping/include/fastnav_mapping/voxel_map.h:
+
+/usr/include/boost/mpl/vector/aux_/push_back.hpp:
+
+/usr/include/eigen3/Eigen/QR:
 
 /usr/include/boost/mpl/back_fwd.hpp:
 
@@ -7692,11 +8372,23 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/mpl/distance_fwd.hpp:
 
+/usr/include/boost/mpl/prior.hpp:
+
+/usr/include/eigen3/Eigen/SparseCore:
+
+/usr/include/eigen3/Eigen/Geometry:
+
 /usr/include/boost/mpl/vector/aux_/empty.hpp:
 
 /usr/include/boost/smart_ptr/detail/spinlock_pool.hpp:
 
 /usr/include/boost/mpl/vector/aux_/begin_end.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
+
+/usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp:
+
+/usr/include/c++/11/bits/std_mutex.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
@@ -7738,9 +8430,9 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/core/ref.hpp:
 
-/usr/include/boost/date_time/time_duration.hpp:
-
 /usr/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp:
+
+/usr/include/boost/date_time/time_duration.hpp:
 
 /usr/include/boost/mpl/comparison.hpp:
 
@@ -7777,10 +8469,6 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/throw_exception.hpp:
 
 /usr/include/boost/call_traits.hpp:
-
-/usr/include/boost/type_traits/add_lvalue_reference.hpp:
-
-/usr/include/boost/assert/source_location.hpp:
 
 /usr/include/boost/preprocessor/comparison/less.hpp:
 
@@ -7832,6 +8520,18 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/type_traits/is_abstract.hpp:
 
+/usr/include/boost/assert/source_location.hpp:
+
+/usr/include/boost/type_traits/add_lvalue_reference.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Quaternion.h:
+
+/usr/include/boost/mpl/aux_/config/has_apply.hpp:
+
+/usr/include/boost/type_traits/remove_cv.hpp:
+
+/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h:
+
 /usr/include/boost/utility/enable_if.hpp:
 
 /usr/include/boost/core/enable_if.hpp:
@@ -7851,6 +8551,16 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp:
 
 /usr/include/boost/predef/other/endian.h:
+
+/usr/include/boost/predef/library/c/_prefix.h:
+
+/usr/include/c++/11/bits/locale_facets_nonio.tcc:
+
+/usr/include/eigen3/Eigen/LU:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseAssign.h:
+
+/usr/include/boost/core/alloc_construct.hpp:
 
 /usr/include/eigen3/Eigen/src/SparseCore/SparseFuzzy.h:
 
@@ -7873,6 +8583,114 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/predef/os/bsd/open.h:
 
 /usr/include/boost/predef/platform/android.h:
+
+/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include/fastnav_planner/fsm/planner_fsm.h:
+
+/usr/include/boost/preprocessor/repetition/repeat.hpp:
+
+/usr/include/boost/mpl/push_back.hpp:
+
+/usr/include/c++/11/mutex:
+
+/usr/include/c++/11/ratio:
+
+/usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h:
+
+/usr/include/boost/date_time/gregorian_calendar.hpp:
+
+/usr/include/boost/system/detail/config.hpp:
+
+/usr/include/c++/11/bits/unique_lock.h:
+
+/usr/include/eigen3/Eigen/SVD:
+
+/usr/include/eigen3/Eigen/Jacobi:
+
+/usr/include/eigen3/Eigen/src/Cholesky/LDLT.h:
+
+/usr/include/boost/concept/detail/has_constraints.hpp:
+
+/usr/include/eigen3/Eigen/Householder:
+
+/usr/include/c++/11/pstl/glue_memory_defs.h:
+
+/usr/include/boost/type_traits/is_base_and_derived.hpp:
+
+/usr/include/eigen3/Eigen/src/Householder/Householder.h:
+
+/usr/include/boost/preprocessor/stringize.hpp:
+
+/usr/include/boost/cstdint.hpp:
+
+/usr/include/boost/mpl/list/list0.hpp:
+
+/opt/ros/noetic/include/ros/common.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h:
+
+/usr/include/boost/numeric/conversion/converter.hpp:
+
+/usr/include/boost/mpl/aux_/integral_wrapper.hpp:
+
+/usr/include/eigen3/Eigen/src/QR/FullPivHouseholderQR.h:
+
+/usr/include/eigen3/Eigen/src/QR/CompleteOrthogonalDecomposition.h:
+
+/usr/include/eigen3/Eigen/src/SVD/UpperBidiagonalization.h:
+
+/usr/include/eigen3/Eigen/src/misc/Kernel.h:
+
+/usr/include/boost/interprocess/detail/std_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/misc/Image.h:
+
+/usr/include/boost/predef/compiler/pgi.h:
+
+/usr/include/eigen3/Eigen/src/LU/arch/InverseSize4.h:
+
+/usr/include/boost/interprocess/permissions.hpp:
+
+/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/include/traj_utils/minco/gcopter/sdlp.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_duration.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/OrthoMethods.h:
+
+/usr/include/pcl-1.12/pcl/io/low_level_io.h:
+
+/usr/include/boost/move/detail/type_traits.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Homogeneous.h:
+
+/usr/include/boost/foreach_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Rotation2D.h:
+
+/usr/include/eigen3/Eigen/src/Geometry/AngleAxis.h:
+
+/usr/include/c++/11/math.h:
+
+/opt/ros/noetic/include/ros/callback_queue.h:
+
+/usr/include/boost/numeric/conversion/bounds.hpp:
+
+/usr/include/boost/mpl/aux_/config/gcc.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/Translation.h:
+
+/usr/include/eigen3/Eigen/src/SparseCore/SparseRef.h:
+
+/usr/include/boost/range/rend.hpp:
+
+/usr/include/c++/11/cstdarg:
+
+/usr/include/boost/mpl/arg.hpp:
+
+/usr/include/eigen3/Eigen/src/Geometry/AlignedBox.h:
+
+/opt/ros/noetic/include/ros/roscpp_serialization_macros.h:
 
 /usr/include/boost/shared_array.hpp:
 
@@ -7973,6 +8791,12 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/pcl-1.12/pcl/pcl_config.h:
 
 /opt/ros/noetic/include/std_msgs/Header.h:
+
+/usr/include/c++/11/vector:
+
+/usr/include/boost/mpl/aux_/traits_lambda_spec.hpp:
+
+/opt/ros/noetic/include/geometry_msgs/PoseStamped.h:
 
 /opt/ros/noetic/include/geometry_msgs/Pose.h:
 
@@ -8172,9 +8996,9 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 
 /usr/include/boost/type_traits/has_plus.hpp:
 
-/usr/include/boost/type_traits/is_convertible.hpp:
-
 /usr/include/boost/mpl/aux_/nttp_decl.hpp:
+
+/usr/include/boost/type_traits/is_convertible.hpp:
 
 /usr/include/boost/date_time/date_duration_types.hpp:
 
@@ -8207,7 +9031,3 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/optimizer/trajectory_fea
 /usr/include/boost/numeric/conversion/detail/meta.hpp:
 
 /usr/include/boost/numeric/conversion/detail/sign_mixture.hpp:
-
-/usr/include/c++/11/ext/alloc_traits.h:
-
-/usr/include/boost/numeric/conversion/detail/is_subranged.hpp:

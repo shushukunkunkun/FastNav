@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "fastnav_msgs: 3 messages, 0 services")
+message(STATUS "fastnav_msgs: 4 messages, 0 services")
 
 set(MSG_I_FLAGS "-Ifastnav_msgs:/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg;-Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/noetic/share/sensor_msgs/cmake/../msg;-Inav_msgs:/opt/ros/noetic/share/nav_msgs/cmake/../msg;-Iactionlib_msgs:/opt/ros/noetic/share/actionlib_msgs/cmake/../msg")
 
@@ -19,12 +19,17 @@ add_custom_target(fastnav_msgs_generate_messages ALL)
 
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg" NAME_WE)
 add_custom_target(_fastnav_msgs_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "fastnav_msgs" "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg" "geometry_msgs/Point:geometry_msgs/Vector3:std_msgs/Header"
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "fastnav_msgs" "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg" "geometry_msgs/Vector3:geometry_msgs/Point:std_msgs/Header"
 )
 
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
 add_custom_target(_fastnav_msgs_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "fastnav_msgs" "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" "geometry_msgs/Point:std_msgs/Header"
+)
+
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
+add_custom_target(_fastnav_msgs_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "fastnav_msgs" "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" "std_msgs/Header"
 )
 
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
@@ -41,13 +46,19 @@ add_custom_target(_fastnav_msgs_generate_messages_check_deps_${_filename}
 _generate_msg_cpp(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_cpp(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/fastnav_msgs
+)
+_generate_msg_cpp(fastnav_msgs
+  "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_cpp(fastnav_msgs
@@ -75,6 +86,8 @@ get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastn
 add_dependencies(fastnav_msgs_generate_messages_cpp _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_cpp _fastnav_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
+add_dependencies(fastnav_msgs_generate_messages_cpp _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_cpp _fastnav_msgs_generate_messages_check_deps_${_filename})
 
@@ -90,13 +103,19 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS fastnav_msgs_generate_messages_cpp)
 _generate_msg_eus(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_eus(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/fastnav_msgs
+)
+_generate_msg_eus(fastnav_msgs
+  "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_eus(fastnav_msgs
@@ -124,6 +143,8 @@ get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastn
 add_dependencies(fastnav_msgs_generate_messages_eus _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_eus _fastnav_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
+add_dependencies(fastnav_msgs_generate_messages_eus _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_eus _fastnav_msgs_generate_messages_check_deps_${_filename})
 
@@ -139,13 +160,19 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS fastnav_msgs_generate_messages_eus)
 _generate_msg_lisp(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_lisp(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/fastnav_msgs
+)
+_generate_msg_lisp(fastnav_msgs
+  "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_lisp(fastnav_msgs
@@ -173,6 +200,8 @@ get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastn
 add_dependencies(fastnav_msgs_generate_messages_lisp _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_lisp _fastnav_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
+add_dependencies(fastnav_msgs_generate_messages_lisp _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_lisp _fastnav_msgs_generate_messages_check_deps_${_filename})
 
@@ -188,13 +217,19 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS fastnav_msgs_generate_messages_lisp
 _generate_msg_nodejs(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_nodejs(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/fastnav_msgs
+)
+_generate_msg_nodejs(fastnav_msgs
+  "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_nodejs(fastnav_msgs
@@ -222,6 +257,8 @@ get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastn
 add_dependencies(fastnav_msgs_generate_messages_nodejs _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_nodejs _fastnav_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
+add_dependencies(fastnav_msgs_generate_messages_nodejs _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_nodejs _fastnav_msgs_generate_messages_check_deps_${_filename})
 
@@ -237,13 +274,19 @@ list(APPEND ${PROJECT_NAME}_EXPORTED_TARGETS fastnav_msgs_generate_messages_node
 _generate_msg_py(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg"
   "${MSG_I_FLAGS}"
-  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Vector3.msg;/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_py(fastnav_msgs
   "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg"
   "${MSG_I_FLAGS}"
   "/opt/ros/noetic/share/geometry_msgs/cmake/../msg/Point.msg;/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/fastnav_msgs
+)
+_generate_msg_py(fastnav_msgs
+  "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/noetic/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/fastnav_msgs
 )
 _generate_msg_py(fastnav_msgs
@@ -270,6 +313,8 @@ add_dependencies(fastnav_msgs_generate_messages fastnav_msgs_generate_messages_p
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_py _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg" NAME_WE)
+add_dependencies(fastnav_msgs_generate_messages_py _fastnav_msgs_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_py _fastnav_msgs_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg" NAME_WE)
 add_dependencies(fastnav_msgs_generate_messages_py _fastnav_msgs_generate_messages_check_deps_${_filename})

@@ -300,6 +300,7 @@ fastnav_msgs/preinstall:
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages.dir/clean
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/clean
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/clean
+fastnav_msgs/clean: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/clean
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/clean
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/clean
 fastnav_msgs/clean: fastnav_msgs/CMakeFiles/fastnav_msgs_gencpp.dir/clean
@@ -591,7 +592,7 @@ CMakeFiles/doxygen.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=38,39 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=43,44 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -618,7 +619,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=40,41 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=45,46 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -644,7 +645,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=42,43 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=47,48 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -670,7 +671,7 @@ gtest/googletest/CMakeFiles/gtest.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=44,45 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=49,50 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1632,7 +1633,7 @@ fastnav_gz_bridge/CMakeFiles/fastnav_gz_bridge_core.dir/clean:
 fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/all: fastnav_gz_bridge/CMakeFiles/fastnav_gz_bridge_core.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/build.make fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/build.make fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=48,49 "Built target gz_pointcloud_bridge_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=53,54 "Built target gz_pointcloud_bridge_node"
 .PHONY : fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1658,7 +1659,7 @@ fastnav_gz_bridge/CMakeFiles/gz_pointcloud_bridge_node.dir/clean:
 fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/all: fastnav_gz_bridge/CMakeFiles/fastnav_gz_bridge_core.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/build.make fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/build.make fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=46,47 "Built target gz_odom_bridge_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=51,52 "Built target gz_odom_bridge_node"
 .PHONY : fastnav_gz_bridge/CMakeFiles/gz_odom_bridge_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1693,7 +1694,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages.dir/all: fastnav_msgs/CMa
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 22
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages.dir/rule
@@ -1760,6 +1761,32 @@ fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.
 .PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/clean
 
 #=============================================================================
+# Target rules for target fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir
+
+# All Build rule for target.
+fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all:
+	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build.make fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/depend
+	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build.make fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num= "Built target _fastnav_msgs_generate_messages_check_deps_PlannerTiming"
+.PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
+
+# Build rule for subdir invocation for target.
+fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
+.PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule
+
+# Convenience name for target.
+_fastnav_msgs_generate_messages_check_deps_PlannerTiming: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule
+.PHONY : _fastnav_msgs_generate_messages_check_deps_PlannerTiming
+
+# clean rule for target.
+fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/clean:
+	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build.make fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/clean
+.PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/clean
+
+#=============================================================================
 # Target rules for target fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir
 
 # All Build rule for target.
@@ -1795,15 +1822,16 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_gz_b
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_gz_bridge/CMakeFiles/nav_msgs_generate_messages_cpp.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/all
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=13,14,15 "Built target fastnav_msgs_generate_messages_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=13,14,15,16 "Built target fastnav_msgs_generate_messages_cpp"
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp.dir/rule
@@ -1829,7 +1857,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_gencpp.dir/all: fastnav_msgs/CMakeFiles/fas
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_gencpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_gencpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_gencpp.dir/rule
@@ -1853,15 +1881,16 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_gz_b
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_gz_bridge/CMakeFiles/nav_msgs_generate_messages_eus.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/all
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=16,17,18,19 "Built target fastnav_msgs_generate_messages_eus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=17,18,19,20,21 "Built target fastnav_msgs_generate_messages_eus"
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_eus.dir/rule
@@ -1887,7 +1916,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_geneus.dir/all: fastnav_msgs/CMakeFiles/fas
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_geneus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_geneus.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_geneus.dir/rule
@@ -1911,15 +1940,16 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_gz_
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_gz_bridge/CMakeFiles/nav_msgs_generate_messages_lisp.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/all
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=20,21,22 "Built target fastnav_msgs_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=22,23,24,25 "Built target fastnav_msgs_generate_messages_lisp"
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_lisp.dir/rule
@@ -1945,7 +1975,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_genlisp.dir/all: fastnav_msgs/CMakeFiles/fa
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_genlisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_genlisp.dir/rule
@@ -1969,15 +1999,16 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_g
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_gz_bridge/CMakeFiles/nav_msgs_generate_messages_nodejs.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/all
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=23,24,25 "Built target fastnav_msgs_generate_messages_nodejs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=26,27,28,29 "Built target fastnav_msgs_generate_messages_nodejs"
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_nodejs.dir/rule
@@ -2003,7 +2034,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_gennodejs.dir/all: fastnav_msgs/CMakeFiles/
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_gennodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_gennodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_gennodejs.dir/rule
@@ -2027,15 +2058,16 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_gz_br
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_gz_bridge/CMakeFiles/nav_msgs_generate_messages_py.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ControlCommand.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_ObstacleInfo.dir/all
+fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/all
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/build.make fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=26,27,28,29 "Built target fastnav_msgs_generate_messages_py"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=30,31,32,33,34 "Built target fastnav_msgs_generate_messages_py"
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_py.dir/rule
@@ -2061,7 +2093,7 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_genpy.dir/all: fastnav_msgs/CMakeFiles/fast
 
 # Build rule for subdir invocation for target.
 fastnav_msgs/CMakeFiles/fastnav_msgs_genpy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/fastnav_msgs_genpy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_msgs/CMakeFiles/fastnav_msgs_genpy.dir/rule
@@ -2498,7 +2530,7 @@ fastnav_control/CMakeFiles/fastnav_control_core.dir/clean:
 fastnav_control/CMakeFiles/offboard_control_node.dir/all: fastnav_control/CMakeFiles/fastnav_control_core.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_control/CMakeFiles/offboard_control_node.dir/build.make fastnav_control/CMakeFiles/offboard_control_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_control/CMakeFiles/offboard_control_node.dir/build.make fastnav_control/CMakeFiles/offboard_control_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=59,60 "Built target offboard_control_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=64,65 "Built target offboard_control_node"
 .PHONY : fastnav_control/CMakeFiles/offboard_control_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -2784,7 +2816,7 @@ fastnav_tf/CMakeFiles/tf2_msgs_generate_messages_py.dir/clean:
 fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/all:
 	$(MAKE) $(MAKESILENT) -f fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/build.make fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/build.make fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=36,37 "Built target fastnav_tf_broadcaster_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=41,42 "Built target fastnav_tf_broadcaster_node"
 .PHONY : fastnav_tf/CMakeFiles/fastnav_tf_broadcaster_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3928,7 +3960,7 @@ fastnav_mapping/CMakeFiles/visualization_msgs_generate_messages_py.dir/clean:
 fastnav_mapping/CMakeFiles/voxel_map.dir/all:
 	$(MAKE) $(MAKESILENT) -f fastnav_mapping/CMakeFiles/voxel_map.dir/build.make fastnav_mapping/CMakeFiles/voxel_map.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_mapping/CMakeFiles/voxel_map.dir/build.make fastnav_mapping/CMakeFiles/voxel_map.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=89,90 "Built target voxel_map"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=94,95 "Built target voxel_map"
 .PHONY : fastnav_mapping/CMakeFiles/voxel_map.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3954,7 +3986,7 @@ fastnav_mapping/CMakeFiles/voxel_map.dir/clean:
 fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/all: fastnav_mapping/CMakeFiles/voxel_map.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/build.make fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/build.make fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=50,51 "Built target local_voxel_map_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=55,56 "Built target local_voxel_map_node"
 .PHONY : fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3980,7 +4012,7 @@ fastnav_mapping/CMakeFiles/local_voxel_map_node.dir/clean:
 GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/all:
 	$(MAKE) $(MAKESILENT) -f GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/build.make GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/build.make GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=54,55,56,57,58 "Built target mockamap_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=59,60,61,62,63 "Built target mockamap_node"
 .PHONY : GCOPTER/GCOPTER/map_gen/mockamap/CMakeFiles/mockamap_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4223,7 +4255,7 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/all: traj_utils/CMake
 traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/all: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=67,68,69,70 "Built target traj_utils_generate_messages_cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=72,73,74,75 "Built target traj_utils_generate_messages_cpp"
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4280,7 +4312,7 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/all: traj_utils/CMake
 traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/all: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=71,72,73,74,75 "Built target traj_utils_generate_messages_eus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=76,77,78,79,80 "Built target traj_utils_generate_messages_eus"
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages_eus.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4337,7 +4369,7 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/all: traj_utils/CMak
 traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/all: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=76,77,78,79 "Built target traj_utils_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=81,82,83,84 "Built target traj_utils_generate_messages_lisp"
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4394,7 +4426,7 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/all: traj_utils/CM
 traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/all: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=80,81,82,83 "Built target traj_utils_generate_messages_nodejs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=85,86,87,88 "Built target traj_utils_generate_messages_nodejs"
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4451,7 +4483,7 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/all: traj_utils/CMakeF
 traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/all: traj_utils/CMakeFiles/_traj_utils_generate_messages_check_deps_MincoTrajectory.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/build.make traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=84,85,86,87,88 "Built target traj_utils_generate_messages_py"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=89,90,91,92,93 "Built target traj_utils_generate_messages_py"
 .PHONY : traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4548,12 +4580,12 @@ traj_utils/CMakeFiles/traj_utils.dir/all: traj_utils/CMakeFiles/traj_utils_gener
 traj_utils/CMakeFiles/traj_utils.dir/all: traj_utils/CMakeFiles/traj_utils_generate_messages_py.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/traj_utils.dir/build.make traj_utils/CMakeFiles/traj_utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=61,62,63,64,65,66 "Built target traj_utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=66,67,68,69,70,71 "Built target traj_utils"
 .PHONY : traj_utils/CMakeFiles/traj_utils.dir/all
 
 # Build rule for subdir invocation for target.
 traj_utils/CMakeFiles/traj_utils.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 45
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 50
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/traj_utils.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : traj_utils/CMakeFiles/traj_utils.dir/rule
@@ -4620,12 +4652,12 @@ traj_utils/CMakeFiles/minco_traj_server.dir/all: traj_utils/CMakeFiles/traj_util
 traj_utils/CMakeFiles/minco_traj_server.dir/all: traj_utils/CMakeFiles/traj_utils.dir/all
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/depend
 	$(MAKE) $(MAKESILENT) -f traj_utils/CMakeFiles/minco_traj_server.dir/build.make traj_utils/CMakeFiles/minco_traj_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=52,53 "Built target minco_traj_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=57,58 "Built target minco_traj_server"
 .PHONY : traj_utils/CMakeFiles/minco_traj_server.dir/all
 
 # Build rule for subdir invocation for target.
 traj_utils/CMakeFiles/minco_traj_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 47
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 52
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 traj_utils/CMakeFiles/minco_traj_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : traj_utils/CMakeFiles/minco_traj_server.dir/rule
@@ -4746,12 +4778,12 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/all: traj_utils/CMakeFiles/t
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/all: traj_utils/CMakeFiles/traj_utils.dir/all
 	$(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/depend
 	$(MAKE) $(MAKESILENT) -f fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build.make fastnav_planner/CMakeFiles/fastnav_planner_core.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=30,31,32,33,34,35 "Built target fastnav_planner_core"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=35,36,37,38,39,40 "Built target fastnav_planner_core"
 .PHONY : fastnav_planner/CMakeFiles/fastnav_planner_core.dir/all
 
 # Build rule for subdir invocation for target.
 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 53
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 58
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_planner/CMakeFiles/fastnav_planner_core.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_planner/CMakeFiles/fastnav_planner_core.dir/rule
@@ -4878,7 +4910,7 @@ fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/all: fastnav_planner/C
 
 # Build rule for subdir invocation for target.
 fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 55
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 60
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles 0
 .PHONY : fastnav_planner/CMakeFiles/fastnav_local_planner_node.dir/rule

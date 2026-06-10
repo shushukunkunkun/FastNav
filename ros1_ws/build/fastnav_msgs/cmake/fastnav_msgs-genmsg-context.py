@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg;/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg;/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg"
+messages_str = "/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg;/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ObstacleInfo.msg;/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerTiming.msg;/home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/PlannerState.msg"
 services_str = ""
 pkg_name = "fastnav_msgs"
 dependencies_str = "std_msgs;geometry_msgs;sensor_msgs;nav_msgs"

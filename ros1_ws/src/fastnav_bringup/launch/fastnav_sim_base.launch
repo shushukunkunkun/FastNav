@@ -1,0 +1,60 @@
+<!--
+    FastNav simulation base bringup.
+
+    建议两终端启动：
+      1. roslaunch fastnav_bringup fastnav_sim_base.launch
+      2. roslaunch fastnav_bringup fastnav_planner_fsm.launch
+
+    本 launch 只启动“环境输入 + 控制执行”的基础链路：
+      MAVROS + fastnav_control + GZ bridge + TF + perception + mapping。
+
+    它不启动 planner FSM / traj_server，这样 planner 相关日志可以放到独立终端中观察，
+    不会被 GZ bridge 的点云与里程计打印淹没。
+-->
+<launch>
+    <arg name="use_sim_time" default="false"/>
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
+
+    <arg name="start_mavros_control" default="true"/>
+    <arg name="start_gz_bridge" default="true"/>
+    <arg name="start_tf" default="true"/>
+    <arg name="start_perception" default="true"/>
+    <arg name="start_mapping" default="true"/>
+
+    <arg name="fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+    <arg name="gcs_url" default=""/>
+    <arg name="tgt_system" default="1"/>
+    <arg name="tgt_component" default="1"/>
+
+    <param name="/use_sim_time" value="$(arg use_sim_time)"/>
+
+    <include file="$(find fastnav_bringup)/launch/load_fastnav_config.launch">
+        <arg name="mode" value="sim"/>
+        <arg name="config_root" value="$(arg config_root)"/>
+    </include>
+
+    <include if="$(arg start_mavros_control)"
+             file="$(find fastnav_bringup)/launch/sim_offboard.launch">
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="gcs_url" value="$(arg gcs_url)"/>
+        <arg name="tgt_system" value="$(arg tgt_system)"/>
+        <arg name="tgt_component" value="$(arg tgt_component)"/>
+        <arg name="config_root" value="$(arg config_root)"/>
+    </include>
+
+    <include if="$(arg start_gz_bridge)"
+             file="$(find fastnav_gz_bridge)/launch/gz_pointcloud_bridge.launch"/>
+
+    <include if="$(arg start_tf)"
+             file="$(find fastnav_tf)/launch/fastnav_tf.launch"/>
+
+    <include if="$(arg start_perception)"
+             file="$(find fastnav_perception)/launch/perception.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/perception.yaml"/>
+    </include>
+
+    <include if="$(arg start_mapping)"
+             file="$(find fastnav_mapping)/launch/mapping.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/mapping.yaml"/>
+    </include>
+</launch>

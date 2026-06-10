@@ -33,7 +33,7 @@ local_voxel_map:
   local_z_max: 3.0
 
   # 膨胀半径为 $inflation_radius = drone_radius + safety_margin$。
-  drone_radius: 0.3  # NOTE: 这个参数应该严格与planner.yaml中保持一致
+  drone_radius: 0.1  # NOTE: 这个参数应该严格与planner.yaml中保持一致
   safety_margin: 0.1  # NOTE: 这个参数应该严格与planner.yaml中保持一致
 
   # 地图内部维护多帧 log-odds 缓存，点云命中执行 $l_i <- clamp(l_i + l_hit, l_min, l_max)$。

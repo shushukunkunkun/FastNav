@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/msg/ControlCommand.l"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/msg/ObstacleInfo.l"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/msg/PlannerState.l"
+  "/home/shukun/Project/FastNav/ros1_ws/devel/share/roseus/ros/fastnav_msgs/msg/PlannerTiming.l"
   "CMakeFiles/fastnav_msgs_generate_messages_eus"
 )
 

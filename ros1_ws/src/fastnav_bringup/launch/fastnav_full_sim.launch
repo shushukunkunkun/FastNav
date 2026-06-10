@@ -4,8 +4,12 @@
     启动前先在 PX4 目录运行：
       make px4_sitl gz_x500_mid360_single_obstacle
 
-    然后运行本 launch：
+    若想一键启动所有 ROS 侧模块，运行本 launch：
       roslaunch fastnav_bringup fastnav_full_sim.launch
+
+    若想单独观察 PlannerFSM / timing 日志，推荐拆成两个终端：
+      roslaunch fastnav_bringup fastnav_sim_base.launch
+      roslaunch fastnav_bringup fastnav_planner_fsm.launch
 
     本 launch 负责拉起完整 ROS 侧链路：
       MAVROS + FastNav control + GZ bridge + TF + perception + mapping + planner。

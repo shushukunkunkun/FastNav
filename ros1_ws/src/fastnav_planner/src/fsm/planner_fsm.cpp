@@ -65,6 +65,7 @@ void PlannerFSM::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
         debug_corridor_pub_ = nh_.advertise<visualization_msgs::MarkerArray>(debug_corridor_topic_, 1, true);
         fsm_state_pub_ = nh_.advertise<std_msgs::String>(fsm_state_topic_, 1, true);
         local_target_pub_ = nh_.advertise<geometry_msgs::PoseStamped>(local_target_topic_, 1, true);
+        timing_pub_ = nh_.advertise<fastnav_msgs::PlannerTiming>(timing_topic_, 10);
     }
 
     exec_timer_ = nh_.createTimer(ros::Duration(1.0 / std::max(1.0, exec_rate_)),
@@ -93,6 +94,7 @@ void PlannerFSM::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
         ROS_INFO("[FastNav][PlannerFSM] FSM state output: %s", fsm_state_topic_.c_str());
         ROS_INFO("[FastNav][PlannerFSM] local target output: %s", local_target_topic_.c_str());
         ROS_INFO("[FastNav][PlannerFSM] safe corridor output: %s", debug_corridor_topic_.c_str());
+        ROS_INFO("[FastNav][PlannerFSM] timing output: %s", timing_topic_.c_str());
     }
 }
 
@@ -113,6 +115,7 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     nh.param<std::string>("/local_planner/heartbeat_topic", heartbeat_topic_, heartbeat_topic_);
     nh.param<std::string>("/local_planner/fsm_state_topic", fsm_state_topic_, fsm_state_topic_);
     nh.param<std::string>("/local_planner/local_target_topic", local_target_topic_, local_target_topic_);
+    nh.param<std::string>("/local_planner/timing_topic", timing_topic_, timing_topic_);
     nh.param<bool>("/local_planner/debug/enable", debug_enable_, debug_enable_);
     nh.param<double>("/local_planner/fsm/exec_rate", exec_rate_, exec_rate_);
     nh.param<double>("/local_planner/fsm/safety_rate", safety_rate_, safety_rate_);
@@ -143,6 +146,7 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     pnh.param<std::string>("heartbeat_topic", heartbeat_topic_, heartbeat_topic_);
     pnh.param<std::string>("fsm_state_topic", fsm_state_topic_, fsm_state_topic_);
     pnh.param<std::string>("local_target_topic", local_target_topic_, local_target_topic_);
+    pnh.param<std::string>("timing_topic", timing_topic_, timing_topic_);
     pnh.param<bool>("debug/enable", debug_enable_, debug_enable_);
     pnh.param<double>("fsm/exec_rate", exec_rate_, exec_rate_);
     pnh.param<double>("fsm/safety_rate", safety_rate_, safety_rate_);
@@ -307,7 +311,8 @@ bool PlannerFSM::applyPendingGoal(const std::string& caller)
                                               odom_acc_,
                                               end_pt_,
                                               end_vel_,
-                                              Eigen::Vector3d::Zero()))
+                                              Eigen::Vector3d::Zero(),
+                                              planning_horizon_))
         {
             ROS_WARN("[FastNav][PlannerFSM] Global reference generation failed: %s",
                      planner_manager_->lastError().c_str());
@@ -393,7 +398,7 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         break;
 
     case REPLAN_TRAJ:
-        if (hasReachedGoal())
+        if (shouldFinishCurrentTarget())
         {
             finishCurrentTarget("FSM");
             changeFSMExecState(WAIT_TARGET, "FSM");
@@ -420,7 +425,7 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         {
             changeFSMExecState(WAIT_TARGET, "FSM");
         }
-        else if (hasReachedGoal())
+        else if (shouldFinishCurrentTarget())
         {
             finishCurrentTarget("FSM");
             changeFSMExecState(WAIT_TARGET, "FSM");
@@ -447,7 +452,7 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
 
                 if (local_target_is_goal)
                 {
-                    if (t_cur > local_data.duration_ - 1.0e-2)
+                    if (shouldFinishCurrentTarget())
                     {
                         finishCurrentTarget("FSM");
                         changeFSMExecState(WAIT_TARGET, "FSM");
@@ -571,7 +576,7 @@ void PlannerFSM::printFSMExecState() const
              stateName(exec_state_).c_str(), have_odom_, have_map_, have_target_);
 }
 
-// 从全局目标生成新路径；当前第一版没有全局参考轨迹，因此直接规划到 end_pt_。
+// 从全局目标生成新路径；
 bool PlannerFSM::planFromGlobalTraj(int trial_times)
 {
     if (have_odom_)
@@ -591,7 +596,8 @@ bool PlannerFSM::planFromGlobalTraj(int trial_times)
                                          start_acc_,
                                          end_pt_,
                                          end_vel_,
-                                         Eigen::Vector3d::Zero());
+                                         Eigen::Vector3d::Zero(),
+                                         planning_horizon_);
     }
 
     for (int i = 0; i < std::max(1, trial_times); ++i)
@@ -663,6 +669,10 @@ bool PlannerFSM::planFromCurrentTraj(int trial_times)
 // 统一规划入口：检查前置条件，选择局部目标，调用 manager 的 A* + PathOptimizer，并发布结果。
 bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int retry_index)
 {
+    const ros::WallTime total_start = ros::WallTime::now();
+    double local_target_ms = 0.0;
+    double publish_ms = 0.0;
+
     if (!have_odom_ || !have_map_ || !have_target_)
     {
         ROS_WARN_THROTTLE(1.0,
@@ -671,7 +681,9 @@ bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int ret
         return false;
     }
 
+    const ros::WallTime local_target_start = ros::WallTime::now();
     getLocalTarget();
+    local_target_ms = (ros::WallTime::now() - local_target_start).toSec() * 1000.0;
     if (goal_preempt_requested_.load())
     {
         return false;
@@ -708,13 +720,19 @@ bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int ret
     if (!success)
     {
         ROS_WARN_THROTTLE(1.0, "[FastNav][PlannerFSM] Planning failed: %s", planner_manager_->lastError().c_str());
+        const double total_ms = (ros::WallTime::now() - total_start).toSec() * 1000.0;
+        publishPlannerTiming(false, planner_manager_->lastError(), total_ms, local_target_ms, publish_ms);
         return false;
     }
 
+    const ros::WallTime publish_start = ros::WallTime::now();
     publishTrajectory();
+    publish_ms = (ros::WallTime::now() - publish_start).toSec() * 1000.0;
     request_replan_ = false;
     have_new_target_ = false;
 
+    const double total_ms = (ros::WallTime::now() - total_start).toSec() * 1000.0;
+    publishPlannerTiming(true, "", total_ms, local_target_ms, publish_ms);
     ROS_INFO("[FastNav][PlannerFSM] Path planned and published.");
     return true;
 }
@@ -846,10 +864,50 @@ bool PlannerFSM::hasReachedGoal() const
     return (odom_pos_ - end_pt_).norm() <= goal_tolerance_;
 }
 
+bool PlannerFSM::shouldFinishCurrentTarget() const
+{
+    if (hasReachedGoal())
+    {
+        return true;
+    }
+
+    if (!have_target_ || !have_odom_)
+    {
+        return false;
+    }
+
+    // 末端容错：控制器跟踪 MINCO 末端后会切到 hover，如果实际 odom 因动态滞后没有精确进入
+    // $goal\_tolerance$，planner 不应继续在目标附近无限 REPLAN。
+    // 条件要求：
+    // 1. 当前 local target 已经是最终目标；
+    // 2. odom 已进入 no_replan_distance 末端区域；
+    // 3. 当前最终局部轨迹已经基本执行结束。
+    const bool local_target_is_goal = touch_goal_ || (local_target_pt_ - end_pt_).norm() < 1.0e-3;
+    if (!local_target_is_goal)
+    {
+        return false;
+    }
+
+    const double dist_to_goal = (odom_pos_ - end_pt_).norm();
+    if (dist_to_goal > no_replan_distance_)
+    {
+        return false;
+    }
+
+    const auto& local_data = planner_manager_->local_data_;
+    if (!local_data.valid_ || local_data.start_time_.isZero() || local_data.duration_ <= 1.0e-6)
+    {
+        return false;
+    }
+
+    const double elapsed = (ros::Time::now() - local_data.start_time_).toSec();
+    return elapsed >= local_data.duration_ - 0.05;
+}
+
 void PlannerFSM::finishCurrentTarget(const std::string& caller)
 {
-    ROS_INFO("[FastNav][PlannerFSM][%s] Target reached. dist=%.3f, tolerance=%.3f",
-             caller.c_str(), (odom_pos_ - end_pt_).norm(), goal_tolerance_);
+    ROS_INFO("[FastNav][PlannerFSM][%s] Target finished. dist=%.3f, tolerance=%.3f, finish_radius=%.3f",
+             caller.c_str(), (odom_pos_ - end_pt_).norm(), goal_tolerance_, no_replan_distance_);
 
     have_target_ = false;
     have_new_target_ = false;
@@ -1024,6 +1082,69 @@ void PlannerFSM::publishMincoTrajectory()
     }
 
     minco_traj_pub_.publish(msg);
+}
+
+void PlannerFSM::publishPlannerTiming(bool success,
+                                      const std::string& failure_reason,
+                                      double total_ms,
+                                      double local_target_ms,
+                                      double publish_ms)
+{
+    if (!debug_enable_)
+    {
+        return;
+    }
+
+    const LocalPlannerManager::PlanningTiming timing = planner_manager_->lastTiming();
+    const int traj_id = planner_manager_->local_data_.valid_
+                            ? planner_manager_->local_data_.traj_id_
+                            : 0;
+
+    if (timing_pub_)
+    {
+        fastnav_msgs::PlannerTiming msg;
+        msg.header.stamp = ros::Time::now();
+        msg.header.frame_id = planner_manager_->frameId();
+        msg.traj_id = static_cast<uint32_t>(std::max(0, traj_id));
+        msg.fsm_state = stateName(exec_state_);
+        msg.success = success;
+        msg.failure_reason = failure_reason;
+        msg.total_ms = total_ms;
+        msg.local_target_ms = local_target_ms;
+        msg.guide_astar_ms = timing.guide_astar_ms;
+        msg.frontend_astar_ms = timing.frontend_astar_ms;
+        msg.reference_ms = timing.reference_ms;
+        msg.shortcut_ms = timing.shortcut_ms;
+        msg.corridor_ms = timing.corridor_ms;
+        msg.minco_ms = timing.minco_ms;
+        msg.fine_check_ms = timing.fine_check_ms;
+        msg.publish_ms = publish_ms;
+        msg.astar_nodes = timing.astar_nodes;
+        msg.corridor_num = timing.corridor_num;
+        msg.minco_retry_count = timing.minco_retry_count;
+        msg.clearance_used = timing.clearance_used;
+        timing_pub_.publish(msg);
+    }
+
+    ROS_INFO("[FastNav][PlannerTiming] ok=%d state=%s total=%.2fms lt=%.2f guide=%.2f astar=%.2f ref=%.2f shortcut=%.2f corridor=%.2f minco=%.2f check=%.2f pub=%.2f nodes=%d corridors=%d retry=%d clearance=%.3f%s%s",
+             success,
+             stateName(exec_state_).c_str(),
+             total_ms,
+             local_target_ms,
+             timing.guide_astar_ms,
+             timing.frontend_astar_ms,
+             timing.reference_ms,
+             timing.shortcut_ms,
+             timing.corridor_ms,
+             timing.minco_ms,
+             timing.fine_check_ms,
+             publish_ms,
+             timing.astar_nodes,
+             timing.corridor_num,
+             timing.minco_retry_count,
+             timing.clearance_used,
+             failure_reason.empty() ? "" : " reason=",
+             failure_reason.c_str());
 }
 
 void PlannerFSM::publishLocalTargetIfChanged()

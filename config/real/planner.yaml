@@ -15,4 +15,6 @@ planner:
 
   astar:
     heuristic_weight: 1.2
+    min_clearance: 0.2
+    max_search_time: 0.2
     max_search_nodes: 30000

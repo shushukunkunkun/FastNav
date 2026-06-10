@@ -28,6 +28,7 @@
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+#include <fastnav_msgs/PlannerTiming.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/Path.h>
@@ -118,6 +119,7 @@ private:
 
     // 判断任务终点是否已经到达，并在到达后清理目标标志，使 FSM 回到 WAIT_TARGET。
     bool hasReachedGoal() const;
+    bool shouldFinishCurrentTarget() const;
     void finishCurrentTarget(const std::string& caller);
 
     // 发布 manager 当前路径和 A* 搜索节点。
@@ -132,6 +134,13 @@ private:
 
     // 发布当前 MINCO 轨迹消息；traj_utils/minco_traj_server 会按时间采样成控制指令。
     void publishMincoTrajectory();
+
+    // 发布一次规划耗时统计。仅 debug_enable_ 为 true 时创建 publisher 并发布。
+    void publishPlannerTiming(bool success,
+                              const std::string& failure_reason,
+                              double total_ms,
+                              double local_target_ms,
+                              double publish_ms);
 
     // local target 变化时发布调试事件，实时曲线工具用它计数并画竖线。
     void publishLocalTargetIfChanged();
@@ -168,6 +177,7 @@ private:
     ros::Publisher heartbeat_pub_;
     ros::Publisher fsm_state_pub_;
     ros::Publisher local_target_pub_;
+    ros::Publisher timing_pub_;
 
     // 定时器：FSM 主循环、安全检查和 debug map 发布。
     ros::Timer exec_timer_;
@@ -242,6 +252,7 @@ private:
     std::string heartbeat_topic_{"/fastnav/planner/heartbeat"};
     std::string fsm_state_topic_{"/fastnav/planner/fsm_state"};
     std::string local_target_topic_{"/fastnav/planner/local_target"};
+    std::string timing_topic_{"/fastnav/planner/timing"};
 
     // FSM 运行频率和行为开关。
     bool debug_enable_{true};

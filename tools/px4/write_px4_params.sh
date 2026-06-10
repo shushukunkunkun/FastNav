@@ -8,7 +8,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FASTNAV_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 # NOTE: 修改这个文件
-PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits.params"
+PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits_high.params"
 MAVROS_NS="/mavros"
 DRY_RUN=0
 

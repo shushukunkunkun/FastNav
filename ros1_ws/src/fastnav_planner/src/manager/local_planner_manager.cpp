@@ -25,9 +25,69 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
+#include <ros/time.h>
 
 namespace fastnav_planner
 {
+
+namespace
+{
+
+double smoothReferenceDuration(double distance, double max_vel, double max_acc)
+{
+    if (distance < 1.0e-4)
+    {
+        return 0.0;
+    }
+
+    // 五次多项式参考段的峰值速度/加速度会高于 $d/T$ 与 $d/T^2$，
+    // 这里使用保守时间 $T=max(2d/v_{max}, sqrt(6d/a_{max}))$。
+    return std::max(0.5,
+                    std::max(2.0 * distance / std::max(0.1, max_vel),
+                             std::sqrt(6.0 * distance / std::max(0.1, max_acc))));
+}
+
+Piece<5> makeQuinticPiece(const Eigen::Vector3d& p0,
+                          const Eigen::Vector3d& v0,
+                          const Eigen::Vector3d& a0,
+                          const Eigen::Vector3d& p1,
+                          const Eigen::Vector3d& v1,
+                          const Eigen::Vector3d& a1,
+                          double duration)
+{
+    const double T = std::max(1.0e-3, duration);
+    Eigen::Matrix3d A;
+    A << std::pow(T, 3), std::pow(T, 4), std::pow(T, 5),
+         3.0 * std::pow(T, 2), 4.0 * std::pow(T, 3), 5.0 * std::pow(T, 4),
+         6.0 * T, 12.0 * std::pow(T, 2), 20.0 * std::pow(T, 3);
+
+    Piece<5>::CoefficientMat coeff;
+    coeff.setZero();
+    for (int axis = 0; axis < 3; ++axis)
+    {
+        const double c0 = p0(axis);
+        const double c1 = v0(axis);
+        const double c2 = 0.5 * a0(axis);
+
+        Eigen::Vector3d b;
+        b(0) = p1(axis) - (c0 + c1 * T + c2 * T * T);
+        b(1) = v1(axis) - (c1 + 2.0 * c2 * T);
+        b(2) = a1(axis) - (2.0 * c2);
+
+        const Eigen::Vector3d high = A.lu().solve(b);
+        // GCOPTER Piece<5> 的系数列顺序为 $[t^5,t^4,t^3,t^2,t,1]$。
+        coeff(axis, 5) = c0;
+        coeff(axis, 4) = c1;
+        coeff(axis, 3) = c2;
+        coeff(axis, 2) = high(0);
+        coeff(axis, 1) = high(1);
+        coeff(axis, 0) = high(2);
+    }
+
+    return Piece<5>(T, coeff);
+}
+
+}  // namespace
 
 // 初始化 manager 内部算法对象：读取参数，创建 VoxelMap、AStarPlanner 和 PathOptimizer，并完成指针绑定。
 void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
@@ -43,6 +103,15 @@ void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
                      local_z_max_,
                      drone_radius_,
                      safety_margin_);
+    frontend_voxel_map_ = std::make_shared<fastnav_mapping::VoxelMap>();
+    frontend_voxel_map_->init(resolution_,
+                              local_x_size_,
+                              local_y_size_,
+                              local_z_size_,
+                              local_z_min_,
+                              local_z_max_,
+                              drone_radius_,
+                              safety_margin_ + astar_config_.min_clearance);
     // planner 内部 VoxelMap 不再每帧完全重建，而是像 EGO-Planner 的 GridMap 一样长期持有局部缓存。
     // 点云命中用 log-odds 累计 $l_i <- clamp(l_i + log(p_hit/(1-p_hit)), l_min, l_max)$；
     // 当前版本暂不做 raycasting free-space，因此用 temporal_decay_log 把旧障碍缓慢拉回未知 $l=0$。
@@ -52,9 +121,15 @@ void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
                                          map_p_max_,
                                          map_p_occ_,
                                          map_temporal_decay_log_);
+    frontend_voxel_map_->setOccupancyUpdateParams(map_p_hit_,
+                                                  map_p_miss_,
+                                                  map_p_min_,
+                                                  map_p_max_,
+                                                  map_p_occ_,
+                                                  map_temporal_decay_log_);
 
     astar_planner_ = std::make_shared<AStarPlanner>();
-    astar_planner_->setMap(voxel_map_);
+    astar_planner_->setMap(frontend_voxel_map_);
     astar_planner_->setConfig(astar_config_);
 
     path_optimizer_ = std::make_shared<PathOptimizer>();
@@ -63,8 +138,11 @@ void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     global_data_.reset();
     local_data_.reset();
 
-    ROS_INFO("[FastNav][LocalPlannerManager] Initialized. resolution=%.3f, frame=%s",
-             resolution_, frame_id_.c_str());
+    ROS_INFO("[FastNav][LocalPlannerManager] Initialized. resolution=%.3f, frame=%s, base_inflation=%.3f, frontend_inflation=%.3f",
+             resolution_,
+             frame_id_.c_str(),
+             voxel_map_->inflationRadius(),
+             frontend_voxel_map_->inflationRadius());
 }
 
 // 读取局部地图、A*、优化器参数；全局 yaml 提供默认值，私有参数提供节点级覆盖入口。
@@ -99,11 +177,17 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     nh.param<bool>("/local_planner/astar/check_line_collision", astar_config_.check_line_collision, astar_config_.check_line_collision);
     nh.param<double>("/local_planner/astar/heuristic_weight", astar_config_.heuristic_weight, astar_config_.heuristic_weight);
     nh.param<double>("/local_planner/astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
+    nh.param<double>("/local_planner/astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
+    nh.param<double>("/local_planner/astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
     nh.param<double>("/local_planner/astar/line_check_step", astar_config_.line_check_step, astar_config_.line_check_step);
     nh.param<int>("/local_planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
+    nh.param<double>("/local_planner/astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
     nh.param<double>("/planner/astar/heuristic_weight", astar_config_.heuristic_weight, astar_config_.heuristic_weight);
     nh.param<double>("/planner/astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
+    nh.param<double>("/planner/astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
+    nh.param<double>("/planner/astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
     nh.param<int>("/planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
+    nh.param<double>("/planner/astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
     nh.param<bool>("/local_planner/optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     nh.param<bool>("/local_planner/optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
     nh.param<double>("/local_planner/optimizer/line_check_step", optimizer_config_.line_check_step, optimizer_config_.line_check_step);
@@ -181,6 +265,9 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     pnh.param<std::string>("frame_id", frame_id_, frame_id_);
     pnh.param<bool>("replan_on_cloud", replan_on_cloud_, replan_on_cloud_);
     pnh.param<double>("astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
+    pnh.param<double>("astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
+    pnh.param<double>("astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
+    pnh.param<double>("astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
     pnh.param<bool>("optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     pnh.param<bool>("optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
     pnh.param<double>("optimizer/line_check_step", optimizer_config_.line_check_step, optimizer_config_.line_check_step);
@@ -193,6 +280,9 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     minco_sample_dt_ = std::max(1.0e-3, optimizer_config_.minco_sample_dt);
     random_init_scale_ = std::max(0.0, random_init_scale_);
     astar_config_.min_clearance = std::max(0.0, astar_config_.min_clearance);
+    astar_config_.min_clearance_floor = std::max(0.0, std::min(astar_config_.min_clearance_floor, astar_config_.min_clearance));
+    astar_config_.clearance_retry_scale = std::min(0.99, std::max(0.05, astar_config_.clearance_retry_scale));
+    astar_config_.max_search_time = std::max(0.0, astar_config_.max_search_time);
 }
 
 // 更新当前无人机状态；current_odom_ 后续用于地图中心 $c$ 和 A* 搜索起点。
@@ -226,13 +316,18 @@ void LocalPlannerManager::updateCloud(const sensor_msgs::PointCloud2ConstPtr& ms
     // 局部地图中心跟随无人机位置 $c$ 滑动，VoxelMap 会按整格偏移搬运旧缓存。
     // 因此这里不再 reset；旧障碍若持续被看见会继续累积，没被看见则通过 $l_i -> 0$ 的衰减逐渐遗忘。
     voxel_map_->setMapCenter(currentPosition());
+    frontend_voxel_map_->setMapCenter(currentPosition());
     voxel_map_->decayOccupancy();
+    frontend_voxel_map_->decayOccupancy();
 
     for (const pcl::PointXYZ& point : cloud.points)
     {
-        voxel_map_->setOccupied(Eigen::Vector3d(point.x, point.y, point.z));
+        const Eigen::Vector3d pos(point.x, point.y, point.z);
+        voxel_map_->setOccupied(pos);
+        frontend_voxel_map_->setOccupied(pos);
     }
     voxel_map_->inflateObstacles();
+    frontend_voxel_map_->inflateObstacles();
 
     last_cloud_stamp_ = msg->header.stamp;
     has_map_ = true;
@@ -251,7 +346,9 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
                                          const Eigen::Vector3d& start_acc,
                                          const Eigen::Vector3d& end_pos,
                                          const Eigen::Vector3d& end_vel,
-                                         const Eigen::Vector3d& end_acc)
+                                         const Eigen::Vector3d& end_acc,
+                                         double planning_horizon)
+// SEEME: 这个函数用于产生全局轨迹
 {
     const Eigen::Vector3d delta = end_pos - start_pos;
     const double distance = delta.norm();
@@ -263,50 +360,111 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
 
     const double max_vel = std::max(0.1, optimizer_config_.feasibility.max_vel);
     const double max_acc = std::max(0.1, optimizer_config_.feasibility.max_acc);
-    // 单段五次 smooth reference 的峰值速度和加速度会高于 $d/T$ 与 $d/T^2$，
-    // 因此这里按 $T=max(2d/v_{max}, sqrt(6d/a_{max}))$ 给全局参考留足时间裕度。
-    const double duration = std::max(1.0,
-                                     std::max(2.0 * distance / max_vel,
-                                              std::sqrt(6.0 * distance / max_acc)));
+    const double horizon = planning_horizon > 1.0e-3 ? planning_horizon : distance;
 
-    Eigen::Matrix3d A;
-    A << std::pow(duration, 3), std::pow(duration, 4), std::pow(duration, 5),
-         3.0 * std::pow(duration, 2), 4.0 * std::pow(duration, 3), 5.0 * std::pow(duration, 4),
-         6.0 * duration, 12.0 * std::pow(duration, 2), 20.0 * std::pow(duration, 3);
+    std::vector<Eigen::Vector3d> guide_path;
+    Eigen::Vector3d local_target = end_pos;
+    Eigen::Vector3d local_dir = delta / std::max(distance, 1.0e-6);
+    bool guide_success = false;
 
-    Piece<5>::CoefficientMat coeff;
-    coeff.setZero();
-    for (int axis = 0; axis < 3; ++axis)
+    if (has_map_ && astar_planner_ && distance > horizon + 1.0e-3)
     {
-        const double a0 = start_pos(axis);
-        const double a1 = start_vel(axis);
-        const double a2 = 0.5 * start_acc(axis);
+        const ros::WallTime guide_start = ros::WallTime::now();
+        double guide_clearance_used = astar_config_.min_clearance;
+        int guide_expanded_nodes = 0;
+        guide_success = runGuideAStarWithFallback(start_pos,
+                                                  end_pos,
+                                                  horizon,
+                                                  guide_path,
+                                                  guide_clearance_used,
+                                                  guide_expanded_nodes);
+        last_timing_.guide_astar_ms = (ros::WallTime::now() - guide_start).toSec() * 1000.0;
+        searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
+        if (guide_success && guide_path.size() >= 2)
+        {
+            local_target = guide_path.back();
+            local_dir = guide_path.back() - guide_path[guide_path.size() - 2];
+            if (local_dir.norm() < 1.0e-6)
+            {
+                local_dir = local_target - start_pos;
+            }
+            if (local_dir.norm() < 1.0e-6)
+            {
+                local_dir = delta;
+            }
+            local_dir.normalize();
+        }
+        else
+        {
+            ROS_WARN_THROTTLE(1.0,
+                              "[FastNav][LocalPlannerManager] Guide A* failed, fallback to direct global reference: %s",
+                              last_error_.c_str());
+        }
+    }
 
-        Eigen::Vector3d b;
-        b(0) = end_pos(axis) - (a0 + a1 * duration + a2 * duration * duration);
-        b(1) = end_vel(axis) - (a1 + 2.0 * a2 * duration);
-        b(2) = end_acc(axis) - (2.0 * a2);
-
-        const Eigen::Vector3d high = A.lu().solve(b);
-        // GCOPTER Piece<5> 的系数列顺序是 $[t^5,t^4,t^3,t^2,t,1]$。
-        coeff(axis, 5) = a0;
-        coeff(axis, 4) = a1;
-        coeff(axis, 3) = a2;
-        coeff(axis, 2) = high(0);
-        coeff(axis, 1) = high(1);
-        coeff(axis, 0) = high(2);
+    if (!guide_success && distance > horizon + 1.0e-3)
+    {
+        local_target = start_pos + local_dir * horizon;
     }
 
     fastnav::MincoTraj::TrajectoryType global_traj;
-    global_traj.emplace_back(duration, coeff);
-    global_data_.setGlobalTraj(global_traj, ros::Time::now(), frame_id_);
     global_data_.waypoints_.clear();
     global_data_.waypoints_.push_back(start_pos);
+
+    const bool local_target_is_goal = (local_target - end_pos).norm() < std::max(0.2, resolution_);
+    if (local_target_is_goal)
+    {
+        const double duration = smoothReferenceDuration(distance, max_vel, max_acc);
+        global_traj.emplace_back(makeQuinticPiece(start_pos,
+                                                  start_vel,
+                                                  start_acc,
+                                                  end_pos,
+                                                  end_vel,
+                                                  end_acc,
+                                                  duration));
+    }
+    else
+    {
+        const double d1 = std::max(1.0e-4, (local_target - start_pos).norm());
+        const double d2 = std::max(1.0e-4, (end_pos - local_target).norm());
+        const double t1 = smoothReferenceDuration(d1, max_vel, max_acc);
+        const double t2 = smoothReferenceDuration(d2, max_vel, max_acc);
+
+        // 中间点速度沿 guide A* 最后一段方向，大小按两段长度和时间分配估计；
+        // 中间加速度设为 0，让两段五次多项式在 $p,v,a$ 上连续。
+        const double mid_speed = std::min(max_vel, std::max(0.1, 0.5 * (d1 / std::max(t1, 1.0e-3) +
+                                                                        d2 / std::max(t2, 1.0e-3))));
+        const Eigen::Vector3d mid_vel = local_dir * mid_speed;
+        const Eigen::Vector3d mid_acc = Eigen::Vector3d::Zero();
+
+        global_traj.emplace_back(makeQuinticPiece(start_pos,
+                                                  start_vel,
+                                                  start_acc,
+                                                  local_target,
+                                                  mid_vel,
+                                                  mid_acc,
+                                                  t1));
+        global_traj.emplace_back(makeQuinticPiece(local_target,
+                                                  mid_vel,
+                                                  mid_acc,
+                                                  end_pos,
+                                                  end_vel,
+                                                  end_acc,
+                                                  t2));
+        global_data_.waypoints_.push_back(local_target);
+    }
     global_data_.waypoints_.push_back(end_pos);
+
+    global_data_.setGlobalTraj(global_traj, ros::Time::now(), frame_id_);
     last_error_.clear();
 
-    ROS_INFO("[FastNav][LocalPlannerManager] Global reference trajectory generated. duration=%.2f, distance=%.2f",
-             duration, distance);
+    ROS_INFO("[FastNav][LocalPlannerManager] Global reference trajectory generated. duration=%.2f, distance=%.2f, guide=%d, local_target=[%.2f, %.2f, %.2f]",
+             global_data_.duration_,
+             distance,
+             guide_success,
+             local_target.x(),
+             local_target.y(),
+             local_target.z());
     return true;
 }
 
@@ -319,6 +477,9 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     last_goal_ = goal;
     current_path_.clear();
     last_optimization_result_.clear();
+    const double last_guide_astar_ms = last_timing_.guide_astar_ms;
+    last_timing_.reset();
+    last_timing_.guide_astar_ms = last_guide_astar_ms;
     has_path_ = false;
 
     if (!has_odom_)
@@ -344,7 +505,18 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
 
     std::vector<Eigen::Vector3d> raw_path;
     astar_planner_->setCancelCallback(options.preempt_requested);
-    const bool success = astar_planner_->plan(start, goal, raw_path);
+    const ros::WallTime astar_start = ros::WallTime::now();
+    double astar_clearance_used = astar_config_.min_clearance;
+    int astar_expanded_nodes = 0;
+    const bool success = runAStarWithFallback(start,
+                                              goal,
+                                              options.preempt_requested,
+                                              raw_path,
+                                              astar_clearance_used,
+                                              astar_expanded_nodes);
+    last_timing_.frontend_astar_ms = (ros::WallTime::now() - astar_start).toSec() * 1000.0;
+    last_timing_.astar_nodes = astar_expanded_nodes;
+    last_timing_.clearance_used = astar_clearance_used;
     astar_planner_->setCancelCallback(std::function<bool()>());
     searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
 
@@ -356,13 +528,18 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
 
     if (!success)
     {
-        last_error_ = astar_planner_->lastError();
+        if (last_error_.empty())
+        {
+            last_error_ = astar_planner_->lastError();
+        }
         return false;
     }
 
     size_t preserve_prefix_size = 0;
+    const ros::WallTime reference_start = ros::WallTime::now();
     const std::vector<Eigen::Vector3d> optimization_reference_path =
         buildOptimizationReferencePath(raw_path, options, preserve_prefix_size);
+    last_timing_.reference_ms = (ros::WallTime::now() - reference_start).toSec() * 1000.0;
     if (preempted())
     {
         last_error_ = "Planning preempted after reference path generation.";
@@ -435,6 +612,12 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     // raw_path / shortcut_path 用作几何回退，MINCO 成功时 local_data_ 保存连续可执行轨迹 $p(t)$。
     // global_data_ 是任务级轻量参考轨迹，只由 planGlobalTraj() 维护，不能被局部优化结果覆盖。
     updateTrajInfo(last_optimization_result_, time_now);
+    last_timing_.shortcut_ms = last_optimization_result_.shortcut_ms;
+    last_timing_.corridor_ms = last_optimization_result_.corridor_ms;
+    last_timing_.minco_ms = last_optimization_result_.minco_ms;
+    last_timing_.fine_check_ms = last_optimization_result_.fine_check_ms;
+    last_timing_.corridor_num = static_cast<int>(last_optimization_result_.corridors.size());
+    last_timing_.minco_retry_count = last_optimization_result_.minco_retry_count;
 
     has_path_ = true;
     last_error_.clear();
@@ -603,6 +786,139 @@ sensor_msgs::PointCloud2 LocalPlannerManager::centersToCloud(
     msg.header.stamp = stamp;
     msg.header.frame_id = frame_id_;
     return msg;
+}
+
+bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
+                                               const Eigen::Vector3d& goal,
+                                               const std::function<bool()>& preempt_requested,
+                                               std::vector<Eigen::Vector3d>& path,
+                                               double& clearance_used,
+                                               int& expanded_nodes)
+{
+    path.clear();
+    clearance_used = astar_config_.min_clearance;
+    expanded_nodes = 0;
+
+    if (!astar_planner_ || !frontend_voxel_map_ || !voxel_map_)
+    {
+        last_error_ = "A* fallback dependencies are not ready.";
+        return false;
+    }
+
+    auto restore_frontend_map = [this]() {
+        astar_planner_->setMap(frontend_voxel_map_);
+    };
+
+    astar_planner_->setMap(frontend_voxel_map_);
+    if (astar_planner_->plan(start, goal, path))
+    {
+        expanded_nodes = astar_planner_->lastExpandedNodes();
+        clearance_used = astar_config_.min_clearance;
+        restore_frontend_map();
+        return true;
+    }
+
+    const std::string frontend_error = astar_planner_->lastError();
+    expanded_nodes = astar_planner_->lastExpandedNodes();
+
+    if (preempt_requested && preempt_requested())
+    {
+        last_error_ = frontend_error;
+        restore_frontend_map();
+        return false;
+    }
+
+    if (astar_config_.min_clearance <= 1.0e-6)
+    {
+        last_error_ = frontend_error;
+        restore_frontend_map();
+        return false;
+    }
+
+    ROS_WARN_THROTTLE(1.0,
+                      "[FastNav][LocalPlannerManager] Frontend A* failed, retry once on base map: %s",
+                      frontend_error.c_str());
+
+    astar_planner_->setMap(voxel_map_);
+    if (astar_planner_->plan(start, goal, path))
+    {
+        expanded_nodes += astar_planner_->lastExpandedNodes();
+        clearance_used = 0.0;
+        ROS_WARN_THROTTLE(1.0,
+                          "[FastNav][LocalPlannerManager] Base-map A* fallback succeeded; path has lower frontend clearance.");
+        restore_frontend_map();
+        return true;
+    }
+
+    expanded_nodes += astar_planner_->lastExpandedNodes();
+    clearance_used = 0.0;
+    last_error_ = "Frontend A* failed: " + frontend_error +
+                  "; base-map fallback failed: " + astar_planner_->lastError();
+    restore_frontend_map();
+    return false;
+}
+
+bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start,
+                                                    const Eigen::Vector3d& final_goal,
+                                                    double horizon,
+                                                    std::vector<Eigen::Vector3d>& path,
+                                                    double& clearance_used,
+                                                    int& expanded_nodes)
+{
+    path.clear();
+    clearance_used = astar_config_.min_clearance;
+    expanded_nodes = 0;
+
+    if (!astar_planner_ || !frontend_voxel_map_ || !voxel_map_)
+    {
+        last_error_ = "Guide A* fallback dependencies are not ready.";
+        return false;
+    }
+
+    auto restore_frontend_map = [this]() {
+        astar_planner_->setMap(frontend_voxel_map_);
+    };
+
+    astar_planner_->setMap(frontend_voxel_map_);
+    if (astar_planner_->planToHorizon(start, final_goal, horizon, path))
+    {
+        expanded_nodes = astar_planner_->lastExpandedNodes();
+        clearance_used = astar_config_.min_clearance;
+        restore_frontend_map();
+        return true;
+    }
+
+    const std::string frontend_error = astar_planner_->lastError();
+    expanded_nodes = astar_planner_->lastExpandedNodes();
+
+    if (astar_config_.min_clearance <= 1.0e-6)
+    {
+        last_error_ = frontend_error;
+        restore_frontend_map();
+        return false;
+    }
+
+    ROS_WARN_THROTTLE(1.0,
+                      "[FastNav][LocalPlannerManager] Guide A* failed on frontend map, retry once on base map: %s",
+                      frontend_error.c_str());
+
+    astar_planner_->setMap(voxel_map_);
+    if (astar_planner_->planToHorizon(start, final_goal, horizon, path))
+    {
+        expanded_nodes += astar_planner_->lastExpandedNodes();
+        clearance_used = 0.0;
+        ROS_WARN_THROTTLE(1.0,
+                          "[FastNav][LocalPlannerManager] Guide A* base-map fallback succeeded.");
+        restore_frontend_map();
+        return true;
+    }
+
+    expanded_nodes += astar_planner_->lastExpandedNodes();
+    clearance_used = 0.0;
+    last_error_ = "Guide frontend A* failed: " + frontend_error +
+                  "; guide base-map fallback failed: " + astar_planner_->lastError();
+    restore_frontend_map();
+    return false;
 }
 
 std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath(

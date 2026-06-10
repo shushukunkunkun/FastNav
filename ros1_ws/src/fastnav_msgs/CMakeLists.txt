@@ -13,6 +13,7 @@ add_message_files(
   FILES
   ControlCommand.msg
   ObstacleInfo.msg
+  PlannerTiming.msg
   PlannerState.msg
 )
 

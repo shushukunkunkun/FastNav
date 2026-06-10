@@ -66,6 +66,35 @@ public:
         std::function<bool()> preempt_requested;
     };
 
+    struct PlanningTiming
+    {
+        double guide_astar_ms{0.0};
+        double frontend_astar_ms{0.0};
+        double reference_ms{0.0};
+        double shortcut_ms{0.0};
+        double corridor_ms{0.0};
+        double minco_ms{0.0};
+        double fine_check_ms{0.0};
+        int astar_nodes{0};
+        int corridor_num{0};
+        int minco_retry_count{0};
+        double clearance_used{0.0};
+        void reset()
+        {
+            guide_astar_ms = 0.0;
+            frontend_astar_ms = 0.0;
+            reference_ms = 0.0;
+            shortcut_ms = 0.0;
+            corridor_ms = 0.0;
+            minco_ms = 0.0;
+            fine_check_ms = 0.0;
+            astar_nodes = 0;
+            corridor_num = 0;
+            minco_retry_count = 0;
+            clearance_used = 0.0;
+        }
+    };
+
     // 初始化 manager：读取参数，创建 VoxelMap、AStarPlanner、PathOptimizer，并完成依赖注入。
     void init(ros::NodeHandle& nh, ros::NodeHandle& pnh);
 
@@ -88,7 +117,8 @@ public:
                         const Eigen::Vector3d& start_acc,
                         const Eigen::Vector3d& end_pos,
                         const Eigen::Vector3d& end_vel,
-                        const Eigen::Vector3d& end_acc);
+                        const Eigen::Vector3d& end_acc,
+                        double planning_horizon = 0.0);
 
     // 将 current_path_ 打包为 nav_msgs::Path，供 FSM 发布。
     nav_msgs::Path getPathMsg() const;
@@ -130,6 +160,7 @@ public:
 
     // 返回最近一次失败原因，供 FSM 打印日志。
     std::string lastError() const { return last_error_; }
+    PlanningTiming lastTiming() const { return last_timing_; }
 
     // 从 current_odom_ 中提取当前位置，供 FSM 设置触发点、急停点和日志输出。
     Eigen::Vector3d currentPosition() const;
@@ -154,6 +185,22 @@ private:
     sensor_msgs::PointCloud2 centersToCloud(const std::vector<Eigen::Vector3d>& centers,
                                             const ros::Time& stamp) const;
 
+    // 前端搜索优先使用 frontend_voxel_map_，如果大膨胀地图失败，则退回基础 voxel_map_ 再尝试一次。
+    bool runAStarWithFallback(const Eigen::Vector3d& start,
+                              const Eigen::Vector3d& goal,
+                              const std::function<bool()>& preempt_requested,
+                              std::vector<Eigen::Vector3d>& path,
+                              double& clearance_used,
+                              int& expanded_nodes);
+
+    // guide search 用于截取 local target，同样采用 frontend map -> base map 的单次 fallback。
+    bool runGuideAStarWithFallback(const Eigen::Vector3d& start,
+                                   const Eigen::Vector3d& final_goal,
+                                   double horizon,
+                                   std::vector<Eigen::Vector3d>& path,
+                                   double& clearance_used,
+                                   int& expanded_nodes);
+
     // 根据 EGO-v2 的随机中点思想，对 A* 路径的中间控制点做小扰动，生成不同的 MINCO/corridor 初始化参考。
     std::vector<Eigen::Vector3d> buildOptimizationReferencePath(const std::vector<Eigen::Vector3d>& raw_path,
                                                                 const ReplanOptions& options,
@@ -170,8 +217,10 @@ private:
                         const ros::Time& time_now);
 
 private:
-    // 核心算法对象。manager 通过 shared_ptr 管理生命周期，并把 voxel_map_ 注入给 AStarPlanner / PathOptimizer。
+    // 核心算法对象。voxel_map_ 是后端/fine check 使用的基础 inflated map；
+    // frontend_voxel_map_ 使用更大的膨胀半径，只给 A* 做快速 O(1) 前端查询。
     std::shared_ptr<fastnav_mapping::VoxelMap> voxel_map_;
+    std::shared_ptr<fastnav_mapping::VoxelMap> frontend_voxel_map_;
     std::shared_ptr<AStarPlanner> astar_planner_;
     std::shared_ptr<PathOptimizer> path_optimizer_;
 
@@ -222,6 +271,7 @@ private:
 
     // 最近一次规划或地图更新失败原因。
     std::string last_error_;
+    PlanningTiming last_timing_;
 };
 
 }  // namespace fastnav_planner

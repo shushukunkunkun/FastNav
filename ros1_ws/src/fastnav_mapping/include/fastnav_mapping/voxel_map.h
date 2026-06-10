@@ -88,6 +88,13 @@ public:
     void getSurf(std::vector<Eigen::Vector3d>& points,
                  bool include_occupied = true) const;
 
+    // 只输出局部盒 $[box_min, box_max]$ 内的表面体素。
+    // safe corridor 只关心路径附近障碍，因此该接口避免每次 FIRI 都扫描整张局部地图。
+    void getSurfInBox(const Eigen::Vector3d& box_min,
+                      const Eigen::Vector3d& box_max,
+                      std::vector<Eigen::Vector3d>& points,
+                      bool include_occupied = true) const;
+
     const Eigen::Vector3i& dimensions() const { return dim_; }
     const Eigen::Vector3d& origin() const { return origin_; }
     double resolution() const { return resolution_; }

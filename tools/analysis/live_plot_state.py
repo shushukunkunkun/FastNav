@@ -52,6 +52,11 @@ except Exception:
     # 允许用户只画 odom，不要求一定 source FastNav 工作空间。
     ControlCommand = None
 
+try:
+    from fastnav_msgs.msg import PlannerTiming
+except Exception:
+    PlannerTiming = None
+
 
 class TimeSeries:
     """保存滑动窗口数据或完整历史数据。"""
@@ -171,10 +176,12 @@ class LiveStatePlotter:
         # 显示用滑动窗口数据。
         self.odom_series = TimeSeries()
         self.cmd_series = TimeSeries()
+        self.timing_series = TimeSeries()
 
         # 保存结果用完整历史数据。
         self.odom_history = TimeSeries()
         self.cmd_history = TimeSeries()
+        self.timing_history = TimeSeries()
 
         self.last_odom_t = None
         self.last_odom_vel = None
@@ -183,6 +190,8 @@ class LiveStatePlotter:
         self.planner_fsm_state = "no msg"
         self.prev_planner_fsm_state = "no msg"
         self.control_fsm_state = "no msg"
+        self.latest_timing_success = "no msg"
+        self.latest_timing_reason = ""
 
         # FSM 阶跃曲线。
         self.state_to_code = {}
@@ -248,17 +257,46 @@ class LiveStatePlotter:
             queue_size=20,
         )
 
-        # 默认三块：
+        self.timing_sub = None
+        if not args.no_timing and PlannerTiming is not None:
+            self.timing_sub = rospy.Subscriber(
+                args.timing_topic,
+                PlannerTiming,
+                self.timing_callback,
+                queue_size=50,
+            )
+        elif not args.no_timing:
+            rospy.logwarn(
+                "[FastNav][LivePlot] fastnav_msgs/PlannerTiming not available, timing curve disabled."
+            )
+
+        # 默认四块：
         # 1. speed
-        # 2. FSM step
-        # 3. status text
-        #
-        # 如果 --show-axis-velocity，则变为四块：
-        # 1. speed
-        # 2. vx/vy/vz
+        # 2. planner timing
         # 3. FSM step
         # 4. status text
+        #
+        # 如果 --show-axis-velocity，则变为五块：
+        # 1. speed
+        # 2. vx/vy/vz
+        # 3. planner timing
+        # 4. FSM step
+        # 5. status text
         if self.args.show_axis_velocity:
+            self.fig, raw_axes = plt.subplots(
+                5,
+                1,
+                sharex=False,
+                figsize=(self.base_fig_width, self.base_fig_height + 3.0),
+                dpi=self.base_dpi,
+            )
+            self.ax_speed = raw_axes[0]
+            self.ax_axis_velocity = raw_axes[1]
+            self.ax_timing = raw_axes[2]
+            self.ax_fsm = raw_axes[3]
+            self.ax_status = raw_axes[4]
+            self.axes = raw_axes
+        else:
             self.fig, raw_axes = plt.subplots(
                 4,
                 1,
@@ -267,22 +305,10 @@ class LiveStatePlotter:
                 dpi=self.base_dpi,
             )
             self.ax_speed = raw_axes[0]
-            self.ax_axis_velocity = raw_axes[1]
+            self.ax_axis_velocity = None
+            self.ax_timing = raw_axes[1]
             self.ax_fsm = raw_axes[2]
             self.ax_status = raw_axes[3]
-            self.axes = raw_axes
-        else:
-            self.fig, raw_axes = plt.subplots(
-                3,
-                1,
-                sharex=False,
-                figsize=(self.base_fig_width, self.base_fig_height),
-                dpi=self.base_dpi,
-            )
-            self.ax_speed = raw_axes[0]
-            self.ax_axis_velocity = None
-            self.ax_fsm = raw_axes[1]
-            self.ax_status = raw_axes[2]
             self.axes = raw_axes
 
         self.fig.canvas.manager.set_window_title("FastNav State Monitor")
@@ -388,6 +414,49 @@ class LiveStatePlotter:
 
             legend = ax.legend(loc="upper right", ncol=3)
             self.legends.append(legend)
+
+        # -------------------------
+        # Planner timing 图
+        # -------------------------
+        ax = self.ax_timing
+
+        self.lines["timing_total"], = ax.plot(
+            [],
+            [],
+            label="total",
+            color="tab:blue",
+        )
+        self.lines["timing_astar"], = ax.plot(
+            [],
+            [],
+            label="A*",
+            color="tab:green",
+        )
+        self.lines["timing_corridor"], = ax.plot(
+            [],
+            [],
+            label="corridor",
+            color="tab:purple",
+        )
+        self.lines["timing_minco"], = ax.plot(
+            [],
+            [],
+            label="MINCO",
+            color="tab:orange",
+        )
+        self.lines["timing_check"], = ax.plot(
+            [],
+            [],
+            label="fine check",
+            color="tab:red",
+        )
+
+        ax.set_ylabel("planner [ms]")
+        ax.set_xlabel("time [s]")
+        ax.grid(True)
+
+        legend = ax.legend(loc="upper right", ncol=5)
+        self.legends.append(legend)
 
         # -------------------------
         # FSM 阶跃图
@@ -502,6 +571,8 @@ class LiveStatePlotter:
                 line.set_linewidth(line_width_cmd)
             elif name in ["planner_fsm", "control_fsm"]:
                 line.set_linewidth(fsm_line_width)
+            elif name.startswith("timing_"):
+                line.set_linewidth(line_width_main)
             else:
                 line.set_linewidth(line_width_main)
 
@@ -720,6 +791,26 @@ class LiveStatePlotter:
             self.pending_local_target_marks.append(event)
             self.local_target_events_history.append(event)
 
+    def timing_callback(self, msg):
+        t = self.time_from_msg(msg.header.stamp)
+
+        with self.lock:
+            self.latest_timing_success = str(bool(msg.success))
+            self.latest_timing_reason = msg.failure_reason
+
+            kwargs = dict(
+                total=msg.total_ms,
+                astar=msg.frontend_astar_ms,
+                corridor=msg.corridor_ms,
+                minco=msg.minco_ms,
+                fine_check=msg.fine_check_ms,
+                clearance=msg.clearance_used,
+                retry=float(msg.minco_retry_count),
+            )
+
+            self.timing_series.add(t, **kwargs)
+            self.timing_history.add(t, **kwargs)
+
     def clear_local_target_marks(self):
         for mark in self.local_target_mark_artists:
             for key in ["line_speed", "line_axis_velocity", "marker", "text"]:
@@ -838,6 +929,9 @@ class LiveStatePlotter:
             if self.cmd_series.t:
                 current_t = max(current_t, self.cmd_series.t[-1])
 
+            if self.timing_series.t:
+                current_t = max(current_t, self.timing_series.t[-1])
+
             if self.planner_fsm_series.t:
                 current_t = max(current_t, self.planner_fsm_series.t[-1])
 
@@ -848,6 +942,7 @@ class LiveStatePlotter:
 
             self.odom_series.trim(min_t)
             self.cmd_series.trim(min_t)
+            self.timing_series.trim(min_t)
 
             should_clear_marks = self.pending_clear_local_target_marks
             self.pending_clear_local_target_marks = False
@@ -866,6 +961,12 @@ class LiveStatePlotter:
                 self.set_line("cmd_vy", self.cmd_series, "vy")
                 self.set_line("cmd_vz", self.cmd_series, "vz")
 
+            self.set_line("timing_total", self.timing_series, "total")
+            self.set_line("timing_astar", self.timing_series, "astar")
+            self.set_line("timing_corridor", self.timing_series, "corridor")
+            self.set_line("timing_minco", self.timing_series, "minco")
+            self.set_line("timing_check", self.timing_series, "fine_check")
+
             planner_t, planner_y = self.planner_fsm_series.get_step_data(min_t, current_t)
             control_t, control_y = self.control_fsm_series.get_step_data(min_t, current_t)
 
@@ -878,11 +979,16 @@ class LiveStatePlotter:
             latest_cmd_z = self.latest_value(self.cmd_series, "z")
             latest_acc = self.latest_value(self.odom_series, "acc_norm")
             latest_cmd_acc = self.latest_value(self.cmd_series, "acc_norm")
+            latest_plan_total = self.latest_value(self.timing_series, "total")
+            latest_plan_astar = self.latest_value(self.timing_series, "astar")
+            latest_plan_minco = self.latest_value(self.timing_series, "minco")
+            latest_clearance = self.latest_value(self.timing_series, "clearance")
 
             self.status_text.set_text(
                 "Planner FSM   : {planner}\n"
                 "Controller FSM: {control}\n"
                 "Command type  : {cmd_type}\n"
+                "Planner timing: ok={timing_ok}, total={plan_total:.2f} ms, A*={plan_astar:.2f} ms, MINCO={plan_minco:.2f} ms, clearance={clearance:.3f}\n"
                 "Local targets : {local_target_count}\n"
                 "Last LT time  : {last_lt_time:.3f} s\n"
                 "Latest |v|    : odom={odom_speed:.3f} m/s, cmd={cmd_speed:.3f} m/s\n"
@@ -891,6 +997,11 @@ class LiveStatePlotter:
                     planner=self.planner_fsm_state,
                     control=self.control_fsm_state,
                     cmd_type=self.latest_cmd_type,
+                    timing_ok=self.latest_timing_success,
+                    plan_total=latest_plan_total,
+                    plan_astar=latest_plan_astar,
+                    plan_minco=latest_plan_minco,
+                    clearance=latest_clearance,
                     local_target_count=self.local_target_count,
                     last_lt_time=self.last_local_target_time,
                     odom_speed=latest_speed,
@@ -922,7 +1033,7 @@ class LiveStatePlotter:
         self.update_fsm_axis_ticks()
         self.apply_dynamic_style()
 
-        axes_to_limit = [self.ax_speed, self.ax_fsm]
+        axes_to_limit = [self.ax_speed, self.ax_timing, self.ax_fsm]
         if self.ax_axis_velocity is not None:
             axes_to_limit.append(self.ax_axis_velocity)
 
@@ -969,10 +1080,11 @@ class LiveStatePlotter:
         """
         关闭窗口或 Ctrl+C 时调用。
 
-        默认保存三个图：
+        默认保存四个图：
         1. 当前监控窗口完整图；
         2. 速度模长单独图；
-        3. FSM 阶跃曲线单独图。
+        3. FSM 阶跃曲线单独图；
+        4. planner 各阶段耗时曲线单独图。
         """
         with self.save_lock:
             if self.saved_results:
@@ -987,6 +1099,7 @@ class LiveStatePlotter:
         monitor_path = os.path.join(result_dir, "fastnav_monitor_{}.png".format(stamp))
         speed_path = os.path.join(result_dir, "fastnav_speed_{}.png".format(stamp))
         fsm_path = os.path.join(result_dir, "fastnav_fsm_{}.png".format(stamp))
+        timing_path = os.path.join(result_dir, "fastnav_planner_timing_{}.png".format(stamp))
 
         rospy.loginfo("[FastNav][LivePlot] saving figures to: %s", result_dir)
 
@@ -1007,6 +1120,12 @@ class LiveStatePlotter:
 
             code_to_state = dict(self.code_to_state)
 
+            timing_t, timing_total = self.timing_history.get("total")
+            _, timing_astar = self.timing_history.get("astar")
+            _, timing_corridor = self.timing_history.get("corridor")
+            _, timing_minco = self.timing_history.get("minco")
+            _, timing_check = self.timing_history.get("fine_check")
+
         self.save_speed_figure(
             speed_path,
             odom_t,
@@ -1023,6 +1142,16 @@ class LiveStatePlotter:
             control_t,
             control_y,
             code_to_state,
+        )
+
+        self.save_timing_figure(
+            timing_path,
+            timing_t,
+            timing_total,
+            timing_astar,
+            timing_corridor,
+            timing_minco,
+            timing_check,
         )
 
     def save_speed_figure(
@@ -1158,6 +1287,51 @@ class LiveStatePlotter:
         finally:
             plt.close(fig)
 
+    def save_timing_figure(
+        self,
+        path,
+        timing_t,
+        timing_total,
+        timing_astar,
+        timing_corridor,
+        timing_minco,
+        timing_check,
+    ):
+        fig, ax = plt.subplots(figsize=(14, 6), dpi=150)
+
+        curves = [
+            ("total", timing_total, "tab:blue"),
+            ("A*", timing_astar, "tab:green"),
+            ("corridor", timing_corridor, "tab:purple"),
+            ("MINCO", timing_minco, "tab:orange"),
+            ("fine check", timing_check, "tab:red"),
+        ]
+
+        for label, values, color in curves:
+            if timing_t and values:
+                ax.plot(
+                    timing_t,
+                    values,
+                    label=label,
+                    linewidth=2.0,
+                    color=color,
+                )
+
+        ax.set_title("FastNav Planner Timing")
+        ax.set_xlabel("time [s]")
+        ax.set_ylabel("time [ms]")
+        ax.grid(True)
+        ax.legend(loc="upper right")
+        fig.tight_layout()
+
+        try:
+            fig.savefig(path, dpi=150, bbox_inches="tight")
+            rospy.loginfo("[FastNav][LivePlot] saved planner timing figure: %s", path)
+        except Exception as e:
+            rospy.logwarn("[FastNav][LivePlot] failed to save planner timing figure: %s", str(e))
+        finally:
+            plt.close(fig)
+
     def spin(self):
         rate = rospy.Rate(self.args.rate)
 
@@ -1202,6 +1376,12 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--timing-topic",
+        default="/fastnav/planner/timing",
+        help="Planner timing topic, type: fastnav_msgs/PlannerTiming.",
+    )
+
+    parser.add_argument(
         "--local-target-change-threshold",
         type=float,
         default=0.05,
@@ -1229,6 +1409,12 @@ def parse_args():
         "--no-command",
         action="store_true",
         help="Only plot odometry curves.",
+    )
+
+    parser.add_argument(
+        "--no-timing",
+        action="store_true",
+        help="Disable planner timing subscription and timing plot updates.",
     )
 
     parser.add_argument(
@@ -1267,6 +1453,10 @@ def main():
     rospy.loginfo("[FastNav][LivePlot] planner FSM topic: %s", args.planner_fsm_topic)
     rospy.loginfo("[FastNav][LivePlot] control FSM topic: %s", args.control_fsm_topic)
     rospy.loginfo("[FastNav][LivePlot] local target topic: %s", args.local_target_topic)
+    rospy.loginfo(
+        "[FastNav][LivePlot] planner timing topic: %s",
+        "disabled" if args.no_timing else args.timing_topic,
+    )
     rospy.loginfo(
         "[FastNav][LivePlot] local target change threshold: %.3f m",
         args.local_target_change_threshold,

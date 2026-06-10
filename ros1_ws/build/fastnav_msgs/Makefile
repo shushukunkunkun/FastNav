@@ -214,6 +214,20 @@ _fastnav_msgs_generate_messages_check_deps_ObstacleInfo/fast:
 .PHONY : _fastnav_msgs_generate_messages_check_deps_ObstacleInfo/fast
 
 # Convenience name for target.
+fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule
+.PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule
+
+# Convenience name for target.
+_fastnav_msgs_generate_messages_check_deps_PlannerTiming: fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/rule
+.PHONY : _fastnav_msgs_generate_messages_check_deps_PlannerTiming
+
+# fast build rule for target.
+_fastnav_msgs_generate_messages_check_deps_PlannerTiming/fast:
+	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build.make fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerTiming.dir/build
+.PHONY : _fastnav_msgs_generate_messages_check_deps_PlannerTiming/fast
+
+# Convenience name for target.
 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/rule:
 	cd /home/shukun/Project/FastNav/ros1_ws/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/rule
 .PHONY : fastnav_msgs/CMakeFiles/_fastnav_msgs_generate_messages_check_deps_PlannerState.dir/rule
@@ -383,6 +397,7 @@ help:
 	@echo "... _fastnav_msgs_generate_messages_check_deps_ControlCommand"
 	@echo "... _fastnav_msgs_generate_messages_check_deps_ObstacleInfo"
 	@echo "... _fastnav_msgs_generate_messages_check_deps_PlannerState"
+	@echo "... _fastnav_msgs_generate_messages_check_deps_PlannerTiming"
 	@echo "... fastnav_msgs_gencpp"
 	@echo "... fastnav_msgs_generate_messages"
 	@echo "... fastnav_msgs_generate_messages_cpp"

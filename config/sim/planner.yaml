@@ -15,6 +15,7 @@ local_planner:
   heartbeat_topic: "/fastnav/planner/heartbeat"
   fsm_state_topic: "/fastnav/planner/fsm_state"
   local_target_topic: "/fastnav/planner/local_target"
+  timing_topic: "/fastnav/planner/timing"
 
   # planner debug 输出开关。
   # true: 发布 searched_nodes、debug map、FSM state、local_target 等调试 topic；
@@ -33,7 +34,7 @@ local_planner:
     collision_check_step: 0.1
     collision_check_horizon_ratio: 0.6666667
     emergency_time: 1.0
-    planning_horizon: 10.0
+    planning_horizon: 8.0
     goal_tolerance: 0.3
     # EGO 风格主动重规划：当前局部轨迹执行超过 replan_time 后才滚动重规划。
     # 当前 local target 大多选在 planning_horizon 处，因此默认用 $T_r=\alpha H/v_{max}$ 自动计算；
@@ -62,7 +63,7 @@ local_planner:
     max_retry: 3
 
     retry:
-      corridor_range_scale: 1.2
+      corridor_range_scale: 1.0
       corridor_progress_scale: 1.0
       weight_time_scale: 1.0
       penalty_pos_scale: 2.0
@@ -73,9 +74,9 @@ local_planner:
 
     corridor:
       # 每段走廊沿 A* shortcut 路径最多推进 progress 米，越小越稳但多面体数量更多。
-      progress: 3.0
+      progress: 5
       # 每段路径周围 range 米内的障碍表面点会参与 FIRI，形成 $H_i[x^T,1]^T\le0$。
-      range: 3.0
+      range: 1.5
       eps: 1.0e-6
       enable_shortcut: true
 
@@ -85,7 +86,7 @@ local_planner:
       integral_intervals: 16
       rel_cost_tol: 1.0e-5
       length_per_piece: 1.0
-      max_vel: 1.8
+      max_vel: 2.5
       max_body_rate: 2.0
       max_tilt_angle: 0.52
       min_thrust: 2.0
@@ -109,13 +110,13 @@ local_planner:
       collision_check_step: 0.1
       # EGO-v2 风格 fine check：非最终 local target 只检查前 $2/3$，最终目标由代码强制检查完整轨迹。
       check_horizon_ratio: 0.6666667
-      max_vel: 1.8
-      max_acc: 2.0
-      max_jerk: 4.0
+      max_vel: 2.5
+      max_acc: 2.5
+      max_jerk: 7.0
       tolerance: 0.05
 
   frame_id: "odom"
-  planning_horizon: 10.0
+  planning_horizon: 8.0
   goal_tolerance: 0.3
   # 点云只更新地图，不直接触发重规划；执行中是否重规划由 FSM 的时间阈值和安全检查决定。
   # 这与 EGO-Planner 一致，可避免每帧点云导致 EXEC_TRAJ / REPLAN_TRAJ 高频切换。
@@ -132,7 +133,7 @@ local_planner:
     local_z_size: 4.2
     local_z_min: -1.2
     local_z_max: 3.0
-    drone_radius: 0.3   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
+    drone_radius: 0.1   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     safety_margin: 0.1  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
     # 当前没有 raycasting free-space，p_miss 先作为后续接口保留；旧障碍通过 temporal_decay_log 缓慢回到未知 $l=0$。
@@ -147,10 +148,16 @@ local_planner:
   astar:
     allow_diagonal: true
     heuristic_weight: 1.2
-    # A* 已经避开 inflated voxel，这里再要求路径点距离 inflated voxel 至少保留额外余量。
-    # $min_clearance=0$ 时跳过该检查，基本退化为当前只查 inflated occupancy 的前端搜索。
-    # 建议从 0.1~0.2m 试起；过大会让窄通道直接被前端判为不可通行。
-    min_clearance: 0.0
+    # A* 不再运行时扫描 clearance 邻域。
+    # 这里的 min_clearance 会转化为 frontend_voxel_map 的额外膨胀半径：
+    # frontend_inflation = drone_radius + safety_margin + min_clearance。
+    # $min_clearance=0$ 时，frontend map 退化为基础 inflated map。
+    min_clearance: 0.3
+    # 下面两个参数为旧版运行时 clearance relaxation 预留；当前双地图前端不再使用。
+    clearance_retry_scale: 0.5
+    min_clearance_floor: 0.1
+    # EGO / SUPER 风格前端硬截断，避免一次 A* 卡住 FSM 和 traj_server heartbeat。
+    max_search_time: 0.2
     # 24m x 24m x 4.2m 在 $0.2m$ 分辨率下约为 $120 * 120 * 21$ 个体素。
     # hard forest 中通道更弯，允许更多展开节点，避免过早触发 max_search_nodes。
     max_search_nodes: 180000

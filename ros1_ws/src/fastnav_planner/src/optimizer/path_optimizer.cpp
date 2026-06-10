@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include <ros/time.h>
+
 namespace fastnav_planner
 {
 
@@ -65,10 +67,13 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
 
     if (config_.shortcut)
     {
+        const ros::WallTime shortcut_start = ros::WallTime::now();
         if (!shortcutPath(raw_path, map, result.shortcut_path, preserve_prefix_size))
         {
+            result.shortcut_ms += (ros::WallTime::now() - shortcut_start).toSec() * 1000.0;
             return false;
         }
+        result.shortcut_ms += (ros::WallTime::now() - shortcut_start).toSec() * 1000.0;
     }
     else
     {
@@ -92,6 +97,32 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
     minco_start.pos = result.shortcut_path.front();
     minco_goal.pos = result.shortcut_path.back();
     minco_optimizer_.setCancelCallback(preempt_requested);
+
+    double max_corridor_range = config_.corridor.range;
+    for (int attempt = 1; attempt < config_.max_retry; ++attempt)
+    {
+        max_corridor_range = std::max(max_corridor_range,
+                                      config_.corridor.range *
+                                          std::pow(config_.corridor_range_retry_scale, attempt));
+    }
+
+    std::vector<Eigen::Vector3d> obstacle_surface_points;
+    const ros::WallTime surface_start = ros::WallTime::now();
+    collectSurfacePointsForPath(result.shortcut_path,
+                                map,
+                                max_corridor_range,
+                                obstacle_surface_points);
+    result.corridor_ms += (ros::WallTime::now() - surface_start).toSec() * 1000.0;
+    if (preempt_requested && preempt_requested())
+    {
+        last_error_ = "Path optimization preempted after surface extraction.";
+        minco_optimizer_.setCancelCallback(std::function<bool()>());
+        return false;
+    }
+
+    std::vector<Eigen::MatrixX4d> cached_corridors;
+    bool has_cached_corridor = false;
+    bool regenerate_corridor = true;
 
     for (int attempt = 0; attempt < config_.max_retry; ++attempt)
     {
@@ -117,12 +148,27 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         corridor_generator_.setConfig(attempt_corridor_config);
 
         std::vector<Eigen::MatrixX4d> attempt_corridors;
-        if (!generateCorridor(result.shortcut_path, map, attempt_corridors))
+        if (!has_cached_corridor || regenerate_corridor)
         {
-            last_error_ = "Attempt " + std::to_string(attempt + 1) +
-                          " corridor failed: " + last_error_;
-            continue;
+            const ros::WallTime corridor_start = ros::WallTime::now();
+            if (!generateCorridor(result.shortcut_path, map, obstacle_surface_points, attempt_corridors))
+            {
+                result.corridor_ms += (ros::WallTime::now() - corridor_start).toSec() * 1000.0;
+                last_error_ = "Attempt " + std::to_string(attempt + 1) +
+                              " corridor failed: " + last_error_;
+                regenerate_corridor = true;
+                continue;
+            }
+            result.corridor_ms += (ros::WallTime::now() - corridor_start).toSec() * 1000.0;
+            cached_corridors = attempt_corridors;
+            has_cached_corridor = true;
+            regenerate_corridor = false;
         }
+        else
+        {
+            attempt_corridors = cached_corridors;
+        }
+
         if (preempt_requested && preempt_requested())
         {
             last_error_ = "Path optimization preempted after corridor generation.";
@@ -140,8 +186,11 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         minco_optimizer_.setConfig(attempt_minco_config);
 
         fastnav::MincoTraj attempt_traj;
+        result.minco_retry_count = attempt + 1;
+        const ros::WallTime minco_start_time = ros::WallTime::now();
         if (!minco_optimizer_.optimize(minco_start, minco_goal, attempt_corridors, attempt_traj))
         {
+            result.minco_ms += (ros::WallTime::now() - minco_start_time).toSec() * 1000.0;
             last_error_ = "Attempt " + std::to_string(attempt + 1) +
                           " MINCO failed: " + minco_optimizer_.lastError();
             if (preempt_requested && preempt_requested())
@@ -151,6 +200,7 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
             }
             continue;
         }
+        result.minco_ms += (ros::WallTime::now() - minco_start_time).toSec() * 1000.0;
         if (preempt_requested && preempt_requested())
         {
             last_error_ = "Path optimization preempted after MINCO.";
@@ -159,12 +209,16 @@ bool PathOptimizer::optimizeTrajectory(const std::vector<Eigen::Vector3d>& raw_p
         }
 
         TrajectoryFeasibilityChecker::Result feasibility;
+        const ros::WallTime fine_check_start = ros::WallTime::now();
         if (!feasibility_checker_.check(attempt_traj, map, feasibility, touch_goal))
         {
+            result.fine_check_ms += (ros::WallTime::now() - fine_check_start).toSec() * 1000.0;
             last_error_ = "Attempt " + std::to_string(attempt + 1) +
                           " fine check failed: " + feasibility.message;
+            regenerate_corridor = shouldRegenerateCorridorAfterViolation(feasibility.violation_type);
             continue;
         }
+        result.fine_check_ms += (ros::WallTime::now() - fine_check_start).toSec() * 1000.0;
 
         result.corridors = attempt_corridors;
         result.minco_traj = attempt_traj;
@@ -270,8 +324,38 @@ bool PathOptimizer::shortcutPath(const std::vector<Eigen::Vector3d>& raw_path,
     return true;
 }
 
+void PathOptimizer::collectSurfacePointsForPath(
+    const std::vector<Eigen::Vector3d>& path,
+    const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
+    double range,
+    std::vector<Eigen::Vector3d>& obstacle_surface_points) const
+{
+    obstacle_surface_points.clear();
+    if (!map || path.empty())
+    {
+        return;
+    }
+
+    Eigen::Vector3d box_min = path.front();
+    Eigen::Vector3d box_max = path.front();
+    for (const Eigen::Vector3d& point : path)
+    {
+        box_min = box_min.cwiseMin(point);
+        box_max = box_max.cwiseMax(point);
+    }
+
+    const double bounded_range = std::max(0.0, range);
+    box_min.array() -= bounded_range;
+    box_max.array() += bounded_range;
+
+    // FIRI 每段还会在 SafeCorridorGenerator 内部按当前 range 做二次筛选；
+    // 这里先用整条路径的最大 retry range 提取一次候选表面点，避免每轮 retry 扫描整张局部地图。
+    map->getSurfInBox(box_min, box_max, obstacle_surface_points, true);
+}
+
 bool PathOptimizer::generateCorridor(const std::vector<Eigen::Vector3d>& path,
                                      const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
+                                     const std::vector<Eigen::Vector3d>& obstacle_surface_points,
                                      std::vector<Eigen::MatrixX4d>& corridors)
 {
     corridors.clear();
@@ -280,11 +364,6 @@ bool PathOptimizer::generateCorridor(const std::vector<Eigen::Vector3d>& path,
         last_error_ = "VoxelMap is not set for corridor generation.";
         return false;
     }
-
-    std::vector<Eigen::Vector3d> obstacle_surface_points;
-    // getSurf() 提取 occupied / inflated 表面体素中心，作为 FIRI 的障碍点集 $p_j$。
-    // 只使用表面点可以减少约束规模，同时保持走廊边界由最近障碍决定。
-    map->getSurf(obstacle_surface_points, true);
 
     if (!corridor_generator_.generate(path,
                                       obstacle_surface_points,
@@ -303,6 +382,15 @@ bool PathOptimizer::generateCorridor(const std::vector<Eigen::Vector3d>& path,
     }
 
     return true;
+}
+
+bool PathOptimizer::shouldRegenerateCorridorAfterViolation(const std::string& violation_type) const
+{
+    // 空间类失败说明当前 corridor / 几何约束附近不够安全，下一轮应扩大或重新生成走廊；
+    // 动力学类失败如 velocity / acceleration / jerk 通常只需要调整 MINCO 时间或惩罚，不必重复 FIRI。
+    return violation_type == "collision" ||
+           violation_type == "line_collision" ||
+           violation_type == "out_of_map";
 }
 
 }  // namespace fastnav_planner

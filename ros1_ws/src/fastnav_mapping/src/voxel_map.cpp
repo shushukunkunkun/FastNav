@@ -344,6 +344,62 @@ void VoxelMap::getSurf(std::vector<Eigen::Vector3d>& points,
     }
 }
 
+void VoxelMap::getSurfInBox(const Eigen::Vector3d& box_min,
+                            const Eigen::Vector3d& box_max,
+                            std::vector<Eigen::Vector3d>& points,
+                            bool include_occupied) const
+{
+    if (!initialized_)
+    {
+        return;
+    }
+
+    Eigen::Vector3d min_corner = box_min.cwiseMax(origin_);
+    Eigen::Vector3d max_corner = box_max.cwiseMin(getCorner());
+    if ((max_corner.array() <= min_corner.array()).any())
+    {
+        return;
+    }
+
+    auto posToClampedIndex = [this](const Eigen::Vector3d& pos) {
+        Eigen::Vector3i idx;
+        const Eigen::Vector3d relative = (pos - origin_) * inv_resolution_;
+        idx.x() = std::min(dim_.x() - 1, std::max(0, static_cast<int>(std::floor(relative.x()))));
+        idx.y() = std::min(dim_.y() - 1, std::max(0, static_cast<int>(std::floor(relative.y()))));
+        idx.z() = std::min(dim_.z() - 1, std::max(0, static_cast<int>(std::floor(relative.z()))));
+        return idx;
+    };
+
+    const Eigen::Vector3i min_idx = posToClampedIndex(min_corner);
+    const Eigen::Vector3i max_idx = posToClampedIndex(max_corner - Eigen::Vector3d::Constant(1.0e-9));
+
+    const int box_voxel_num = std::max(1,
+                                       (max_idx.x() - min_idx.x() + 1) *
+                                           (max_idx.y() - min_idx.y() + 1) *
+                                           (max_idx.z() - min_idx.z() + 1));
+    points.reserve(points.size() + box_voxel_num / 10);
+
+    for (int ix = min_idx.x(); ix <= max_idx.x(); ++ix)
+    {
+        for (int iy = min_idx.y(); iy <= max_idx.y(); ++iy)
+        {
+            for (int iz = min_idx.z(); iz <= max_idx.z(); ++iz)
+            {
+                const Eigen::Vector3i idx(ix, iy, iz);
+                const int address = toAddress(idx);
+                if (!isBlockedAddress(address, include_occupied))
+                {
+                    continue;
+                }
+                if (isSurfaceIndex(idx, include_occupied))
+                {
+                    points.push_back(indexToPos(idx));
+                }
+            }
+        }
+    }
+}
+
 int VoxelMap::toAddress(const Eigen::Vector3i& idx) const
 {
     // 三维索引按 $address = ix * dim_y * dim_z + iy * dim_z + iz$ 压成一维数组下标。

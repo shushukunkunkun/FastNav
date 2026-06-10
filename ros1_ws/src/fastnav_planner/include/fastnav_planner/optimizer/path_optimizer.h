@@ -55,6 +55,11 @@ public:
         std::vector<Eigen::Vector3d> sampled_path;
         std::vector<Eigen::MatrixX4d> corridors;
         fastnav::MincoTraj minco_traj;
+        double shortcut_ms{0.0};
+        double corridor_ms{0.0};
+        double minco_ms{0.0};
+        double fine_check_ms{0.0};
+        int minco_retry_count{0};
 
         void clear()
         {
@@ -64,6 +69,11 @@ public:
             sampled_path.clear();
             corridors.clear();
             minco_traj.clear();
+            shortcut_ms = 0.0;
+            corridor_ms = 0.0;
+            minco_ms = 0.0;
+            fine_check_ms = 0.0;
+            minco_retry_count = 0;
         }
     };
 
@@ -91,9 +101,17 @@ private:
                       std::vector<Eigen::Vector3d>& optimized_path,
                       size_t preserve_prefix_size = 0) const;
 
+    void collectSurfacePointsForPath(const std::vector<Eigen::Vector3d>& path,
+                                     const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
+                                     double range,
+                                     std::vector<Eigen::Vector3d>& obstacle_surface_points) const;
+
     bool generateCorridor(const std::vector<Eigen::Vector3d>& path,
                           const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
+                          const std::vector<Eigen::Vector3d>& obstacle_surface_points,
                           std::vector<Eigen::MatrixX4d>& corridors);
+
+    bool shouldRegenerateCorridorAfterViolation(const std::string& violation_type) const;
 
 private:
     Config config_;

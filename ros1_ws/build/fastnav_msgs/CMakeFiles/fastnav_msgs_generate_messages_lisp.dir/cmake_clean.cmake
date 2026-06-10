@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/ControlCommand.lisp"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/ObstacleInfo.lisp"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/PlannerState.lisp"
+  "/home/shukun/Project/FastNav/ros1_ws/devel/share/common-lisp/ros/fastnav_msgs/msg/PlannerTiming.lisp"
   "CMakeFiles/fastnav_msgs_generate_messages_lisp"
 )
 

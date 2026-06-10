@@ -1,0 +1,23 @@
+<!--
+    FastNav planner / FSM bringup.
+
+    配合 fastnav_sim_base.launch 使用：
+      roslaunch fastnav_bringup fastnav_sim_base.launch
+      roslaunch fastnav_bringup fastnav_planner_fsm.launch
+
+    本 launch 只启动 planner FSM 和 MINCO traj_server。
+    planner FSM 的 REPLAN / EXEC / timing 日志会集中在这个终端，便于调试规划耗时和失败原因。
+-->
+<launch>
+    <arg name="config_root" default="$(find fastnav_bringup)/../../../config"/>
+    <arg name="start_planner" default="true"/>
+    <arg name="start_traj_server" default="true"/>
+
+    <include if="$(arg start_planner)"
+             file="$(find fastnav_planner)/launch/planner.launch">
+        <arg name="config_file" value="$(arg config_root)/sim/planner.yaml"/>
+    </include>
+
+    <include if="$(arg start_traj_server)"
+             file="$(find traj_utils)/launch/minco_traj_server.launch"/>
+</launch>

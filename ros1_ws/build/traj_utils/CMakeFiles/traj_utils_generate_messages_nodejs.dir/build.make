@@ -91,8 +91,8 @@ traj_utils/CMakeFiles/traj_utils_generate_messages_nodejs: /home/shukun/Project/
 
 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js: /opt/ros/noetic/lib/gennodejs/gen_nodejs.py
 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg
-/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js: /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/Bspline.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg/MultiBsplines.js: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Generating Javascript code from traj_utils/MultiBsplines.msg"
 	cd /home/shukun/Project/FastNav/ros1_ws/build/traj_utils && ../catkin_generated/env_cached.sh /usr/bin/python3 /opt/ros/noetic/share/gennodejs/cmake/../../../lib/gennodejs/gen_nodejs.py /home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg/MultiBsplines.msg -Itraj_utils:/home/shukun/Project/FastNav/ros1_ws/src/traj_utils/msg -Istd_msgs:/opt/ros/noetic/share/std_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/noetic/share/geometry_msgs/cmake/../msg -p traj_utils -o /home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/traj_utils/msg
 

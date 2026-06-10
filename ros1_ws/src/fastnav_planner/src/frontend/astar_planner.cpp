@@ -6,6 +6,8 @@
 #include <limits>
 #include <queue>
 
+#include <ros/time.h>
+
 namespace fastnav_planner
 {
 
@@ -17,6 +19,10 @@ void AStarPlanner::setMap(const std::shared_ptr<fastnav_mapping::VoxelMap>& map)
 void AStarPlanner::setConfig(const Config& config)
 {
     config_ = config;
+    config_.min_clearance = std::max(0.0, config_.min_clearance);
+    config_.min_clearance_floor = std::max(0.0, std::min(config_.min_clearance_floor, config_.min_clearance));
+    config_.clearance_retry_scale = std::min(0.99, std::max(0.05, config_.clearance_retry_scale));
+    config_.max_search_time = std::max(0.0, config_.max_search_time);
 }
 
 void AStarPlanner::setCancelCallback(const std::function<bool()>& cancel_callback)
@@ -27,6 +33,28 @@ void AStarPlanner::setCancelCallback(const std::function<bool()>& cancel_callbac
 bool AStarPlanner::plan(const Eigen::Vector3d& start,
                         const Eigen::Vector3d& goal,
                         std::vector<Eigen::Vector3d>& path)
+{
+    last_attempt_count_ = 0;
+    last_clearance_used_ = config_.min_clearance;
+    ++last_attempt_count_;
+
+    if (planOnFrontendMap(start, goal, path))
+    {
+        return true;
+    }
+
+    if (cancel_callback_ && cancel_callback_())
+    {
+        return false;
+    }
+
+    last_error_ = "A* failed on current inflated map: " + last_error_;
+    return false;
+}
+
+bool AStarPlanner::planOnFrontendMap(const Eigen::Vector3d& start,
+                                     const Eigen::Vector3d& goal,
+                                     std::vector<Eigen::Vector3d>& path)
 {
     path.clear();
     searched_nodes_.clear();
@@ -51,16 +79,8 @@ bool AStarPlanner::plan(const Eigen::Vector3d& start,
         return false;
     }
 
-    if (map_->isInflatedOccupied(start))
-    {
-        last_error_ = "Start is inside inflated obstacle.";
-        return false;
-    }
-    if (map_->isInflatedOccupied(goal))
-    {
-        last_error_ = "Goal is inside inflated obstacle.";
-        return false;
-    }
+    // frontend map 比基础 map 更保守，start/goal 可能只落在“额外 clearance”区域。
+    // 这里允许 A* 从 start 逃出、允许最后落到 goal；真实碰撞由后端基础 map fine check 兜底。
 
     const Eigen::Vector3i dim = map_->dimensions();
     const int total_size = dim.x() * dim.y() * dim.z();
@@ -86,9 +106,18 @@ bool AStarPlanner::plan(const Eigen::Vector3d& start,
 
     const std::vector<Eigen::Vector3i> offsets = neighborOffsets();
     int expanded_nodes = 0;
+    last_expanded_nodes_ = 0;
+    const ros::WallTime search_start = ros::WallTime::now();
 
     while (!open_set.empty() && expanded_nodes < config_.max_search_nodes)
     {
+        if (config_.max_search_time > 1.0e-9 &&
+            (ros::WallTime::now() - search_start).toSec() > config_.max_search_time)
+        {
+            last_error_ = "A* reached max_search_time.";
+            return false;
+        }
+
         if (cancel_callback_ && cancel_callback_())
         {
             last_error_ = "A* preempted by a new goal.";
@@ -105,6 +134,7 @@ bool AStarPlanner::plan(const Eigen::Vector3d& start,
 
         records[current_addr].closed = true;
         ++expanded_nodes;
+        last_expanded_nodes_ = expanded_nodes;
 
         const Eigen::Vector3i current_idx = addressToIndex(current_addr);
         searched_nodes_.push_back(map_->indexToPos(current_idx));
@@ -150,27 +180,17 @@ bool AStarPlanner::plan(const Eigen::Vector3d& start,
             }
 
             const Eigen::Vector3d neighbor_pos = map_->indexToPos(neighbor_idx);
-            if (map_->isInflatedOccupied(neighbor_pos))
-            {
-                continue;
-            }
-
             const bool neighbor_is_goal = (neighbor_addr == goal_addr);
-            const bool current_is_start = (current_addr == start_addr);
-
-            // min_clearance 是给后端 corridor 预留空间的“中间路径”要求。
-            // 起点和终点只要求不在 inflated obstacle 中：起点可能已经贴近障碍，需要允许它先离开；
-            // 终点可能由用户设在低 clearance 但仍可到达的位置，不能因为额外余量导致 near-goal 后永远无法收敛。
-            if (!neighbor_is_goal && !hasExtraClearance(neighbor_pos))
+            if (!neighbor_is_goal && map_->isInflatedOccupied(neighbor_pos))
             {
                 continue;
             }
 
+            const bool current_is_start = (current_addr == start_addr);
             if (config_.check_line_collision &&
-                !isSegmentClearWithExtraClearance(current_pos,
-                                                  neighbor_pos,
-                                                  current_is_start,
-                                                  neighbor_is_goal))
+                !current_is_start &&
+                !neighbor_is_goal &&
+                !map_->isLineFree(current_pos, neighbor_pos, config_.line_check_step))
             {
                 continue;
             }
@@ -196,6 +216,208 @@ bool AStarPlanner::plan(const Eigen::Vector3d& start,
     else
     {
         last_error_ = "A* failed to find a path.";
+    }
+    return false;
+}
+
+bool AStarPlanner::planToHorizon(const Eigen::Vector3d& start,
+                                 const Eigen::Vector3d& final_goal,
+                                 double horizon,
+                                 std::vector<Eigen::Vector3d>& path)
+{
+    last_attempt_count_ = 0;
+    last_clearance_used_ = config_.min_clearance;
+    ++last_attempt_count_;
+
+    if (planToHorizonOnFrontendMap(start, final_goal, horizon, path))
+    {
+        return true;
+    }
+
+    if (cancel_callback_ && cancel_callback_())
+    {
+        return false;
+    }
+
+    last_error_ = "Guide A* failed on current inflated map: " + last_error_;
+    return false;
+}
+
+bool AStarPlanner::planToHorizonOnFrontendMap(const Eigen::Vector3d& start,
+                                              const Eigen::Vector3d& final_goal,
+                                              double horizon,
+                                              std::vector<Eigen::Vector3d>& path)
+{
+    path.clear();
+    searched_nodes_.clear();
+    last_error_.clear();
+
+    if (!map_)
+    {
+        last_error_ = "VoxelMap is not set.";
+        return false;
+    }
+
+    Eigen::Vector3i start_idx;
+    if (!map_->posToIndex(start, start_idx))
+    {
+        last_error_ = "Guide start is outside local map.";
+        return false;
+    }
+    // 与普通 A* 一致，guide search 允许 start 位于 frontend 额外 clearance 内，
+    // 第一段会跳过线段检查以便从保守膨胀区向外逃离。
+
+    Eigen::Vector3i goal_idx;
+    const bool goal_in_map = map_->posToIndex(final_goal, goal_idx);
+    const double stop_horizon = std::max(map_->resolution(), horizon);
+
+    const Eigen::Vector3i dim = map_->dimensions();
+    const int total_size = dim.x() * dim.y() * dim.z();
+    const int start_addr = toAddress(start_idx);
+    const int goal_addr = goal_in_map ? toAddress(goal_idx) : -1;
+
+    std::vector<NodeRecord> records(total_size);
+    for (NodeRecord& record : records)
+    {
+        record.g = std::numeric_limits<double>::infinity();
+        record.f = std::numeric_limits<double>::infinity();
+        record.parent = -1;
+        record.closed = false;
+    }
+
+    auto heuristic_to_goal = [this, &final_goal](const Eigen::Vector3i& idx) {
+        return (map_->indexToPos(idx) - final_goal).norm();
+    };
+
+    using OpenNode = std::pair<double, int>;
+    std::priority_queue<OpenNode, std::vector<OpenNode>, std::greater<OpenNode>> open_set;
+
+    records[start_addr].g = 0.0;
+    records[start_addr].f = config_.heuristic_weight * heuristic_to_goal(start_idx);
+    records[start_addr].parent = start_addr;
+    open_set.emplace(records[start_addr].f, start_addr);
+
+    const std::vector<Eigen::Vector3i> offsets = neighborOffsets();
+    int expanded_nodes = 0;
+    last_expanded_nodes_ = 0;
+    const ros::WallTime search_start = ros::WallTime::now();
+
+    while (!open_set.empty() && expanded_nodes < config_.max_search_nodes)
+    {
+        if (config_.max_search_time > 1.0e-9 &&
+            (ros::WallTime::now() - search_start).toSec() > config_.max_search_time)
+        {
+            last_error_ = "Guide A* reached max_search_time.";
+            return false;
+        }
+
+        if (cancel_callback_ && cancel_callback_())
+        {
+            last_error_ = "Guide A* preempted by a new goal.";
+            return false;
+        }
+
+        const int current_addr = open_set.top().second;
+        open_set.pop();
+
+        if (records[current_addr].closed)
+        {
+            continue;
+        }
+
+        records[current_addr].closed = true;
+        ++expanded_nodes;
+        last_expanded_nodes_ = expanded_nodes;
+
+        const Eigen::Vector3i current_idx = addressToIndex(current_addr);
+        searched_nodes_.push_back(map_->indexToPos(current_idx));
+
+        // guide search 的停止条件有两个：
+        // 1. 若最终目标在局部地图内且已到达，则直接返回到最终目标；
+        // 2. 若累计路径长度 $g$ 已达到 planning horizon，则返回当前节点作为 local target。
+        const bool reached_goal = goal_in_map && current_addr == goal_addr;
+        const bool reached_horizon = current_addr != start_addr &&
+                                     records[current_addr].g >= stop_horizon;
+        if (reached_goal || reached_horizon)
+        {
+            std::vector<Eigen::Vector3d> reversed_path;
+            int trace_addr = current_addr;
+            while (trace_addr != start_addr)
+            {
+                reversed_path.push_back(map_->indexToPos(addressToIndex(trace_addr)));
+                trace_addr = records[trace_addr].parent;
+                if (trace_addr < 0)
+                {
+                    last_error_ = "Broken guide A* parent chain.";
+                    return false;
+                }
+            }
+            reversed_path.push_back(map_->indexToPos(start_idx));
+
+            path.assign(reversed_path.rbegin(), reversed_path.rend());
+            if (!path.empty())
+            {
+                path.front() = start;
+                if (reached_goal)
+                {
+                    path.back() = final_goal;
+                }
+            }
+            return path.size() >= 2;
+        }
+
+        const Eigen::Vector3d current_pos = map_->indexToPos(current_idx);
+        for (const Eigen::Vector3i& offset : offsets)
+        {
+            const Eigen::Vector3i neighbor_idx = current_idx + offset;
+            if (!map_->isInMap(neighbor_idx))
+            {
+                continue;
+            }
+
+            const int neighbor_addr = toAddress(neighbor_idx);
+            if (records[neighbor_addr].closed)
+            {
+                continue;
+            }
+
+            const Eigen::Vector3d neighbor_pos = map_->indexToPos(neighbor_idx);
+            const bool neighbor_is_goal = goal_in_map && neighbor_addr == goal_addr;
+            if (!neighbor_is_goal && map_->isInflatedOccupied(neighbor_pos))
+            {
+                continue;
+            }
+
+            const bool current_is_start = (current_addr == start_addr);
+            if (config_.check_line_collision &&
+                !current_is_start &&
+                !neighbor_is_goal &&
+                !map_->isLineFree(current_pos, neighbor_pos, config_.line_check_step))
+            {
+                continue;
+            }
+
+            const double edge_cost = offset.cast<double>().norm() * map_->resolution();
+            const double tentative_g = records[current_addr].g + edge_cost;
+            if (tentative_g >= records[neighbor_addr].g)
+            {
+                continue;
+            }
+
+            records[neighbor_addr].g = tentative_g;
+            records[neighbor_addr].f = tentative_g + config_.heuristic_weight * heuristic_to_goal(neighbor_idx);
+            records[neighbor_addr].parent = current_addr;
+            open_set.emplace(records[neighbor_addr].f, neighbor_addr);
+        }
+    }
+
+    if (expanded_nodes >= config_.max_search_nodes)
+    {
+        last_error_ = "Guide A* reached max_search_nodes.";
+    }
+    else
+    {
+        last_error_ = "Guide A* failed before reaching horizon.";
     }
     return false;
 }
@@ -231,94 +453,6 @@ double AStarPlanner::heuristic(const Eigen::Vector3i& current,
                                const Eigen::Vector3i& goal) const
 {
     return (current - goal).cast<double>().norm() * map_->resolution();
-}
-
-bool AStarPlanner::hasExtraClearance(const Eigen::Vector3d& pos) const
-{
-    if (config_.min_clearance <= 1.0e-6)
-    {
-        return true;
-    }
-
-    Eigen::Vector3i center_idx;
-    if (!map_->posToIndex(pos, center_idx))
-    {
-        return false;
-    }
-
-    // VoxelMap 按体素中心保存 inflated 状态。这里用半个体素对角线近似体素半径，
-    // 将“点到 inflated 体素体积”的距离近似为 $||p-c_i|| - \sqrt{3}r/2$。
-    const double resolution = map_->resolution();
-    const double voxel_radius = 0.5 * std::sqrt(3.0) * resolution;
-    const double check_radius = config_.min_clearance + voxel_radius;
-    const int radius_step = static_cast<int>(std::ceil(check_radius / resolution));
-
-    for (int dx = -radius_step; dx <= radius_step; ++dx)
-    {
-        for (int dy = -radius_step; dy <= radius_step; ++dy)
-        {
-            for (int dz = -radius_step; dz <= radius_step; ++dz)
-            {
-                const Eigen::Vector3i idx = center_idx + Eigen::Vector3i(dx, dy, dz);
-                if (!map_->isInMap(idx))
-                {
-                    return false;
-                }
-
-                const Eigen::Vector3d voxel_center = map_->indexToPos(idx);
-                if ((voxel_center - pos).norm() > check_radius + 1.0e-6)
-                {
-                    continue;
-                }
-
-                if (map_->isInflatedOccupied(voxel_center))
-                {
-                    return false;
-                }
-            }
-        }
-    }
-
-    return true;
-}
-
-bool AStarPlanner::isSegmentClearWithExtraClearance(const Eigen::Vector3d& p0,
-                                                    const Eigen::Vector3d& p1,
-                                                    bool relax_start_clearance,
-                                                    bool relax_goal_clearance) const
-{
-    if (!map_->isLineFree(p0, p1, config_.line_check_step))
-    {
-        return false;
-    }
-    if (config_.min_clearance <= 1.0e-6)
-    {
-        return true;
-    }
-
-    const double step = config_.line_check_step > 1.0e-6
-                            ? config_.line_check_step
-                            : map_->resolution() * 0.5;
-    const double length = (p1 - p0).norm();
-    const int sample_num = std::max(1, static_cast<int>(std::ceil(length / step)));
-
-    for (int i = 0; i <= sample_num; ++i)
-    {
-        if ((relax_start_clearance && i == 0) ||
-            (relax_goal_clearance && i == sample_num))
-        {
-            continue;
-        }
-
-        const double alpha = static_cast<double>(i) / static_cast<double>(sample_num);
-        const Eigen::Vector3d p = p0 + alpha * (p1 - p0);
-        if (!hasExtraClearance(p))
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 std::vector<Eigen::Vector3i> AStarPlanner::neighborOffsets() const

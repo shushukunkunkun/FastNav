@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/ControlCommand.js"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/ObstacleInfo.js"
   "/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/PlannerState.js"
+  "/home/shukun/Project/FastNav/ros1_ws/devel/share/gennodejs/ros/fastnav_msgs/msg/PlannerTiming.js"
   "CMakeFiles/fastnav_msgs_generate_messages_nodejs"
 )
 
