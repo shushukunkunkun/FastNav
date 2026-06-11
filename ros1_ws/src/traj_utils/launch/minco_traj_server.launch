@@ -10,6 +10,7 @@
     <arg name="frame_id" default="odom"/>
     <arg name="publish_rate" default="100.0"/>
     <arg name="heartbeat_timeout" default="3.0"/>
+    <arg name="terminal_hold_timeout" default="0.8"/>
     <arg name="time_forward" default="1.0"/>
 
     <node pkg="traj_utils"
@@ -22,6 +23,7 @@
         <param name="frame_id" value="$(arg frame_id)"/>
         <param name="publish_rate" value="$(arg publish_rate)" type="double"/>
         <param name="heartbeat_timeout" value="$(arg heartbeat_timeout)" type="double"/>
+        <param name="terminal_hold_timeout" value="$(arg terminal_hold_timeout)" type="double"/>
         <param name="time_forward" value="$(arg time_forward)" type="double"/>
     </node>
 </launch>

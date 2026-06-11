@@ -23,6 +23,7 @@ class MincoTrajectory {
       this.traj_id = null;
       this.order = null;
       this.start_time = null;
+      this.touch_goal = null;
       this.duration = null;
       this.coef_x = null;
       this.coef_y = null;
@@ -52,6 +53,12 @@ class MincoTrajectory {
       }
       else {
         this.start_time = {secs: 0, nsecs: 0};
+      }
+      if (initObj.hasOwnProperty('touch_goal')) {
+        this.touch_goal = initObj.touch_goal
+      }
+      else {
+        this.touch_goal = false;
       }
       if (initObj.hasOwnProperty('duration')) {
         this.duration = initObj.duration
@@ -90,6 +97,8 @@ class MincoTrajectory {
     bufferOffset = _serializer.int32(obj.order, buffer, bufferOffset);
     // Serialize message field [start_time]
     bufferOffset = _serializer.time(obj.start_time, buffer, bufferOffset);
+    // Serialize message field [touch_goal]
+    bufferOffset = _serializer.bool(obj.touch_goal, buffer, bufferOffset);
     // Serialize message field [duration]
     bufferOffset = _arraySerializer.float64(obj.duration, buffer, bufferOffset, null);
     // Serialize message field [coef_x]
@@ -113,6 +122,8 @@ class MincoTrajectory {
     data.order = _deserializer.int32(buffer, bufferOffset);
     // Deserialize message field [start_time]
     data.start_time = _deserializer.time(buffer, bufferOffset);
+    // Deserialize message field [touch_goal]
+    data.touch_goal = _deserializer.bool(buffer, bufferOffset);
     // Deserialize message field [duration]
     data.duration = _arrayDeserializer.float64(buffer, bufferOffset, null)
     // Deserialize message field [coef_x]
@@ -131,7 +142,7 @@ class MincoTrajectory {
     length += 8 * object.coef_x.length;
     length += 8 * object.coef_y.length;
     length += 8 * object.coef_z.length;
-    return length + 32;
+    return length + 33;
   }
 
   static datatype() {
@@ -141,7 +152,7 @@ class MincoTrajectory {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return 'de89d3d619bcfb3593e56bbf412d2768';
+    return 'fc66221f7b12651626bf9f8e8ac1d1e2';
   }
 
   static messageDefinition() {
@@ -160,6 +171,11 @@ class MincoTrajectory {
     
     # Trajectory start time in the planner frame.
     time start_time
+    
+    # Whether this local trajectory already reaches the final mission goal.
+    # If false, traj_server should keep the committed trajectory alive briefly
+    # instead of switching to hover immediately at the segment end.
+    bool touch_goal
     
     # Piece durations. For $N$ pieces, duration has length $N$.
     float64[] duration
@@ -222,6 +238,13 @@ class MincoTrajectory {
     }
     else {
       resolved.start_time = {secs: 0, nsecs: 0}
+    }
+
+    if (msg.touch_goal !== undefined) {
+      resolved.touch_goal = msg.touch_goal;
+    }
+    else {
+      resolved.touch_goal = false
     }
 
     if (msg.duration !== undefined) {

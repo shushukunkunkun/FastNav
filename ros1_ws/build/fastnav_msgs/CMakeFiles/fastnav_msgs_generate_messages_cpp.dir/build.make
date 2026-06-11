@@ -73,8 +73,8 @@ fastnav_msgs/CMakeFiles/fastnav_msgs_generate_messages_cpp: /home/shukun/Project
 
 /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/lib/gencpp/gen_cpp.py
 /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /home/shukun/Project/FastNav/ros1_ws/src/fastnav_msgs/msg/ControlCommand.msg
-/home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/share/geometry_msgs/msg/Point.msg
+/home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/share/geometry_msgs/msg/Vector3.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/share/std_msgs/msg/Header.msg
 /home/shukun/Project/FastNav/ros1_ws/devel/include/fastnav_msgs/ControlCommand.h: /opt/ros/noetic/share/gencpp/msg.h.template
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/shukun/Project/FastNav/ros1_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code from fastnav_msgs/ControlCommand.msg"

@@ -12,6 +12,11 @@ int32 order
 # Trajectory start time in the planner frame.
 time start_time
 
+# Whether this local trajectory already reaches the final mission goal.
+# If false, traj_server should keep the committed trajectory alive briefly
+# instead of switching to hover immediately at the segment end.
+bool touch_goal
+
 # Piece durations. For $N$ pieces, duration has length $N$.
 float64[] duration
 

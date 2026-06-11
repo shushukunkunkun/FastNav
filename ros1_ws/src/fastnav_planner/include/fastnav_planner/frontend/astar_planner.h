@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <Eigen/Core>
+#include <ros/time.h>
 
 #include <fastnav_mapping/voxel_map.h>
 
@@ -17,6 +18,18 @@ namespace fastnav_planner
 class AStarPlanner
 {
 public:
+    enum class SearchStatus
+    {
+        SUCCESS,
+        REACH_GOAL,
+        REACH_HORIZON,
+        BEST_EFFORT,
+        TIME_OUT,
+        NO_PATH,
+        INIT_ERROR,
+        PREEMPTED
+    };
+
     struct Config
     {
         bool allow_diagonal{true};
@@ -32,6 +45,26 @@ public:
         int max_search_nodes{50000};
         // SUPER / EGO 风格前端硬截断，避免 A* 长时间阻塞 FSM heartbeat。
         double max_search_time{0.2};
+
+        // 若 goal 在局部地图外，将射线 $p(s)=p_0+s(p_g-p_0)$ 与地图 AABB 求交，
+        // 把本次搜索终点投影到地图内，避免 outside local map 直接终止。
+        bool enable_goal_projection{true};
+        int projection_margin_voxels{2};
+        double nearest_free_search_radius{1.5};
+
+        // 若前端在时间限制内没有到达目标/视野边界，允许返回当前搜索树中最接近目标的节点。
+        bool allow_timeout_best_effort{true};
+        double timeout_best_effort_min_length{1.0};
+        // guide search 超时时，manager 会把 horizon 缩短为 $H'=\max(H_{min},\alpha H)$ 后再试一次。
+        double timeout_horizon_scale{0.6};
+        double timeout_min_horizon{1.5};
+
+        // Escape search 使用基础 map 通行、frontend map 作为“逃离目标”，寻找第一个满足
+        // $p \notin \mathcal{O}_{front}$ 的点，解决起点贴近保守膨胀层时 A* 出不去的问题。
+        bool enable_escape_search{true};
+        double escape_max_radius{1.5};
+        double escape_max_search_time{0.05};
+        int escape_max_nodes{3000};
     };
 
     void setMap(const std::shared_ptr<fastnav_mapping::VoxelMap>& map);
@@ -49,8 +82,14 @@ public:
                        double horizon,
                        std::vector<Eigen::Vector3d>& path);
 
+    bool escapeFromInflatedRegion(const Eigen::Vector3d& start,
+                                  const std::shared_ptr<fastnav_mapping::VoxelMap>& blocking_map,
+                                  std::vector<Eigen::Vector3d>& path);
+
     const std::vector<Eigen::Vector3d>& searchedNodes() const;
     std::string lastError() const;
+    SearchStatus lastStatus() const { return last_status_; }
+    Eigen::Vector3d lastPathTarget() const { return last_path_target_; }
     int lastExpandedNodes() const { return last_expanded_nodes_; }
     int lastAttemptCount() const { return last_attempt_count_; }
     double lastClearanceUsed() const { return last_clearance_used_; }
@@ -67,6 +106,22 @@ private:
     int toAddress(const Eigen::Vector3i& idx) const;
     Eigen::Vector3i addressToIndex(int address) const;
     double heuristic(const Eigen::Vector3i& current, const Eigen::Vector3i& goal) const;
+    bool isTimeOut(const ros::WallTime& search_start, double limit) const;
+    bool isPreempted() const;
+    bool retrievePath(const std::vector<NodeRecord>& records,
+                      int start_addr,
+                      int end_addr,
+                      const Eigen::Vector3d& start,
+                      const Eigen::Vector3d& end,
+                      std::vector<Eigen::Vector3d>& path) const;
+    Eigen::Vector3d clampInsideMap(const Eigen::Vector3d& pos, double margin) const;
+    bool projectGoalIntoMap(const Eigen::Vector3d& start,
+                            const Eigen::Vector3d& goal,
+                            Eigen::Vector3d& projected_goal,
+                            bool& was_projected) const;
+    bool findNearestFreePosition(const Eigen::Vector3d& seed,
+                                 double search_radius,
+                                 Eigen::Vector3d& free_pos) const;
     bool planOnFrontendMap(const Eigen::Vector3d& start,
                            const Eigen::Vector3d& goal,
                            std::vector<Eigen::Vector3d>& path);
@@ -82,6 +137,8 @@ private:
     std::function<bool()> cancel_callback_;
     std::vector<Eigen::Vector3d> searched_nodes_;
     std::string last_error_;
+    SearchStatus last_status_{SearchStatus::NO_PATH};
+    Eigen::Vector3d last_path_target_{Eigen::Vector3d::Zero()};
     int last_expanded_nodes_{0};
     int last_attempt_count_{0};
     double last_clearance_used_{0.0};

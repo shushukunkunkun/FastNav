@@ -44,6 +44,14 @@ local_planner:
     # 若 local target 已经是最终目标，且无人机离终点小于 no_replan_distance，则不再主动重规划，避免末端急刹和抖动。
     # 当 replan_time_auto=false 时，才使用下面这个手动值。
     replan_time: 1.85
+    # 执行中重规划时，新轨迹从未来 $t_{now}+\Delta t_f$ 接上旧轨迹，traj_server 先缓存为 pending。
+    replan_forward_dt: 0.4
+    # 主动重规划至少要比当前局部轨迹结束早这么久触发，给 A*/corridor/MINCO 留计算余量。
+    replan_lead_time: 0.8
+    # 避免非常短的局部轨迹刚发布就立刻重规划。
+    replan_min_time: 0.2
+    # 用实际规划耗时的 EWMA 更新提前量估计，0 表示只使用 replan_lead_time。
+    replan_time_ewma_alpha: 0.2
     # 每次 REPLAN_TRAJ 允许的随机重规划次数。
     # 一次 planFromCurrentTraj 会先尝试“旧轨迹剩余段拼接规划”和“完整 A* 规划”，随后最多执行这里配置的随机扰动尝试。
     replan_trial_times: 10
@@ -133,7 +141,7 @@ local_planner:
     local_z_size: 4.2
     local_z_min: -1.2
     local_z_max: 3.0
-    drone_radius: 0.1   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
+    drone_radius: 0.15   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     safety_margin: 0.1  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
     # 当前没有 raycasting free-space，p_miss 先作为后续接口保留；旧障碍通过 temporal_decay_log 缓慢回到未知 $l=0$。
@@ -152,12 +160,35 @@ local_planner:
     # 这里的 min_clearance 会转化为 frontend_voxel_map 的额外膨胀半径：
     # frontend_inflation = drone_radius + safety_margin + min_clearance。
     # $min_clearance=0$ 时，frontend map 退化为基础 inflated map。
-    min_clearance: 0.3
+    min_clearance: 0.1
     # 下面两个参数为旧版运行时 clearance relaxation 预留；当前双地图前端不再使用。
     clearance_retry_scale: 0.5
     min_clearance_floor: 0.1
+    # 复用 guide A* 路径：planGlobalTraj() 已搜索 start -> local_target，
+    # planToGoal(local_target) 若起终点误差和碰撞检查都通过，则直接复用，减少一次重复 A*。
+    enable_guide_path_reuse: true
+    guide_reuse_start_tolerance: 0.6
+    guide_reuse_goal_tolerance: 0.6
     # EGO / SUPER 风格前端硬截断，避免一次 A* 卡住 FSM 和 traj_server heartbeat。
     max_search_time: 0.2
+    # 终点投影：当 goal/local target 超出局部地图时，将线段
+    # $p(s)=p_{start}+s(p_{goal}-p_{start})$ 投影到局部 AABB 内部，避免 outside local map 直接失败。
+    enable_goal_projection: true
+    projection_margin_voxels: 2
+    # 若投影点或 goal 落在 inflated obstacle 内，在半径内找最近 free 体素作为临时目标。
+    nearest_free_search_radius: 1.5
+    # TIME_OUT 降级：A* 超时但已经搜索出一段足够长的可行前缀时，返回 best-effort 路径。
+    # guide search 若仍失败，会把 horizon 缩短为 $H'=\max(H_{min},\alpha H)$ 再尝试一次。
+    allow_timeout_best_effort: true
+    timeout_best_effort_min_length: 1.0
+    timeout_horizon_scale: 0.6
+    timeout_min_horizon: 1.5
+    # Escape search：起点在 frontend inflated map 内时，先用基础 map 搜索到
+    # $p \notin \mathcal{O}_{front}$ 的点，再继续常规 A*。
+    enable_escape_search: true
+    escape_max_radius: 1.5
+    escape_max_search_time: 0.05
+    escape_max_nodes: 3000
     # 24m x 24m x 4.2m 在 $0.2m$ 分辨率下约为 $120 * 120 * 21$ 个体素。
     # hard forest 中通道更弯，允许更多展开节点，避免过早触发 max_search_nodes。
     max_search_nodes: 180000

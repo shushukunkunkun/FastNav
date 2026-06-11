@@ -16,7 +16,7 @@
 
 (defclass traj_utils::MincoTrajectory
   :super ros::object
-  :slots (_header _traj_id _order _start_time _duration _coef_x _coef_y _coef_z ))
+  :slots (_header _traj_id _order _start_time _touch_goal _duration _coef_x _coef_y _coef_z ))
 
 (defmethod traj_utils::MincoTrajectory
   (:init
@@ -25,6 +25,7 @@
     ((:traj_id __traj_id) 0)
     ((:order __order) 0)
     ((:start_time __start_time) (instance ros::time :init))
+    ((:touch_goal __touch_goal) nil)
     ((:duration __duration) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:coef_x __coef_x) (make-array 0 :initial-element 0.0 :element-type :float))
     ((:coef_y __coef_y) (make-array 0 :initial-element 0.0 :element-type :float))
@@ -35,6 +36,7 @@
    (setq _traj_id (round __traj_id))
    (setq _order (round __order))
    (setq _start_time __start_time)
+   (setq _touch_goal __touch_goal)
    (setq _duration __duration)
    (setq _coef_x __coef_x)
    (setq _coef_y __coef_y)
@@ -56,6 +58,9 @@
   (:start_time
    (&optional __start_time)
    (if __start_time (setq _start_time __start_time)) _start_time)
+  (:touch_goal
+   (&optional (__touch_goal :null))
+   (if (not (eq __touch_goal :null)) (setq _touch_goal __touch_goal)) _touch_goal)
   (:duration
    (&optional __duration)
    (if __duration (setq _duration __duration)) _duration)
@@ -79,6 +84,8 @@
     4
     ;; time _start_time
     8
+    ;; bool _touch_goal
+    1
     ;; float64[] _duration
     (* 8    (length _duration)) 4
     ;; float64[] _coef_x
@@ -100,6 +107,8 @@
        (write-long _order s)
      ;; time _start_time
        (write-long (send _start_time :sec) s) (write-long (send _start_time :nsec) s)
+     ;; bool _touch_goal
+       (if _touch_goal (write-byte -1 s) (write-byte 0 s))
      ;; float64[] _duration
      (write-long (length _duration) s)
      (dotimes (i (length _duration))
@@ -132,6 +141,8 @@
      (setq _order (sys::peek buf ptr- :integer)) (incf ptr- 4)
    ;; time _start_time
      (send _start_time :sec (sys::peek buf ptr- :integer)) (incf ptr- 4)  (send _start_time :nsec (sys::peek buf ptr- :integer)) (incf ptr- 4)
+   ;; bool _touch_goal
+     (setq _touch_goal (not (= 0 (sys::peek buf ptr- :char)))) (incf ptr- 1)
    ;; float64[] _duration
    (let (n)
      (setq n (sys::peek buf ptr- :integer)) (incf ptr- 4)
@@ -164,7 +175,7 @@
    self)
   )
 
-(setf (get traj_utils::MincoTrajectory :md5sum-) "de89d3d619bcfb3593e56bbf412d2768")
+(setf (get traj_utils::MincoTrajectory :md5sum-) "fc66221f7b12651626bf9f8e8ac1d1e2")
 (setf (get traj_utils::MincoTrajectory :datatype-) "traj_utils/MincoTrajectory")
 (setf (get traj_utils::MincoTrajectory :definition-)
       "# FastNav MINCO trajectory message.
@@ -180,6 +191,11 @@ int32 order
 
 # Trajectory start time in the planner frame.
 time start_time
+
+# Whether this local trajectory already reaches the final mission goal.
+# If false, traj_server should keep the committed trajectory alive briefly
+# instead of switching to hover immediately at the segment end.
+bool touch_goal
 
 # Piece durations. For $N$ pieces, duration has length $N$.
 float64[] duration
@@ -211,6 +227,6 @@ string frame_id
 
 
 
-(provide :traj_utils/MincoTrajectory "de89d3d619bcfb3593e56bbf412d2768")
+(provide :traj_utils/MincoTrajectory "fc66221f7b12651626bf9f8e8ac1d1e2")
 
 

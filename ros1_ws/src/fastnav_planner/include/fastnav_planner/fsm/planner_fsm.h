@@ -267,6 +267,11 @@ private:
     bool replan_time_auto_{true};
     double replan_time_ratio_{2.0 / 3.0};
     double replan_time_{1.85};
+    double replan_forward_dt_{0.4};
+    double replan_lead_time_{0.8};
+    double replan_min_time_{0.2};
+    double replan_time_ewma_alpha_{0.2};
+    double estimated_planning_time_{0.0};
     int replan_trial_times_{10};
     double no_replan_distance_{1.0};
     double max_vel_{1.8};

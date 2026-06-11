@@ -127,6 +127,10 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     nh.param<bool>("/local_planner/fsm/replan_time_auto", replan_time_auto_, replan_time_auto_);
     nh.param<double>("/local_planner/fsm/replan_time_ratio", replan_time_ratio_, replan_time_ratio_);
     nh.param<double>("/local_planner/fsm/replan_time", replan_time_, replan_time_);
+    nh.param<double>("/local_planner/fsm/replan_forward_dt", replan_forward_dt_, replan_forward_dt_);
+    nh.param<double>("/local_planner/fsm/replan_lead_time", replan_lead_time_, replan_lead_time_);
+    nh.param<double>("/local_planner/fsm/replan_min_time", replan_min_time_, replan_min_time_);
+    nh.param<double>("/local_planner/fsm/replan_time_ewma_alpha", replan_time_ewma_alpha_, replan_time_ewma_alpha_);
     nh.param<int>("/local_planner/fsm/replan_trial_times", replan_trial_times_, replan_trial_times_);
     nh.param<double>("/local_planner/fsm/no_replan_distance", no_replan_distance_, no_replan_distance_);
     nh.param<double>("/local_planner/optimizer/feasibility/max_vel", max_vel_, max_vel_);
@@ -158,6 +162,10 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
     pnh.param<bool>("fsm/replan_time_auto", replan_time_auto_, replan_time_auto_);
     pnh.param<double>("fsm/replan_time_ratio", replan_time_ratio_, replan_time_ratio_);
     pnh.param<double>("fsm/replan_time", replan_time_, replan_time_);
+    pnh.param<double>("fsm/replan_forward_dt", replan_forward_dt_, replan_forward_dt_);
+    pnh.param<double>("fsm/replan_lead_time", replan_lead_time_, replan_lead_time_);
+    pnh.param<double>("fsm/replan_min_time", replan_min_time_, replan_min_time_);
+    pnh.param<double>("fsm/replan_time_ewma_alpha", replan_time_ewma_alpha_, replan_time_ewma_alpha_);
     pnh.param<int>("fsm/replan_trial_times", replan_trial_times_, replan_trial_times_);
     pnh.param<double>("fsm/no_replan_distance", no_replan_distance_, no_replan_distance_);
     pnh.param<double>("max_vel", max_vel_, max_vel_);
@@ -177,11 +185,22 @@ void PlannerFSM::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& pnh)
         replan_time_ = replan_time_ratio_ * planning_horizon_ / max_vel_;
     }
     replan_time_ = std::max(0.1, replan_time_);
+    replan_forward_dt_ = std::max(0.0, replan_forward_dt_);
+    replan_lead_time_ = std::max(0.0, replan_lead_time_);
+    replan_min_time_ = std::max(0.0, replan_min_time_);
+    replan_time_ewma_alpha_ = std::min(1.0, std::max(0.0, replan_time_ewma_alpha_));
     replan_trial_times_ = std::max(1, replan_trial_times_);
     no_replan_distance_ = std::max(0.05, no_replan_distance_);
 
-    ROS_INFO("[FastNav][PlannerFSM] replan_time=%.3fs, trial_times=%d, auto=%d, ratio=%.3f, horizon=%.3fm, max_vel=%.3fm/s",
-             replan_time_, replan_trial_times_, replan_time_auto_, replan_time_ratio_, planning_horizon_, max_vel_);
+    ROS_INFO("[FastNav][PlannerFSM] replan_time=%.3fs, forward_dt=%.3fs, lead=%.3fs, trial_times=%d, auto=%d, ratio=%.3f, horizon=%.3fm, max_vel=%.3fm/s",
+             replan_time_,
+             replan_forward_dt_,
+             replan_lead_time_,
+             replan_trial_times_,
+             replan_time_auto_,
+             replan_time_ratio_,
+             planning_horizon_,
+             max_vel_);
 }
 
 // 处理 FastNav 标准里程计输入，并把最新 odom 转交给 manager 作为地图中心和规划起点来源。
@@ -341,13 +360,32 @@ void PlannerFSM::triggerCallback(const geometry_msgs::PoseStampedConstPtr& /*msg
 }
 
 // 状态机主循环：根据 odom / map / target / replan 标志在各状态之间转换，并调用 EGO 风格规划入口。
+//
+// 当前 FastNav planner 的执行链路可以理解为：
+// 1. WAIT_TARGET 中只等待任务条件，不做任何耗时规划；
+// 2. GEN_NEW_TRAJ 用于“任务级目标改变”后的第一次规划，起点直接取当前 odom 状态；
+// 3. EXEC_TRAJ 表示已经发布了一条可执行 MINCO 轨迹，traj_server / controller 正在消费它；
+// 4. REPLAN_TRAJ 用于执行中的滚动重规划，起点优先从旧轨迹未来切换时刻
+//    $t_s=t_{now}+\Delta t_f$ 采样，而不是直接使用 odom；
+// 5. EMERGENCY_STOP 只发布停在当前位置的急停轨迹，随后若条件允许再回到 GEN_NEW_TRAJ。
+//
+// 注意：FSM 只决定“何时规划”和“发布哪条轨迹”；A*、safe corridor、MINCO 优化由
+// LocalPlannerManager 负责。控制量构造在 traj_server / control 模块里完成。
 void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
 {
+    // heartbeat 是 planner 存活信号，traj_server 用它判断 planner 是否还在工作。
+    // 即使当前没有目标，也要持续发布，避免下游误判 planner 掉线。
     publishHeartbeat();
+
+    // debug_enable_ 为 true 时，FSM 状态会发布到 /fastnav/planner/fsm_state；
+    // live_plot_state.py 正是通过这个 topic 画状态阶跃曲线。
     publishFSMState();
 
     if (exec_state_ != INIT && goal_preempt_requested_.load())
     {
+        // goal callback 运行在独立 callback queue 中，只写 pending_goal；
+        // 主 FSM 线程在这里统一 apply，避免长时间 REPLAN 阻塞新目标生效。
+        // 新目标一旦应用，会强制切到 GEN_NEW_TRAJ，旧规划通过 preempt flag 丢弃。
         applyPendingGoal("GOAL");
     }
 
@@ -361,6 +399,8 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
     switch (exec_state_)
     {
     case INIT:
+        // INIT 只等待 odom。地图和目标可以稍后到来；
+        // 一旦有 odom，FSM 就进入 WAIT_TARGET，说明自身状态估计已经可用。
         if (have_odom_)
         {
             changeFSMExecState(WAIT_TARGET, "FSM");
@@ -368,6 +408,8 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         break;
 
     case WAIT_TARGET:
+        // WAIT_TARGET 是空闲态。只有 odom、局部地图、目标点和 trigger 全部满足后，
+        // 才进入 GEN_NEW_TRAJ。这里不调用 planner，避免缺地图/缺目标时反复失败。
         if (have_odom_ && have_map_ && have_target_ && have_trigger_)
         {
             changeFSMExecState(GEN_NEW_TRAJ, "FSM");
@@ -375,16 +417,23 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         break;
 
     case GEN_NEW_TRAJ:
+        // GEN_NEW_TRAJ 对应“新任务目标”的首条局部轨迹。
+        // planFromGlobalTraj() 会先保证 manager 中有 global_data_，
+        // 再沿全局参考选 local target，最后调用 A* + corridor + MINCO。
+        // 起点边界条件来自当前 odom: $p_0=p_{odom}, v_0=v_{odom}, a_0=a_{odom}$。
         if (hasReachedGoal())
         {
+            // 如果目标刚好就在当前位置附近，直接完成任务并回到 WAIT_TARGET。
             finishCurrentTarget("FSM");
             changeFSMExecState(WAIT_TARGET, "FSM");
             break;
         }
-        if (planFromGlobalTraj(1))
+        if (planFromGlobalTraj(replan_trial_times_))
         {
             if (!applyPendingGoal("GOAL_PREEMPT"))
             {
+                // 首条局部轨迹已经发布到 minco_trajectory_topic；
+                // traj_server 会 commit / sample 这条轨迹，控制层进入 COMMAND_CONTROL。
                 changeFSMExecState(EXEC_TRAJ, "FSM");
             }
         }
@@ -392,14 +441,26 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         {
             if (!applyPendingGoal("GOAL_PREEMPT"))
             {
+                // 首次规划失败时保持 GEN_NEW_TRAJ，而不是进入 EXEC_TRAJ。
+                // 这样 FSM 会继续尝试为同一个目标生成首条可执行轨迹；
+                // 若此时收到新目标，applyPendingGoal() 会覆盖旧目标。
                 changeFSMExecState(GEN_NEW_TRAJ, "FSM");
             }
         }
         break;
 
     case REPLAN_TRAJ:
+        // REPLAN_TRAJ 对应执行中的滚动重规划。
+        // planFromCurrentTraj() 采用三段式 fallback：
+        // 1. 复用旧 MINCO 剩余安全段 + A* 桥接；
+        // 2. 放弃旧轨迹前缀，直接完整 A*；
+        // 3. 对完整 A* 参考路径做随机扰动。
+        // 成功后新轨迹的 start_time 通常是未来时刻 $t_{now}+\Delta t_f$，
+        // traj_server 会继续执行旧 committed trajectory，直到新轨迹开始时间再切换。
         if (shouldFinishCurrentTarget())
         {
+            // 末端容错由 shouldFinishCurrentTarget() 处理：既允许严格 goal_tolerance，
+            // 也允许最终 local trajectory 已结束且 odom 进入 no_replan_distance 的情况。
             finishCurrentTarget("FSM");
             changeFSMExecState(WAIT_TARGET, "FSM");
             break;
@@ -408,6 +469,8 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         {
             if (!applyPendingGoal("GOAL_PREEMPT"))
             {
+                // 重规划成功后回到 EXEC_TRAJ。注意这并不代表控制器立刻硬切轨迹；
+                // 实际执行切换由 minco_traj_server 按 start_time / pending trajectory 管理。
                 changeFSMExecState(EXEC_TRAJ, "FSM");
             }
         }
@@ -415,23 +478,32 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         {
             if (!applyPendingGoal("GOAL_PREEMPT"))
             {
+                // 重规划失败时保持 REPLAN_TRAJ。
+                // 旧 committed trajectory 仍由 traj_server 继续执行；如果 safety timer 检测到
+                // 碰撞时间小于 emergency_time_，会切入 EMERGENCY_STOP。
                 changeFSMExecState(REPLAN_TRAJ, "FSM");
             }
         }
         break;
 
     case EXEC_TRAJ:
+        // EXEC_TRAJ 是正常执行态：不在每一帧点云后立即重规划，而是根据时间、
+        // 新目标、终点状态和安全检查来决定是否切到 GEN_NEW_TRAJ / REPLAN_TRAJ。
         if (!have_target_)
         {
+            // 当前没有任务目标，保持空闲。
             changeFSMExecState(WAIT_TARGET, "FSM");
         }
         else if (shouldFinishCurrentTarget())
         {
+            // 任务终点已完成，清空目标并回到 WAIT_TARGET，等待下一次 RViz / topic goal。
             finishCurrentTarget("FSM");
             changeFSMExecState(WAIT_TARGET, "FSM");
         }
         else if (have_new_target_ && request_replan_)
         {
+            // 新目标已经被 applyPendingGoal() 接受，任务级目标发生变化。
+            // 这种情况不属于普通滚动重规划，必须进入 GEN_NEW_TRAJ，从当前 odom 重建 global reference。
             changeFSMExecState(GEN_NEW_TRAJ, "FSM");
         }
         else
@@ -449,21 +521,33 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
                 const Eigen::Vector3d exec_pos = local_data.getPosition(t_cur);
                 const bool local_target_is_goal = (local_target_pt_ - end_pt_).norm() < 1.0e-3;
                 const bool far_from_goal = (end_pt_ - exec_pos).norm() > no_replan_distance_;
+                const double dynamic_lead_time = std::max(replan_lead_time_, estimated_planning_time_);
+                const double duration_trigger_time = local_data.duration_ > dynamic_lead_time
+                                                         ? local_data.duration_ - dynamic_lead_time
+                                                         : replan_min_time_;
+                const double active_replan_time = std::max(replan_min_time_,
+                                                           std::min(replan_time_, duration_trigger_time));
 
                 if (local_target_is_goal)
                 {
+                    // 当前局部目标已经是最终目标时，主动重规划要更谨慎。
+                    // 若已经满足完成条件就结束任务；若还离最终目标较远并超过触发时间，
+                    // 才继续 REPLAN，避免末端附近不断重规划造成急刹。
                     if (shouldFinishCurrentTarget())
                     {
                         finishCurrentTarget("FSM");
                         changeFSMExecState(WAIT_TARGET, "FSM");
                     }
-                    else if (far_from_goal && t_cur > replan_time_)
+                    else if (far_from_goal && t_cur > active_replan_time)
                     {
                         changeFSMExecState(REPLAN_TRAJ, "FSM");
                     }
                 }
-                else if (t_cur > replan_time_)
+                else if (t_cur > active_replan_time)
                 {
+                    // 当前 local target 不是最终目标，说明这是一段中间 horizon 轨迹。
+                    // 当执行时间 $t_{cur}$ 超过触发时间 $T_r$ 后，开始滚动规划下一段，
+                    // 保证新轨迹在旧轨迹结束前算好，减少 local target 之间的控制 gap。
                     changeFSMExecState(REPLAN_TRAJ, "FSM");
                 }
             }
@@ -471,6 +555,9 @@ void PlannerFSM::execFSMCallback(const ros::TimerEvent& /*event*/)
         break;
 
     case EMERGENCY_STOP:
+        // EMERGENCY_STOP 目前是 planner 层急停：发布单点停悬轨迹。
+        // 如果 odom/map/target 仍然有效，则立即回到 GEN_NEW_TRAJ 尝试重新生成可行轨迹。
+        // 真正 PX4 侧模式/解锁/位置控制仍由 fastnav_control 管理。
         if (have_odom_)
         {
             callEmergencyStop(planner_manager_->currentPosition());
@@ -621,8 +708,11 @@ bool PlannerFSM::planFromCurrentTraj(int trial_times)
     const ros::Time time_now = ros::Time::now();
     if (local_data.valid_ && !local_data.start_time_.isZero() && local_data.duration_ > 1.0e-6)
     {
+        // 执行中重规划时，新轨迹不从“现在”硬切，而是从未来 $t_s=t_{now}+\Delta t_f$
+        // 接上旧轨迹。traj_server 会把这条轨迹作为 pending trajectory，到 start_time 后再 commit。
+        const ros::Time switch_time = time_now + ros::Duration(replan_forward_dt_);
         const double t_cur = std::min(local_data.duration_,
-                                      std::max(0.0, (time_now - local_data.start_time_).toSec()));
+                                      std::max(0.0, (switch_time - local_data.start_time_).toSec()));
         start_pt_ = local_data.getPosition(t_cur);
         start_vel_ = local_data.getVelocity(t_cur);
         start_acc_ = local_data.getAcceleration(t_cur);
@@ -667,14 +757,40 @@ bool PlannerFSM::planFromCurrentTraj(int trial_times)
 }
 
 // 统一规划入口：检查前置条件，选择局部目标，调用 manager 的 A* + PathOptimizer，并发布结果。
+// 这个函数是 FSM 和 LocalPlannerManager 之间的“窄腰接口”：
+// - FSM 在这里决定本次规划的语义，例如是否复用旧轨迹、是否随机扰动、是否是最终目标；
+// - manager 在 planToGoal() 内部完成前端 A*、safe corridor、MINCO 优化和 fine check。
+// 函数返回 true 表示已经成功发布一条新的 MINCO 轨迹；返回 false 表示本轮规划失败或被新目标抢占。
 bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int retry_index)
 {
+    // 记录整次 callReplan 的耗时，用于 /fastnav/planner/timing。
+    // total_ms 包含 local target 选择、A*/优化、轨迹发布这些 FSM 可见阶段。
     const ros::WallTime total_start = ros::WallTime::now();
     double local_target_ms = 0.0;
     double publish_ms = 0.0;
 
+    auto updatePlanningTimeEstimate = [this](double total_ms) {
+        const double total_s = std::max(0.0, total_ms * 1.0e-3);
+        if (total_s <= 1.0e-6)
+        {
+            return;
+        }
+        if (estimated_planning_time_ <= 1.0e-6 || replan_time_ewma_alpha_ <= 0.0)
+        {
+            estimated_planning_time_ = total_s;
+            return;
+        }
+
+        // 使用指数滑动平均估计规划耗时：$T_{est}=(1-\\alpha)T_{est}+\\alpha T_{plan}$。
+        // EXEC_TRAJ 中会用这个估计值提前触发下一次 REPLAN，避免旧轨迹结束后才开始计算。
+        estimated_planning_time_ = (1.0 - replan_time_ewma_alpha_) * estimated_planning_time_ +
+                                   replan_time_ewma_alpha_ * total_s;
+    };
+
     if (!have_odom_ || !have_map_ || !have_target_)
     {
+        // odom/map/target 是规划的最小前置条件。
+        // 这里直接返回 false，保持当前 FSM 状态，让下一次 timer 继续检查。
         ROS_WARN_THROTTLE(1.0,
                           "[FastNav][PlannerFSM] Cannot plan yet. odom=%d, map=%d, target=%d",
                           have_odom_, have_map_, have_target_);
@@ -686,6 +802,7 @@ bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int ret
     local_target_ms = (ros::WallTime::now() - local_target_start).toSec() * 1000.0;
     if (goal_preempt_requested_.load())
     {
+        // getLocalTarget() 期间若收到新 goal，不继续用旧目标规划，交回 execFSMCallback() 应用 pending goal。
         return false;
     }
 
@@ -699,15 +816,36 @@ bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int ret
     options.goal_vel = local_target_vel_;
     options.goal_acc.setZero();
     options.touch_goal = touch_goal_;
+
+    // attempt 用于随机扰动 seed。连续失败时 $attempt$ 变大，manager 会生成不同中间点扰动，
+    // 从而改变 corridor / MINCO 初值，避免每次掉进同一个局部不可行解。
     options.attempt = continuously_called_times_ + std::max(0, retry_index);
     options.continuous_failures = continuously_called_times_;
+
+    const bool plan_while_executing = (exec_state_ == REPLAN_TRAJ || exec_state_ == EXEC_TRAJ) &&
+                                      planner_manager_->local_data_.valid_;
+    options.trajectory_start_time = plan_while_executing && replan_forward_dt_ > 1.0e-6
+                                        ? ros::Time::now() + ros::Duration(replan_forward_dt_)
+                                        : ros::Time::now();
+
+    // 执行中重规划时，新轨迹从未来 $t_s=t_{now}+\\Delta t_f$ 开始。
+    // traj_server 会把它作为 pending trajectory，在 $t_s$ 到来前继续执行旧 committed trajectory，
+    // 避免新旧轨迹硬切或 local target 之间出现控制空窗。
     options.preempt_requested = [this]() {
         return goal_preempt_requested_.load();
     };
 
+    // manager 的 planToGoal() 会完成：
+    // 1. A* path / guide fallback / escape / best-effort；
+    // 2. 构造优化参考路径；
+    // 3. 生成 safe corridor；
+    // 4. 调用 GCOPTER/MINCO；
+    // 5. fine check 轨迹碰撞和动力学约束。
     const bool success = planner_manager_->planToGoal(local_target_pt_, options);
     if (goal_preempt_requested_.load())
     {
+        // 若 manager 计算过程中收到新目标，则旧结果无论成功与否都丢弃。
+        // 这样不会出现“新目标已经发来，但旧目标轨迹后来覆盖掉新目标”的竞态。
         ROS_INFO("[FastNav][PlannerFSM] Discard old planning result because a new goal is pending.");
         return false;
     }
@@ -719,19 +857,40 @@ bool PlannerFSM::callReplan(bool use_current_path, bool use_random_init, int ret
 
     if (!success)
     {
+        // 失败原因由 manager 维护，通常来自 A*、corridor、MINCO 或 fine check。
+        // 此时不发布新轨迹；REPLAN_TRAJ 会继续尝试，EXEC_TRAJ 下旧 committed 轨迹仍由 traj_server 执行。
         ROS_WARN_THROTTLE(1.0, "[FastNav][PlannerFSM] Planning failed: %s", planner_manager_->lastError().c_str());
         const double total_ms = (ros::WallTime::now() - total_start).toSec() * 1000.0;
+        updatePlanningTimeEstimate(total_ms);
         publishPlannerTiming(false, planner_manager_->lastError(), total_ms, local_target_ms, publish_ms);
         return false;
     }
 
     const ros::WallTime publish_start = ros::WallTime::now();
+    if (!planner_manager_->lastPlanReachedRequestedGoal())
+    {
+        // 前端可能因为局部地图边界或 TIME_OUT 只规划到 $p_{real}$：
+        // $p_{real}=project(p_{goal})$ 或搜索树中的 best-effort 节点。
+        // 此时不能把本段轨迹当作最终 local target，否则 traj_server 会在中间点 hover；
+        // FSM 仍保留任务级 end_pt_，下一轮滚动规划继续向原目标推进。
+        local_target_pt_ = planner_manager_->lastPlannedTarget();
+        local_target_vel_.setZero();
+        touch_goal_ = false;
+        publishLocalTargetIfChanged();
+    }
+
+    // publishTrajectory() 同时发布 nav_msgs::Path 和 MincoTrajectory。
+    // path 主要用于 RViz；MincoTrajectory 才是 traj_server 采样控制指令的输入。
     publishTrajectory();
     publish_ms = (ros::WallTime::now() - publish_start).toSec() * 1000.0;
+
+    // 成功发布后清除本轮重规划请求和“新目标”标志。
+    // 若后续仍需要滚动规划，会由 EXEC_TRAJ 的时间阈值或 safety timer 再次触发。
     request_replan_ = false;
     have_new_target_ = false;
 
     const double total_ms = (ros::WallTime::now() - total_start).toSec() * 1000.0;
+    updatePlanningTimeEstimate(total_ms);
     publishPlannerTiming(true, "", total_ms, local_target_ms, publish_ms);
     ROS_INFO("[FastNav][PlannerFSM] Path planned and published.");
     return true;
@@ -1063,6 +1222,7 @@ void PlannerFSM::publishMincoTrajectory()
     msg.traj_id = static_cast<uint32_t>(std::max(0, local_data.traj_id_));
     msg.order = kOrder;
     msg.start_time = local_data.start_time_;
+    msg.touch_goal = touch_goal_;
     msg.duration.reserve(piece_num);
     msg.coef_x.reserve(piece_num * kCoeffNum);
     msg.coef_y.reserve(piece_num * kCoeffNum);

@@ -6,5 +6,5 @@ CXX_DEFINES = -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKA
 
 CXX_INCLUDES = -I/home/shukun/Project/FastNav/ros1_ws/src/GCOPTER/GCOPTER/map_gen/mockamap/include -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/usr/include/eigen3 -I/usr/include/pcl-1.12 -I/usr/include/ni -I/usr/include/openni2
 
-CXX_FLAGS = -std=c++14
+CXX_FLAGS = -std=c++17
 

@@ -350,10 +350,7 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
  /usr/include/eigen3/Eigen/src/Core/StlIterators.h \
  /usr/include/eigen3/Eigen/src/Core/GlobalFunctions.h \
  /usr/include/eigen3/Eigen/src/Core/util/ReenableStupidWarnings.h \
- /home/shukun/Project/FastNav/ros1_ws/src/fastnav_mapping/include/fastnav_mapping/voxel_map.h \
- /usr/include/c++/11/queue /usr/include/c++/11/deque \
- /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
- /usr/include/c++/11/bits/stl_queue.h /opt/ros/noetic/include/ros/time.h \
+ /opt/ros/noetic/include/ros/time.h \
  /opt/ros/noetic/include/ros/platform.h /usr/include/c++/11/iostream \
  /opt/ros/noetic/include/ros/exception.h \
  /opt/ros/noetic/include/ros/duration.h /usr/include/c++/11/math.h \
@@ -730,4 +727,8 @@ fastnav_planner/CMakeFiles/fastnav_planner_core.dir/src/frontend/astar_planner.c
  /usr/include/boost/predef/os/bsd/open.h \
  /usr/include/boost/predef/os/bsd/net.h \
  /usr/include/boost/predef/platform/android.h \
- /usr/include/x86_64-linux-gnu/sys/time.h
+ /usr/include/x86_64-linux-gnu/sys/time.h \
+ /home/shukun/Project/FastNav/ros1_ws/src/fastnav_mapping/include/fastnav_mapping/voxel_map.h \
+ /usr/include/c++/11/queue /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
+ /usr/include/c++/11/bits/stl_queue.h

@@ -17,4 +17,15 @@ planner:
     heuristic_weight: 1.2
     min_clearance: 0.2
     max_search_time: 0.2
+    enable_goal_projection: true
+    projection_margin_voxels: 2
+    nearest_free_search_radius: 1.0
+    allow_timeout_best_effort: true
+    timeout_best_effort_min_length: 0.8
+    timeout_horizon_scale: 0.6
+    timeout_min_horizon: 1.0
+    enable_escape_search: true
+    escape_max_radius: 1.0
+    escape_max_search_time: 0.05
+    escape_max_nodes: 2000
     max_search_nodes: 30000

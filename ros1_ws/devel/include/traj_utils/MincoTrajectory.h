@@ -29,6 +29,7 @@ struct MincoTrajectory_
     , traj_id(0)
     , order(0)
     , start_time()
+    , touch_goal(false)
     , duration()
     , coef_x()
     , coef_y()
@@ -39,6 +40,7 @@ struct MincoTrajectory_
     , traj_id(0)
     , order(0)
     , start_time()
+    , touch_goal(false)
     , duration(_alloc)
     , coef_x(_alloc)
     , coef_y(_alloc)
@@ -59,6 +61,9 @@ struct MincoTrajectory_
 
    typedef ros::Time _start_time_type;
   _start_time_type start_time;
+
+   typedef uint8_t _touch_goal_type;
+  _touch_goal_type touch_goal;
 
    typedef std::vector<double, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<double>> _duration_type;
   _duration_type duration;
@@ -105,6 +110,7 @@ bool operator==(const ::traj_utils::MincoTrajectory_<ContainerAllocator1> & lhs,
     lhs.traj_id == rhs.traj_id &&
     lhs.order == rhs.order &&
     lhs.start_time == rhs.start_time &&
+    lhs.touch_goal == rhs.touch_goal &&
     lhs.duration == rhs.duration &&
     lhs.coef_x == rhs.coef_x &&
     lhs.coef_y == rhs.coef_y &&
@@ -165,12 +171,12 @@ struct MD5Sum< ::traj_utils::MincoTrajectory_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "de89d3d619bcfb3593e56bbf412d2768";
+    return "fc66221f7b12651626bf9f8e8ac1d1e2";
   }
 
   static const char* value(const ::traj_utils::MincoTrajectory_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xde89d3d619bcfb35ULL;
-  static const uint64_t static_value2 = 0x93e56bbf412d2768ULL;
+  static const uint64_t static_value1 = 0xfc66221f7b126516ULL;
+  static const uint64_t static_value2 = 0x26bf9f8e8ac1d1e2ULL;
 };
 
 template<class ContainerAllocator>
@@ -202,6 +208,11 @@ struct Definition< ::traj_utils::MincoTrajectory_<ContainerAllocator> >
 "\n"
 "# Trajectory start time in the planner frame.\n"
 "time start_time\n"
+"\n"
+"# Whether this local trajectory already reaches the final mission goal.\n"
+"# If false, traj_server should keep the committed trajectory alive briefly\n"
+"# instead of switching to hover immediately at the segment end.\n"
+"bool touch_goal\n"
 "\n"
 "# Piece durations. For $N$ pieces, duration has length $N$.\n"
 "float64[] duration\n"
@@ -250,6 +261,7 @@ namespace serialization
       stream.next(m.traj_id);
       stream.next(m.order);
       stream.next(m.start_time);
+      stream.next(m.touch_goal);
       stream.next(m.duration);
       stream.next(m.coef_x);
       stream.next(m.coef_y);
@@ -281,6 +293,8 @@ struct Printer< ::traj_utils::MincoTrajectory_<ContainerAllocator> >
     Printer<int32_t>::stream(s, indent + "  ", v.order);
     s << indent << "start_time: ";
     Printer<ros::Time>::stream(s, indent + "  ", v.start_time);
+    s << indent << "touch_goal: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.touch_goal);
     s << indent << "duration[]" << std::endl;
     for (size_t i = 0; i < v.duration.size(); ++i)
     {

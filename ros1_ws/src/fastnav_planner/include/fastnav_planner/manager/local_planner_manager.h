@@ -61,6 +61,10 @@ public:
         Eigen::Vector3d goal_vel{Eigen::Vector3d::Zero()};
         Eigen::Vector3d goal_acc{Eigen::Vector3d::Zero()};
         bool touch_goal{true};
+        // 轨迹实际开始执行的 ROS 时间。普通新规划通常为 now；
+        // 执行中重规划可设置为 now + replan_forward_dt，让 traj_server 先继续采样旧轨迹，
+        // 到未来切换时刻再 commit 新轨迹，避免新旧轨迹硬切或出现控制空窗。
+        ros::Time trajectory_start_time;
         int attempt{0};
         int continuous_failures{0};
         std::function<bool()> preempt_requested;
@@ -162,6 +166,11 @@ public:
     std::string lastError() const { return last_error_; }
     PlanningTiming lastTiming() const { return last_timing_; }
 
+    // 前端 A* 可能因为局部地图边界、TIME_OUT 或 escape 退化，只规划到原目标前方的一个可行点。
+    // FSM 需要知道真实局部终点 $p_{real}$，避免把 best-effort 轨迹误当成已经到达 $p_{goal}$。
+    Eigen::Vector3d lastPlannedTarget() const { return last_planned_target_; }
+    bool lastPlanReachedRequestedGoal() const { return last_plan_reached_requested_goal_; }
+
     // 从 current_odom_ 中提取当前位置，供 FSM 设置触发点、急停点和日志输出。
     Eigen::Vector3d currentPosition() const;
 
@@ -201,6 +210,15 @@ private:
                                    double& clearance_used,
                                    int& expanded_nodes);
 
+    // 尝试复用 planGlobalTraj() 中缓存的 guide path，避免同一个 local target 再做一次 A*。
+    // 只有当 $\|p_s-p_{guide,0}\|$ 和 $\|p_g-p_{guide,N}\|$ 都足够小，且线段仍在当前 base map 中无碰撞时才复用。
+    bool tryReuseCachedGuidePath(const Eigen::Vector3d& start,
+                                 const Eigen::Vector3d& goal,
+                                 const std::function<bool()>& preempt_requested,
+                                 std::vector<Eigen::Vector3d>& path,
+                                 double& clearance_used,
+                                 int& expanded_nodes);
+
     // 根据 EGO-v2 的随机中点思想，对 A* 路径的中间控制点做小扰动，生成不同的 MINCO/corridor 初始化参考。
     std::vector<Eigen::Vector3d> buildOptimizationReferencePath(const std::vector<Eigen::Vector3d>& raw_path,
                                                                 const ReplanOptions& options,
@@ -214,7 +232,7 @@ private:
 
     // 将 PathOptimizer 输出的 MINCO 轨迹写入 local_data_；若 MINCO 不存在则只保留几何路径。
     void updateTrajInfo(const PathOptimizer::OptimizationResult& result,
-                        const ros::Time& time_now);
+                        const ros::Time& start_time);
 
 private:
     // 核心算法对象。voxel_map_ 是后端/fine check 使用的基础 inflated map；
@@ -252,6 +270,17 @@ private:
     double minco_sample_dt_{0.05};
     double random_init_scale_{0.8};
 
+    // guide path 复用参数。guide A* 已经给出了 start -> local_target 的可通行路径，
+    // 后端优化前若起终点和地图仍匹配，就直接复用，减少重复 A* 搜索。
+    bool enable_guide_path_reuse_{true};
+    double guide_reuse_start_tolerance_{0.6};
+    double guide_reuse_goal_tolerance_{0.6};
+
+    // planGlobalTraj() 最近一次 guide A* 结果缓存。
+    std::vector<Eigen::Vector3d> cached_guide_path_;
+    double cached_guide_clearance_used_{0.0};
+    ros::Time cached_guide_stamp_;
+
     // manager 内部数据有效性标志。
     bool has_odom_{false};
     bool has_map_{false};
@@ -272,6 +301,11 @@ private:
     // 最近一次规划或地图更新失败原因。
     std::string last_error_;
     PlanningTiming last_timing_;
+
+    // 最近一次 A* / MINCO 实际规划终点。若 goal 投影到局部地图内或 timeout 返回 best-effort，
+    // 则 $last\_planned\_target_ \ne goal$，上层应继续保留任务目标并滚动规划。
+    Eigen::Vector3d last_planned_target_{0.0, 0.0, 0.0};
+    bool last_plan_reached_requested_goal_{true};
 };
 
 }  // namespace fastnav_planner

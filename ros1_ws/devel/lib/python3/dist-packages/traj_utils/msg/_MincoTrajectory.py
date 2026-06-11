@@ -10,7 +10,7 @@ import genpy
 import std_msgs.msg
 
 class MincoTrajectory(genpy.Message):
-  _md5sum = "de89d3d619bcfb3593e56bbf412d2768"
+  _md5sum = "fc66221f7b12651626bf9f8e8ac1d1e2"
   _type = "traj_utils/MincoTrajectory"
   _has_header = True  # flag to mark the presence of a Header object
   _full_text = """# FastNav MINCO trajectory message.
@@ -26,6 +26,11 @@ int32 order
 
 # Trajectory start time in the planner frame.
 time start_time
+
+# Whether this local trajectory already reaches the final mission goal.
+# If false, traj_server should keep the committed trajectory alive briefly
+# instead of switching to hover immediately at the segment end.
+bool touch_goal
 
 # Piece durations. For $N$ pieces, duration has length $N$.
 float64[] duration
@@ -53,8 +58,8 @@ time stamp
 #Frame this data is associated with
 string frame_id
 """
-  __slots__ = ['header','traj_id','order','start_time','duration','coef_x','coef_y','coef_z']
-  _slot_types = ['std_msgs/Header','uint32','int32','time','float64[]','float64[]','float64[]','float64[]']
+  __slots__ = ['header','traj_id','order','start_time','touch_goal','duration','coef_x','coef_y','coef_z']
+  _slot_types = ['std_msgs/Header','uint32','int32','time','bool','float64[]','float64[]','float64[]','float64[]']
 
   def __init__(self, *args, **kwds):
     """
@@ -64,7 +69,7 @@ string frame_id
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       header,traj_id,order,start_time,duration,coef_x,coef_y,coef_z
+       header,traj_id,order,start_time,touch_goal,duration,coef_x,coef_y,coef_z
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -81,6 +86,8 @@ string frame_id
         self.order = 0
       if self.start_time is None:
         self.start_time = genpy.Time()
+      if self.touch_goal is None:
+        self.touch_goal = False
       if self.duration is None:
         self.duration = []
       if self.coef_x is None:
@@ -94,6 +101,7 @@ string frame_id
       self.traj_id = 0
       self.order = 0
       self.start_time = genpy.Time()
+      self.touch_goal = False
       self.duration = []
       self.coef_x = []
       self.coef_y = []
@@ -120,7 +128,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_Ii2I().pack(_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs))
+      buff.write(_get_struct_Ii2IB().pack(_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs, _x.touch_goal))
       length = len(self.duration)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -168,8 +176,9 @@ string frame_id
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 16
-      (_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs,) = _get_struct_Ii2I().unpack(str[start:end])
+      end += 17
+      (_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs, _x.touch_goal,) = _get_struct_Ii2IB().unpack(str[start:end])
+      self.touch_goal = bool(self.touch_goal)
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -224,7 +233,7 @@ string frame_id
         length = len(_x)
       buff.write(struct.Struct('<I%ss'%length).pack(length, _x))
       _x = self
-      buff.write(_get_struct_Ii2I().pack(_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs))
+      buff.write(_get_struct_Ii2IB().pack(_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs, _x.touch_goal))
       length = len(self.duration)
       buff.write(_struct_I.pack(length))
       pattern = '<%sd'%length
@@ -273,8 +282,9 @@ string frame_id
         self.header.frame_id = str[start:end]
       _x = self
       start = end
-      end += 16
-      (_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs,) = _get_struct_Ii2I().unpack(str[start:end])
+      end += 17
+      (_x.traj_id, _x.order, _x.start_time.secs, _x.start_time.nsecs, _x.touch_goal,) = _get_struct_Ii2IB().unpack(str[start:end])
+      self.touch_goal = bool(self.touch_goal)
       start = end
       end += 4
       (length,) = _struct_I.unpack(str[start:end])
@@ -322,9 +332,9 @@ def _get_struct_3I():
     if _struct_3I is None:
         _struct_3I = struct.Struct("<3I")
     return _struct_3I
-_struct_Ii2I = None
-def _get_struct_Ii2I():
-    global _struct_Ii2I
-    if _struct_Ii2I is None:
-        _struct_Ii2I = struct.Struct("<Ii2I")
-    return _struct_Ii2I
+_struct_Ii2IB = None
+def _get_struct_Ii2IB():
+    global _struct_Ii2IB
+    if _struct_Ii2IB is None:
+        _struct_Ii2IB = struct.Struct("<Ii2IB")
+    return _struct_Ii2IB

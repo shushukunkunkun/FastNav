@@ -87,6 +87,57 @@ Piece<5> makeQuinticPiece(const Eigen::Vector3d& p0,
     return Piece<5>(T, coeff);
 }
 
+std::string searchStatusName(AStarPlanner::SearchStatus status)
+{
+    switch (status)
+    {
+    case AStarPlanner::SearchStatus::SUCCESS:
+        return "SUCCESS";
+    case AStarPlanner::SearchStatus::REACH_GOAL:
+        return "REACH_GOAL";
+    case AStarPlanner::SearchStatus::REACH_HORIZON:
+        return "REACH_HORIZON";
+    case AStarPlanner::SearchStatus::BEST_EFFORT:
+        return "BEST_EFFORT";
+    case AStarPlanner::SearchStatus::TIME_OUT:
+        return "TIME_OUT";
+    case AStarPlanner::SearchStatus::NO_PATH:
+        return "NO_PATH";
+    case AStarPlanner::SearchStatus::INIT_ERROR:
+        return "INIT_ERROR";
+    case AStarPlanner::SearchStatus::PREEMPTED:
+        return "PREEMPTED";
+    }
+    return "UNKNOWN";
+}
+
+void prependPathPrefix(const std::vector<Eigen::Vector3d>& prefix,
+                       std::vector<Eigen::Vector3d>& path)
+{
+    if (prefix.size() < 2)
+    {
+        return;
+    }
+
+    std::vector<Eigen::Vector3d> merged;
+    merged.reserve(prefix.size() + path.size());
+    for (const Eigen::Vector3d& point : prefix)
+    {
+        if (merged.empty() || (point - merged.back()).norm() > 1.0e-4)
+        {
+            merged.push_back(point);
+        }
+    }
+    for (const Eigen::Vector3d& point : path)
+    {
+        if (merged.empty() || (point - merged.back()).norm() > 1.0e-4)
+        {
+            merged.push_back(point);
+        }
+    }
+    path.swap(merged);
+}
+
 }  // namespace
 
 // 初始化 manager 内部算法对象：读取参数，创建 VoxelMap、AStarPlanner 和 PathOptimizer，并完成指针绑定。
@@ -180,14 +231,42 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     nh.param<double>("/local_planner/astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
     nh.param<double>("/local_planner/astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
     nh.param<double>("/local_planner/astar/line_check_step", astar_config_.line_check_step, astar_config_.line_check_step);
+    nh.param<bool>("/local_planner/astar/enable_guide_path_reuse", enable_guide_path_reuse_, enable_guide_path_reuse_);
+    nh.param<double>("/local_planner/astar/guide_reuse_start_tolerance", guide_reuse_start_tolerance_, guide_reuse_start_tolerance_);
+    nh.param<double>("/local_planner/astar/guide_reuse_goal_tolerance", guide_reuse_goal_tolerance_, guide_reuse_goal_tolerance_);
     nh.param<int>("/local_planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
     nh.param<double>("/local_planner/astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
+    nh.param<bool>("/local_planner/astar/enable_goal_projection", astar_config_.enable_goal_projection, astar_config_.enable_goal_projection);
+    nh.param<int>("/local_planner/astar/projection_margin_voxels", astar_config_.projection_margin_voxels, astar_config_.projection_margin_voxels);
+    nh.param<double>("/local_planner/astar/nearest_free_search_radius", astar_config_.nearest_free_search_radius, astar_config_.nearest_free_search_radius);
+    nh.param<bool>("/local_planner/astar/allow_timeout_best_effort", astar_config_.allow_timeout_best_effort, astar_config_.allow_timeout_best_effort);
+    nh.param<double>("/local_planner/astar/timeout_best_effort_min_length", astar_config_.timeout_best_effort_min_length, astar_config_.timeout_best_effort_min_length);
+    nh.param<double>("/local_planner/astar/timeout_horizon_scale", astar_config_.timeout_horizon_scale, astar_config_.timeout_horizon_scale);
+    nh.param<double>("/local_planner/astar/timeout_min_horizon", astar_config_.timeout_min_horizon, astar_config_.timeout_min_horizon);
+    nh.param<bool>("/local_planner/astar/enable_escape_search", astar_config_.enable_escape_search, astar_config_.enable_escape_search);
+    nh.param<double>("/local_planner/astar/escape_max_radius", astar_config_.escape_max_radius, astar_config_.escape_max_radius);
+    nh.param<double>("/local_planner/astar/escape_max_search_time", astar_config_.escape_max_search_time, astar_config_.escape_max_search_time);
+    nh.param<int>("/local_planner/astar/escape_max_nodes", astar_config_.escape_max_nodes, astar_config_.escape_max_nodes);
     nh.param<double>("/planner/astar/heuristic_weight", astar_config_.heuristic_weight, astar_config_.heuristic_weight);
     nh.param<double>("/planner/astar/min_clearance", astar_config_.min_clearance, astar_config_.min_clearance);
     nh.param<double>("/planner/astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
     nh.param<double>("/planner/astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
     nh.param<int>("/planner/astar/max_search_nodes", astar_config_.max_search_nodes, astar_config_.max_search_nodes);
     nh.param<double>("/planner/astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
+    nh.param<bool>("/planner/astar/enable_goal_projection", astar_config_.enable_goal_projection, astar_config_.enable_goal_projection);
+    nh.param<int>("/planner/astar/projection_margin_voxels", astar_config_.projection_margin_voxels, astar_config_.projection_margin_voxels);
+    nh.param<double>("/planner/astar/nearest_free_search_radius", astar_config_.nearest_free_search_radius, astar_config_.nearest_free_search_radius);
+    nh.param<bool>("/planner/astar/allow_timeout_best_effort", astar_config_.allow_timeout_best_effort, astar_config_.allow_timeout_best_effort);
+    nh.param<double>("/planner/astar/timeout_best_effort_min_length", astar_config_.timeout_best_effort_min_length, astar_config_.timeout_best_effort_min_length);
+    nh.param<double>("/planner/astar/timeout_horizon_scale", astar_config_.timeout_horizon_scale, astar_config_.timeout_horizon_scale);
+    nh.param<double>("/planner/astar/timeout_min_horizon", astar_config_.timeout_min_horizon, astar_config_.timeout_min_horizon);
+    nh.param<bool>("/planner/astar/enable_escape_search", astar_config_.enable_escape_search, astar_config_.enable_escape_search);
+    nh.param<double>("/planner/astar/escape_max_radius", astar_config_.escape_max_radius, astar_config_.escape_max_radius);
+    nh.param<double>("/planner/astar/escape_max_search_time", astar_config_.escape_max_search_time, astar_config_.escape_max_search_time);
+    nh.param<int>("/planner/astar/escape_max_nodes", astar_config_.escape_max_nodes, astar_config_.escape_max_nodes);
+    nh.param<bool>("/planner/astar/enable_guide_path_reuse", enable_guide_path_reuse_, enable_guide_path_reuse_);
+    nh.param<double>("/planner/astar/guide_reuse_start_tolerance", guide_reuse_start_tolerance_, guide_reuse_start_tolerance_);
+    nh.param<double>("/planner/astar/guide_reuse_goal_tolerance", guide_reuse_goal_tolerance_, guide_reuse_goal_tolerance_);
     nh.param<bool>("/local_planner/optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     nh.param<bool>("/local_planner/optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
     nh.param<double>("/local_planner/optimizer/line_check_step", optimizer_config_.line_check_step, optimizer_config_.line_check_step);
@@ -268,6 +347,20 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     pnh.param<double>("astar/clearance_retry_scale", astar_config_.clearance_retry_scale, astar_config_.clearance_retry_scale);
     pnh.param<double>("astar/min_clearance_floor", astar_config_.min_clearance_floor, astar_config_.min_clearance_floor);
     pnh.param<double>("astar/max_search_time", astar_config_.max_search_time, astar_config_.max_search_time);
+    pnh.param<bool>("astar/enable_goal_projection", astar_config_.enable_goal_projection, astar_config_.enable_goal_projection);
+    pnh.param<int>("astar/projection_margin_voxels", astar_config_.projection_margin_voxels, astar_config_.projection_margin_voxels);
+    pnh.param<double>("astar/nearest_free_search_radius", astar_config_.nearest_free_search_radius, astar_config_.nearest_free_search_radius);
+    pnh.param<bool>("astar/allow_timeout_best_effort", astar_config_.allow_timeout_best_effort, astar_config_.allow_timeout_best_effort);
+    pnh.param<double>("astar/timeout_best_effort_min_length", astar_config_.timeout_best_effort_min_length, astar_config_.timeout_best_effort_min_length);
+    pnh.param<double>("astar/timeout_horizon_scale", astar_config_.timeout_horizon_scale, astar_config_.timeout_horizon_scale);
+    pnh.param<double>("astar/timeout_min_horizon", astar_config_.timeout_min_horizon, astar_config_.timeout_min_horizon);
+    pnh.param<bool>("astar/enable_escape_search", astar_config_.enable_escape_search, astar_config_.enable_escape_search);
+    pnh.param<double>("astar/escape_max_radius", astar_config_.escape_max_radius, astar_config_.escape_max_radius);
+    pnh.param<double>("astar/escape_max_search_time", astar_config_.escape_max_search_time, astar_config_.escape_max_search_time);
+    pnh.param<int>("astar/escape_max_nodes", astar_config_.escape_max_nodes, astar_config_.escape_max_nodes);
+    pnh.param<bool>("astar/enable_guide_path_reuse", enable_guide_path_reuse_, enable_guide_path_reuse_);
+    pnh.param<double>("astar/guide_reuse_start_tolerance", guide_reuse_start_tolerance_, guide_reuse_start_tolerance_);
+    pnh.param<double>("astar/guide_reuse_goal_tolerance", guide_reuse_goal_tolerance_, guide_reuse_goal_tolerance_);
     pnh.param<bool>("optimizer/enable", optimizer_config_.enable, optimizer_config_.enable);
     pnh.param<bool>("optimizer/shortcut", optimizer_config_.shortcut, optimizer_config_.shortcut);
     pnh.param<double>("optimizer/line_check_step", optimizer_config_.line_check_step, optimizer_config_.line_check_step);
@@ -283,6 +376,16 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     astar_config_.min_clearance_floor = std::max(0.0, std::min(astar_config_.min_clearance_floor, astar_config_.min_clearance));
     astar_config_.clearance_retry_scale = std::min(0.99, std::max(0.05, astar_config_.clearance_retry_scale));
     astar_config_.max_search_time = std::max(0.0, astar_config_.max_search_time);
+    astar_config_.projection_margin_voxels = std::max(0, astar_config_.projection_margin_voxels);
+    astar_config_.nearest_free_search_radius = std::max(0.0, astar_config_.nearest_free_search_radius);
+    astar_config_.timeout_best_effort_min_length = std::max(0.0, astar_config_.timeout_best_effort_min_length);
+    astar_config_.timeout_horizon_scale = std::min(0.95, std::max(0.05, astar_config_.timeout_horizon_scale));
+    astar_config_.timeout_min_horizon = std::max(0.0, astar_config_.timeout_min_horizon);
+    astar_config_.escape_max_radius = std::max(0.0, astar_config_.escape_max_radius);
+    astar_config_.escape_max_search_time = std::max(0.0, astar_config_.escape_max_search_time);
+    astar_config_.escape_max_nodes = std::max(1, astar_config_.escape_max_nodes);
+    guide_reuse_start_tolerance_ = std::max(resolution_, guide_reuse_start_tolerance_);
+    guide_reuse_goal_tolerance_ = std::max(resolution_, guide_reuse_goal_tolerance_);
 }
 
 // 更新当前无人机状态；current_odom_ 后续用于地图中心 $c$ 和 A* 搜索起点。
@@ -334,13 +437,20 @@ void LocalPlannerManager::updateCloud(const sensor_msgs::PointCloud2ConstPtr& ms
     updateDebugClouds(msg->header.stamp);
 }
 
-// 从当前无人机位置规划到目标点：先运行 A*，再调用 PathOptimizer 生成 safe corridor 和 MINCO 轨迹。
+// 默认规划入口：只给定目标点 $p_g$，使用默认 ReplanOptions。
+// 这个重载主要用于简单测试或外部模块不关心重规划细节的场景；
+// 它不会复制一套规划逻辑，而是把默认参数转发给完整版本 planToGoal(goal, options)。
 bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal)
 {
     ReplanOptions options;
     return planToGoal(goal, options);
 }
 
+// 生成任务级全局参考轨迹 global_data_。
+// 这个函数不是最终局部避障优化器：它只给 PlannerFSM::getLocalTarget() 提供一条可查询的参考曲线 $p_g(t)$。
+// 真正用于飞行的局部 MINCO 轨迹由 planToGoal() 内部的 A* -> safe corridor -> PathOptimizer 生成。
+// 当前全局参考采用轻量策略：先用 guide A* 在 inflated map 中找一个 horizon 内的 local target，
+// 再用一段或两段五次多项式连接 $p_s$、$p_{local}$、$p_{end}$。
 bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
                                          const Eigen::Vector3d& start_vel,
                                          const Eigen::Vector3d& start_acc,
@@ -348,8 +458,9 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
                                          const Eigen::Vector3d& end_vel,
                                          const Eigen::Vector3d& end_acc,
                                          double planning_horizon)
-// SEEME: 这个函数用于产生全局轨迹
 {
+    // 任务方向向量 $\\Delta p=p_{end}-p_s$ 和任务距离 $d=\\|\\Delta p\\|$。
+    // 若距离过小，FSM 会直接认为目标已在附近，没有必要构造全局参考轨迹。
     const Eigen::Vector3d delta = end_pos - start_pos;
     const double distance = delta.norm();
     if (distance < 1.0e-4)
@@ -358,6 +469,8 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
         return false;
     }
 
+    // 全局参考的时间分配只使用动力学上限做保守估计，不做复杂优化。
+    // smoothReferenceDuration() 内部近似使用 $T=max(2d/v_{max},\\sqrt{6d/a_{max}})$。
     const double max_vel = std::max(0.1, optimizer_config_.feasibility.max_vel);
     const double max_acc = std::max(0.1, optimizer_config_.feasibility.max_acc);
     const double horizon = planning_horizon > 1.0e-3 ? planning_horizon : distance;
@@ -366,11 +479,20 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
     Eigen::Vector3d local_target = end_pos;
     Eigen::Vector3d local_dir = delta / std::max(distance, 1.0e-6);
     bool guide_success = false;
+    double guide_clearance_used = astar_config_.min_clearance;
+
+    // guide path 只对当前 global reference 有效。每次生成新全局参考时先清空旧缓存，
+    // 只有 guide A* 成功后才重新写入，避免 planToGoal() 复用过期拓扑。
+    cached_guide_path_.clear();
+    cached_guide_clearance_used_ = 0.0;
+    cached_guide_stamp_ = ros::Time();
 
     if (has_map_ && astar_planner_ && distance > horizon + 1.0e-3)
     {
+        // 目标超过 planning horizon 时，不再简单取直线方向上的 $p_s+H\\hat d$。
+        // runGuideAStarWithFallback() 会在 frontend map / base map 中搜索一段长度约为 $H$ 的可通行路径，
+        // 其末端作为 local target，使全局参考的第一段方向更贴近障碍环境。
         const ros::WallTime guide_start = ros::WallTime::now();
-        double guide_clearance_used = astar_config_.min_clearance;
         int guide_expanded_nodes = 0;
         guide_success = runGuideAStarWithFallback(start_pos,
                                                   end_pos,
@@ -382,6 +504,8 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
         searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
         if (guide_success && guide_path.size() >= 2)
         {
+            // guide_path.back() 是 A* 沿最终目标方向推进到 horizon 后得到的局部目标 $p_{local}$。
+            // local_dir 取最后一段方向，用于给中间点速度 $v_{local}$ 赋方向。
             local_target = guide_path.back();
             local_dir = guide_path.back() - guide_path[guide_path.size() - 2];
             if (local_dir.norm() < 1.0e-6)
@@ -393,6 +517,12 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
                 local_dir = delta;
             }
             local_dir.normalize();
+
+            // 这条 guide path 后续可直接作为 start -> local_target 的 raw_path。
+            // 复用前仍会检查起终点偏差和当前地图碰撞，因此这里只做缓存，不直接承诺可执行。
+            cached_guide_path_ = guide_path;
+            cached_guide_clearance_used_ = guide_clearance_used;
+            cached_guide_stamp_ = ros::Time::now();
         }
         else
         {
@@ -404,7 +534,11 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
 
     if (!guide_success && distance > horizon + 1.0e-3)
     {
+        // guide A* 不可用或失败时，退回直线 horizon 切片：$p_{local}=p_s+H\\hat d$。
+        // 这保证全局参考仍然可生成，后续局部 A* / MINCO 会继续做真实避障约束。
         local_target = start_pos + local_dir * horizon;
+        ROS_WARN_THROTTLE(1.0,"[FastNav][LocalPlannerManager] Guide A* failed, fallback to direct local target: [%.2f, %.2f, %.2f]",
+                          local_target.x(), local_target.y(), local_target.z());
     }
 
     fastnav::MincoTraj::TrajectoryType global_traj;
@@ -414,6 +548,9 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
     const bool local_target_is_goal = (local_target - end_pos).norm() < std::max(0.2, resolution_);
     if (local_target_is_goal)
     {
+        // 若 local target 已经等价于最终目标，则只用一段五次多项式。
+        // makeQuinticPiece() 解的是边界约束 $p(0),v(0),a(0),p(T),v(T),a(T)$，
+        // 因此该参考段在位置、速度、加速度上都满足端点条件。
         const double duration = smoothReferenceDuration(distance, max_vel, max_acc);
         global_traj.emplace_back(makeQuinticPiece(start_pos,
                                                   start_vel,
@@ -430,7 +567,9 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
         const double t1 = smoothReferenceDuration(d1, max_vel, max_acc);
         const double t2 = smoothReferenceDuration(d2, max_vel, max_acc);
 
-        // 中间点速度沿 guide A* 最后一段方向，大小按两段长度和时间分配估计；
+        // 两段参考曲线分别连接 $p_s -> p_{local}$ 和 $p_{local} -> p_{end}$。
+        // 中间点速度沿 guide A* 最后一段方向，大小用两段平均速度估计：
+        // $v_m = \\hat d_{guide} min(v_{max}, max(0.1, 0.5(d_1/t_1+d_2/t_2)))$。
         // 中间加速度设为 0，让两段五次多项式在 $p,v,a$ 上连续。
         const double mid_speed = std::min(max_vel, std::max(0.1, 0.5 * (d1 / std::max(t1, 1.0e-3) +
                                                                         d2 / std::max(t2, 1.0e-3))));
@@ -455,6 +594,8 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
     }
     global_data_.waypoints_.push_back(end_pos);
 
+    // global_data_ 保存的是任务级参考轨迹和参考航点，FSM 后续会沿 $p_g(t)$ 搜索局部目标。
+    // 它不会直接发送给控制器，也不会替代 local_data_ 中的可执行 MINCO 轨迹。
     global_data_.setGlobalTraj(global_traj, ros::Time::now(), frame_id_);
     last_error_.clear();
 
@@ -468,13 +609,25 @@ bool LocalPlannerManager::planGlobalTraj(const Eigen::Vector3d& start_pos,
     return true;
 }
 
+// 完整规划入口：从指定起点状态规划到目标点 $p_g$，并更新 manager 内部的 local_data_。
+// 输入 goal 在 FSM 语义上通常是 local_target，而不一定是任务最终 end_pt_。
+// 整体链路为：
+// 1. 根据 ReplanOptions 选取起点边界 $p_0,v_0,a_0$；
+// 2. runAStarWithFallback() 生成几何 raw_path，包含 frontend map、base map、escape、best-effort 等前端策略；
+// 3. buildOptimizationReferencePath() 将 raw_path 转成 MINCO/corridor 初始化路径；
+// 4. PathOptimizer 生成 safe corridor，并调用 GCOPTER/MINCO 优化；
+// 5. fine check 通过后，把可执行轨迹保存到 local_data_，把 RViz 采样路径保存到 current_path_。
 bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOptions& options)
 {
     const auto preempted = [&options]() {
         return options.preempt_requested && options.preempt_requested();
     };
 
+    // 每次规划开始先清理上一轮局部结果。global_data_ 不在这里 reset，
+    // 因为它是任务级参考轨迹，只由 planGlobalTraj() 维护。
     last_goal_ = goal;
+    last_planned_target_ = goal;
+    last_plan_reached_requested_goal_ = true;
     current_path_.clear();
     last_optimization_result_.clear();
     const double last_guide_astar_ms = last_timing_.guide_astar_ms;
@@ -494,8 +647,8 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     }
 
     // 起点优先使用 FSM 传入的显式规划起点。
-    // 对 GEN_NEW_TRAJ，FSM 会传入当前 odom 状态；对 REPLAN_TRAJ，FSM 会传入旧 MINCO 轨迹在当前执行时刻的
-    // $p(t_c),v(t_c),a(t_c)$，这和 EGO-Planner 从当前执行轨迹上取重规划边界条件的原则一致。
+    // 对 GEN_NEW_TRAJ，FSM 会传入当前 odom 状态；对 REPLAN_TRAJ，FSM 会传入旧 MINCO 轨迹在未来切换时刻的
+    // $p(t_s),v(t_s),a(t_s)$，这和 EGO-Planner 从当前执行轨迹上取重规划边界条件的原则一致。
     const Eigen::Vector3d start = options.has_start_state ? options.start_pos : currentPosition();
     if (preempted())
     {
@@ -508,17 +661,49 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     const ros::WallTime astar_start = ros::WallTime::now();
     double astar_clearance_used = astar_config_.min_clearance;
     int astar_expanded_nodes = 0;
-    const bool success = runAStarWithFallback(start,
-                                              goal,
-                                              options.preempt_requested,
-                                              raw_path,
-                                              astar_clearance_used,
-                                              astar_expanded_nodes);
+
+    // 前端 A* 负责给后端优化器提供拓扑路径。
+    // 如果 planGlobalTraj() 刚刚用 guide A* 得到了 start -> local_target 的路径，
+    // 且当前 planToGoal() 的起终点仍与该路径匹配，就复用这条 raw_path，避免同一段拓扑重复搜索。
+    // 若复用校验失败，再走原来的 frontend map -> base map A* fallback。
+    bool reused_guide_path = false;
+    bool success = tryReuseCachedGuidePath(start,
+                                           goal,
+                                           options.preempt_requested,
+                                           raw_path,
+                                           astar_clearance_used,
+                                           astar_expanded_nodes);
+    if (success)
+    {
+        reused_guide_path = true;
+    }
+    else if (!preempted())
+    {
+        // 普通前端搜索会优先使用更保守的 frontend map，若失败再退回 base map；
+        // 若起点落在 frontend 膨胀层内，会先执行 escape；若终点超出局部地图或搜索超时，
+        // 可能返回投影点 / best-effort 终点。
+        success = runAStarWithFallback(start,
+                                       goal,
+                                       options.preempt_requested,
+                                       raw_path,
+                                       astar_clearance_used,
+                                       astar_expanded_nodes);
+    }
     last_timing_.frontend_astar_ms = (ros::WallTime::now() - astar_start).toSec() * 1000.0;
     last_timing_.astar_nodes = astar_expanded_nodes;
     last_timing_.clearance_used = astar_clearance_used;
     astar_planner_->setCancelCallback(std::function<bool()>());
-    searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
+    if (reused_guide_path)
+    {
+        searched_nodes_cloud_ = centersToCloud(raw_path, ros::Time::now());
+        ROS_INFO_THROTTLE(1.0,
+                          "[FastNav][LocalPlannerManager] Reused cached guide path for backend reference. points=%zu",
+                          raw_path.size());
+    }
+    else
+    {
+        searched_nodes_cloud_ = centersToCloud(astar_planner_->searchedNodes(), ros::Time::now());
+    }
 
     if (preempted())
     {
@@ -535,8 +720,23 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
         return false;
     }
 
+    if (!raw_path.empty())
+    {
+        last_planned_target_ = raw_path.back();
+    }
+
+    // 若 A* 只到达投影点或 best-effort 点，则 $p_{real} \ne p_g$。
+    // FSM 会通过 lastPlanReachedRequestedGoal() 得知这一点，把 touch_goal 改成 false，后续继续滚动推进。
+    last_plan_reached_requested_goal_ =
+        (last_planned_target_ - goal).norm() < std::max(0.2, resolution_);
+
     size_t preserve_prefix_size = 0;
     const ros::WallTime reference_start = ros::WallTime::now();
+
+    // 构造后端优化参考路径：
+    // - 普通规划直接使用 raw_path；
+    // - use_current_traj=true 时，前缀会复用旧 MINCO 剩余安全段；
+    // - use_random_init=true 时，会对可变中间点加入扰动，改变 corridor / MINCO 初值。
     const std::vector<Eigen::Vector3d> optimization_reference_path =
         buildOptimizationReferencePath(raw_path, options, preserve_prefix_size);
     last_timing_.reference_ms = (ros::WallTime::now() - reference_start).toSec() * 1000.0;
@@ -550,11 +750,13 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     start_state.pos = start;
     if (options.has_start_state)
     {
+        // FSM 已显式给出本次规划边界状态，通常来自 odom 或旧轨迹采样。
         start_state.vel = options.start_vel;
         start_state.acc = options.start_acc;
     }
     else
     {
+        // 默认入口没有显式边界时，速度从 odom 读取，加速度先置零。
         start_state.vel = Eigen::Vector3d(current_odom_.twist.twist.linear.x,
                                           current_odom_.twist.twist.linear.y,
                                           current_odom_.twist.twist.linear.z);
@@ -562,17 +764,41 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     }
 
     fastnav::MincoGcopterOptimizer::BoundaryState goal_state;
-    goal_state.pos = goal;
+    goal_state.pos = last_planned_target_;
     goal_state.vel = options.goal_vel;
     goal_state.acc = options.goal_acc;
+    const bool actual_touch_goal = options.touch_goal && last_plan_reached_requested_goal_;
+    if (!last_plan_reached_requested_goal_)
+    {
+        // 当 A* 因局部地图边界或 TIME_OUT 只返回 $p_{best}$ 时，本次 MINCO 的终点应为
+        // $p_{best}$，但任务级目标仍是原来的 $p_g$。这里给中间终点一个朝向 $p_g$ 的速度，
+        // 即 $v_T = \hat d \min(v_{max}, \max(0.2,\|v_{ref}\|))$，避免每段 best-effort 都硬刹车。
+        const Eigen::Vector3d to_requested_goal = goal - last_planned_target_;
+        if (to_requested_goal.norm() > 1.0e-3)
+        {
+            const double ref_speed = options.goal_vel.norm() > 1.0e-3
+                                         ? options.goal_vel.norm()
+                                         : 0.5 * optimizer_config_.feasibility.max_vel;
+            goal_state.vel = to_requested_goal.normalized() *
+                             std::min(optimizer_config_.feasibility.max_vel,
+                                      std::max(0.2, ref_speed));
+        }
+        else
+        {
+            goal_state.vel.setZero();
+        }
+        goal_state.acc.setZero();
+    }
 
+    // PathOptimizer 是后端核心：几何 shortcut -> 局部 surface 提取 -> safe corridor -> GCOPTER/MINCO -> fine check。
+    // actual_touch_goal=false 时，fine check 只检查前段比例，和 EGO-v2 对非最终 local target 的宽松检查思想一致。
     if (path_optimizer_ && path_optimizer_->optimizeTrajectory(optimization_reference_path,
                                                                voxel_map_,
                                                                start_state,
                                                                goal_state,
                                                                last_optimization_result_,
                                                                preserve_prefix_size,
-                                                               options.touch_goal,
+                                                               actual_touch_goal,
                                                                options.preempt_requested))
     {
         if (preempted())
@@ -609,9 +835,14 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
     }
 
     const ros::Time time_now = ros::Time::now();
+    const ros::Time traj_start_time = options.trajectory_start_time.isZero()
+                                          ? time_now
+                                          : options.trajectory_start_time;
+
     // raw_path / shortcut_path 用作几何回退，MINCO 成功时 local_data_ 保存连续可执行轨迹 $p(t)$。
     // global_data_ 是任务级轻量参考轨迹，只由 planGlobalTraj() 维护，不能被局部优化结果覆盖。
-    updateTrajInfo(last_optimization_result_, time_now);
+    // traj_start_time 可能是未来时刻 $t_{now}+\Delta t_f$，traj_server 会按这个时间 commit 新轨迹。
+    updateTrajInfo(last_optimization_result_, traj_start_time);
     last_timing_.shortcut_ms = last_optimization_result_.shortcut_ms;
     last_timing_.corridor_ms = last_optimization_result_.corridor_ms;
     last_timing_.minco_ms = last_optimization_result_.minco_ms;
@@ -788,6 +1019,82 @@ sensor_msgs::PointCloud2 LocalPlannerManager::centersToCloud(
     return msg;
 }
 
+// 复用 planGlobalTraj() 中 guide A* 的结果，避免同一段 start -> local_target 重复搜索。
+// 复用不是无条件的：
+// 1. 起点必须仍接近缓存路径首点，$\|p_s-p_{0}^{guide}\| < \epsilon_s$；
+// 2. 目标必须仍接近缓存路径末点，$\|p_g-p_{N}^{guide}\| < \epsilon_g$；
+// 3. 将首末点替换为当前 start / goal 后，每条线段都必须满足 base map 的 isLineFree()。
+// 这样可以利用 guide A* 的拓扑结果，同时避免地图变化或重规划起点漂移导致后端拿到失效路径。
+bool LocalPlannerManager::tryReuseCachedGuidePath(const Eigen::Vector3d& start,
+                                                  const Eigen::Vector3d& goal,
+                                                  const std::function<bool()>& preempt_requested,
+                                                  std::vector<Eigen::Vector3d>& path,
+                                                  double& clearance_used,
+                                                  int& expanded_nodes)
+{
+    path.clear();
+    clearance_used = cached_guide_clearance_used_;
+    expanded_nodes = 0;
+
+    if (!enable_guide_path_reuse_ || cached_guide_path_.size() < 2 || !voxel_map_)
+    {
+        return false;
+    }
+
+    if (preempt_requested && preempt_requested())
+    {
+        last_error_ = "Guide path reuse preempted.";
+        return false;
+    }
+
+    const double start_error = (start - cached_guide_path_.front()).norm();
+    const double goal_error = (goal - cached_guide_path_.back()).norm();
+    if (start_error > guide_reuse_start_tolerance_ || goal_error > guide_reuse_goal_tolerance_)
+    {
+        return false;
+    }
+
+    std::vector<Eigen::Vector3d> candidate = cached_guide_path_;
+    candidate.front() = start;
+    candidate.back() = goal;
+
+    const double step = std::max(0.5 * resolution_, astar_config_.line_check_step);
+    for (size_t i = 0; i < candidate.size(); ++i)
+    {
+        if (preempt_requested && preempt_requested())
+        {
+            last_error_ = "Guide path reuse preempted during validation.";
+            return false;
+        }
+
+        // out-of-map 在 VoxelMap::query() 中等价于 occupied。这里显式检查，
+        // 是为了把“缓存路径已经滑出局部地图”的情况交回普通 A* 处理。
+        if (!voxel_map_->isInMap(candidate[i]) || voxel_map_->isInflatedOccupied(candidate[i]))
+        {
+            return false;
+        }
+
+        if (i > 0 && !voxel_map_->isLineFree(candidate[i - 1], candidate[i], step))
+        {
+            return false;
+        }
+    }
+
+    path.swap(candidate);
+    return true;
+}
+
+// 前端几何路径搜索：从规划起点 $p_s$ 到当前 local target / goal $p_g$ 生成 raw_path。
+// 这个函数和 runGuideAStarWithFallback() 的区别是：
+// - runGuideAStarWithFallback() 只搜索到 horizon，用来选 global reference 的 local target；
+// - runAStarWithFallback() 要尽量连到本次 planToGoal() 的真实目标，输出给 safe corridor / MINCO 后端。
+//
+// 搜索策略同样采用 SUPER 风格的分层 fallback：
+// 1. 若起点落在保守 frontend inflated map 内，先用 base map 做 escape，找到 $p \notin \mathcal{O}_{front}$；
+// 2. 优先在 frontend map 上搜索，得到更大 clearance 的路径；
+// 3. frontend 失败后，如果 $min\_clearance>0$，退回 base map 再试一次；
+// 4. 若 A* 内部发生 goal projection / best-effort，path.back() 可能不是原始 $p_g$，
+//    planToGoal() 会通过 last_planned_target_ 把这个实际终点传给 MINCO。
 bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
                                                const Eigen::Vector3d& goal,
                                                const std::function<bool()>& preempt_requested,
@@ -795,6 +1102,7 @@ bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
                                                double& clearance_used,
                                                int& expanded_nodes)
 {
+    // 输出参数在入口统一重置，保证失败时不会沿用上一轮搜索结果。
     path.clear();
     clearance_used = astar_config_.min_clearance;
     expanded_nodes = 0;
@@ -805,21 +1113,55 @@ bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
         return false;
     }
 
+    // AStarPlanner 内部只持有一个 map 指针。函数退出前恢复 frontend map，
+    // 避免下一次搜索误用 base map。
     auto restore_frontend_map = [this]() {
         astar_planner_->setMap(frontend_voxel_map_);
     };
 
-    astar_planner_->setMap(frontend_voxel_map_);
-    if (astar_planner_->plan(start, goal, path))
+    std::vector<Eigen::Vector3d> escape_prefix;
+    Eigen::Vector3d search_start = start;
+    if (astar_config_.enable_escape_search && frontend_voxel_map_->isInMap(start) &&
+        frontend_voxel_map_->isInflatedOccupied(start))
     {
-        expanded_nodes = astar_planner_->lastExpandedNodes();
+        // Escape search 的目标不是原 goal，而是先从保守前端膨胀集合 $\mathcal{O}_{front}$ 中出去。
+        // 它使用 base map 作为通行约束，寻找第一个满足 $p \notin \mathcal{O}_{front}$ 的出口点。
+        // 这样当起点贴着障碍、被额外 clearance 包住时，A* 仍然能先找到一小段可执行前缀。
+        astar_planner_->setMap(voxel_map_);
+        if (astar_planner_->escapeFromInflatedRegion(start, frontend_voxel_map_, escape_prefix) &&
+            escape_prefix.size() >= 2)
+        {
+            search_start = escape_prefix.back();
+            expanded_nodes += astar_planner_->lastExpandedNodes();
+            ROS_WARN_THROTTLE(1.0,
+                              "[FastNav][LocalPlannerManager] Escape prefix generated before frontend A*: %.2fm.",
+                              (search_start - start).norm());
+        }
+        else if (astar_planner_->lastStatus() == AStarPlanner::SearchStatus::PREEMPTED ||
+                 (preempt_requested && preempt_requested()))
+        {
+            // 若新目标抢占，当前旧目标搜索立刻终止，避免旧轨迹稍后覆盖新目标。
+            last_error_ = astar_planner_->lastError();
+            restore_frontend_map();
+            return false;
+        }
+    }
+
+    // 第一层：frontend map。其膨胀半径为 $r_{front}=r_{base}+min\_clearance$，
+    // 能让前端路径尽量偏向宽通道中心，为后端 FIRI corridor 和 MINCO 留更大可行域。
+    astar_planner_->setMap(frontend_voxel_map_);
+    if (astar_planner_->plan(search_start, goal, path))
+    {
+        expanded_nodes += astar_planner_->lastExpandedNodes();
         clearance_used = astar_config_.min_clearance;
+        prependPathPrefix(escape_prefix, path);
         restore_frontend_map();
         return true;
     }
 
     const std::string frontend_error = astar_planner_->lastError();
-    expanded_nodes = astar_planner_->lastExpandedNodes();
+    const AStarPlanner::SearchStatus frontend_status = astar_planner_->lastStatus();
+    expanded_nodes += astar_planner_->lastExpandedNodes();
 
     if (preempt_requested && preempt_requested())
     {
@@ -830,6 +1172,7 @@ bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
 
     if (astar_config_.min_clearance <= 1.0e-6)
     {
+        // $min\_clearance=0$ 时 frontend map 已经等价于 base map，没有必要重复搜索。
         last_error_ = frontend_error;
         restore_frontend_map();
         return false;
@@ -839,25 +1182,37 @@ bool LocalPlannerManager::runAStarWithFallback(const Eigen::Vector3d& start,
                       "[FastNav][LocalPlannerManager] Frontend A* failed, retry once on base map: %s",
                       frontend_error.c_str());
 
+    // 第二层：base map fallback。它只包含无人机半径和 safety margin 的基础膨胀，
+    // 比 frontend map 更宽松；代价是 clearance_used=0，后端 fine check 仍会用 base map 保底。
     astar_planner_->setMap(voxel_map_);
-    if (astar_planner_->plan(start, goal, path))
+    if (astar_planner_->plan(search_start, goal, path))
     {
         expanded_nodes += astar_planner_->lastExpandedNodes();
         clearance_used = 0.0;
+        prependPathPrefix(escape_prefix, path);
         ROS_WARN_THROTTLE(1.0,
                           "[FastNav][LocalPlannerManager] Base-map A* fallback succeeded; path has lower frontend clearance.");
         restore_frontend_map();
         return true;
     }
 
+    const std::string base_error = astar_planner_->lastError();
+    const AStarPlanner::SearchStatus base_status = astar_planner_->lastStatus();
     expanded_nodes += astar_planner_->lastExpandedNodes();
     clearance_used = 0.0;
     last_error_ = "Frontend A* failed: " + frontend_error +
-                  "; base-map fallback failed: " + astar_planner_->lastError();
+                  " [" + searchStatusName(frontend_status) + "]" +
+                  "; base-map fallback failed: " + base_error +
+                  " [" + searchStatusName(base_status) + "]";
     restore_frontend_map();
     return false;
 }
 
+// guide search 只负责给全局参考轨迹选择“下一段局部目标”，不负责生成最终可执行轨迹。
+// 输入是当前规划起点 $p_s$、任务最终目标 $p_g$ 和规划视距 $H$；输出 path 的末端就是 local target。
+// 搜索策略仿照 SUPER 的分层前端：先使用更保守的 frontend inflated map，失败后退回 base inflated map。
+// 若起点落在 frontend 膨胀区内，会先执行 escape search，寻找 $p \notin \mathcal{O}_{front}$ 的出口点。
+// 若 A* 超时，则尝试缩短视距 $H'=\max(H_{min},\alpha H)$，优先给后端一段可推进的短路径。
 bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start,
                                                     const Eigen::Vector3d& final_goal,
                                                     double horizon,
@@ -865,6 +1220,7 @@ bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start
                                                     double& clearance_used,
                                                     int& expanded_nodes)
 {
+    // 输出参数在函数入口统一清零，保证失败时上层不会误用上一次搜索残留数据。
     path.clear();
     clearance_used = astar_config_.min_clearance;
     expanded_nodes = 0;
@@ -875,21 +1231,86 @@ bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start
         return false;
     }
 
+    // AStarPlanner 内部只持有一个 map 指针。函数返回前恢复 frontend map，避免后续调用继承 base map。
     auto restore_frontend_map = [this]() {
         astar_planner_->setMap(frontend_voxel_map_);
     };
 
-    astar_planner_->setMap(frontend_voxel_map_);
-    if (astar_planner_->planToHorizon(start, final_goal, horizon, path))
+    std::vector<Eigen::Vector3d> escape_prefix;
+    Eigen::Vector3d search_start = start;
+    if (astar_config_.enable_escape_search && frontend_voxel_map_->isInMap(start) &&
+        frontend_voxel_map_->isInflatedOccupied(start))
     {
-        expanded_nodes = astar_planner_->lastExpandedNodes();
+        // 起点可能因为较大的 frontend clearance 落入 $\mathcal{O}_{front}$，但在 base map 中仍安全。
+        // 此时直接在 frontend map 上 A* 会没有可扩展邻居，因此先在 base map 中搜索一小段 escape_prefix。
+        astar_planner_->setMap(voxel_map_);
+        if (astar_planner_->escapeFromInflatedRegion(start, frontend_voxel_map_, escape_prefix) &&
+            escape_prefix.size() >= 2)
+        {
+            // 后续 guide A* 从 escape 末端继续搜索；最终返回路径会重新拼回 escape_prefix。
+            search_start = escape_prefix.back();
+            expanded_nodes += astar_planner_->lastExpandedNodes();
+        }
+        else if (astar_planner_->lastStatus() == AStarPlanner::SearchStatus::PREEMPTED)
+        {
+            last_error_ = astar_planner_->lastError();
+            restore_frontend_map();
+            return false;
+        }
+    }
+
+    auto try_horizon_search = [this,
+                               &search_start,
+                               &final_goal,
+                               &path,
+                               &expanded_nodes,
+                               &escape_prefix](const std::shared_ptr<fastnav_mapping::VoxelMap>& map,
+                                                double query_horizon) {
+        // planToHorizon() 的停止条件不是必须到达 $p_g$，而是满足累计路径长度 $g \ge H$。
+        // 因此 local target 是“沿可通行拓扑向最终目标推进 horizon 距离”的节点。
+        astar_planner_->setMap(map);
+        if (astar_planner_->planToHorizon(search_start, final_goal, query_horizon, path))
+        {
+            expanded_nodes += astar_planner_->lastExpandedNodes();
+            prependPathPrefix(escape_prefix, path);
+            return true;
+        }
+
+        expanded_nodes += astar_planner_->lastExpandedNodes();
+        if (astar_planner_->lastStatus() == AStarPlanner::SearchStatus::TIME_OUT)
+        {
+            // TIME_OUT 降级：若 $H$ 内搜索太慢，缩短为 $H'=\max(H_{min},\alpha H)$。
+            // 这和 SUPER 的 REACH_HORIZON 思想一致：先给后端一个较短、可推进的 local target，
+            // 不让前端为了完整 horizon 长时间阻塞控制闭环。
+            const double shorter_horizon =
+                std::max(astar_config_.timeout_min_horizon,
+                         astar_config_.timeout_horizon_scale * query_horizon);
+            if (shorter_horizon + 1.0e-6 < query_horizon)
+            {
+                if (astar_planner_->planToHorizon(search_start, final_goal, shorter_horizon, path))
+                {
+                    expanded_nodes += astar_planner_->lastExpandedNodes();
+                    prependPathPrefix(escape_prefix, path);
+                    return true;
+                }
+                expanded_nodes += astar_planner_->lastExpandedNodes();
+            }
+        }
+        return false;
+    };
+
+    // 第一层：保守 frontend map。其膨胀半径为 $r_{front}=r_{base}+min\_clearance$，
+    // 选出的 local target 更偏向宽通道中心，能给后端 corridor / MINCO 留更大优化空间。
+    astar_planner_->setMap(frontend_voxel_map_);
+    if (try_horizon_search(frontend_voxel_map_, horizon))
+    {
         clearance_used = astar_config_.min_clearance;
         restore_frontend_map();
         return true;
     }
 
     const std::string frontend_error = astar_planner_->lastError();
-    expanded_nodes = astar_planner_->lastExpandedNodes();
+    const AStarPlanner::SearchStatus frontend_status = astar_planner_->lastStatus();
 
     if (astar_config_.min_clearance <= 1.0e-6)
     {
@@ -902,10 +1323,11 @@ bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start
                       "[FastNav][LocalPlannerManager] Guide A* failed on frontend map, retry once on base map: %s",
                       frontend_error.c_str());
 
+    // 第二层：base map fallback。它只包含无人机半径和安全距离的基础膨胀，
+    // 通行性更宽松，等价于从 SUPER 的 inflated map 退回更原始的可通行概率地图思想。
     astar_planner_->setMap(voxel_map_);
-    if (astar_planner_->planToHorizon(start, final_goal, horizon, path))
+    if (try_horizon_search(voxel_map_, horizon))
     {
-        expanded_nodes += astar_planner_->lastExpandedNodes();
         clearance_used = 0.0;
         ROS_WARN_THROTTLE(1.0,
                           "[FastNav][LocalPlannerManager] Guide A* base-map fallback succeeded.");
@@ -913,23 +1335,40 @@ bool LocalPlannerManager::runGuideAStarWithFallback(const Eigen::Vector3d& start
         return true;
     }
 
-    expanded_nodes += astar_planner_->lastExpandedNodes();
+    const std::string base_error = astar_planner_->lastError();
+    const AStarPlanner::SearchStatus base_status = astar_planner_->lastStatus();
     clearance_used = 0.0;
     last_error_ = "Guide frontend A* failed: " + frontend_error +
-                  "; guide base-map fallback failed: " + astar_planner_->lastError();
+                  " [" + searchStatusName(frontend_status) + "]" +
+                  "; guide base-map fallback failed: " + base_error +
+                  " [" + searchStatusName(base_status) + "]";
     restore_frontend_map();
     return false;
 }
 
+// 将 A* / guide A* 得到的 raw_path 整理成后端优化参考路径。
+// 这个函数是前端搜索和后端 safe corridor / MINCO 之间的接口层：
+// 1. 普通规划时，参考路径就是 A* 离散路径 $\{p_i\}_{i=0}^{N}$；
+// 2. 执行中重规划时，可把旧 MINCO 剩余安全段拼到 raw_path 前面，得到
+//    $p_{ref}=[p_{old}(t_s),...,p_{old}(t_b),p_{astar,k},...,p_g]$；
+// 3. 连续失败后的随机尝试会扰动一个可变中间点，让 FIRI 走廊和 MINCO 初值改变，
+//    避免每次都卡在完全相同的 corridor / 局部最优里。
 std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath(
     const std::vector<Eigen::Vector3d>& raw_path,
     const ReplanOptions& options,
     size_t& preserve_prefix_size) const
 {
+    // preserve_prefix_size 会传给 PathOptimizer::shortcutPath()。
+    // 若前缀来自旧轨迹，shortcut 不能删除这段点列，否则新轨迹无法在 $p,v,a$ 上平滑接续旧轨迹。
     preserve_prefix_size = 0;
+
+    // use_current_traj=true 对应 EGO 风格的“从当前执行轨迹上取重规划起点，并保留一段旧轨迹前缀”。
+    // 否则直接使用 A* 输出的 raw_path 作为后端参考。
     std::vector<Eigen::Vector3d> reference_path =
         options.use_current_traj ? buildCurrentTrajReferencePath(raw_path, options, preserve_prefix_size) : raw_path;
 
+    // 随机初始化只在 retry 阶段启用。若 reference_path 不足两个点、地图不可用、或随机半径为 0，
+    // 直接返回原参考路径，让后端按确定性 shortcut/corridor/MINCO 流程执行。
     if (!options.use_random_init || reference_path.size() < 2 || !voxel_map_ || random_init_scale_ <= 1.0e-6)
     {
         return reference_path;
@@ -949,12 +1388,17 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath
     const Eigen::Vector3d goal = reference_path.back();
     const double path_span = std::max(0.5, (goal - start).norm());
 
+    // 选择一个“可变中间点”作为扰动对象。
+    // 若路径已有足够多点，就取可变段中部的点 $r_m$；否则在 start-goal 中间插入一个新点。
+    // prev / next 是扰动点前后的锚点，后续候选点必须满足 $lineFree(prev,candidate)$ 和 $lineFree(candidate,next)$。
     const bool has_middle_point = reference_path.size() > mutable_begin + 2;
     const size_t mid_id = has_middle_point ? mutable_begin + (reference_path.size() - mutable_begin) / 2 : mutable_begin;
     const Eigen::Vector3d prev = has_middle_point ? reference_path[mid_id - 1] : start;
     const Eigen::Vector3d next = has_middle_point ? reference_path[mid_id + 1] : goal;
     const Eigen::Vector3d center = has_middle_point ? reference_path[mid_id] : 0.5 * (start + goal);
 
+    // 在局部段方向 $d=(next-prev)/\|next-prev\|$ 的法平面上构造两个基向量 $e_1,e_2$，
+    // 随机候选点使用 $p_c = center + r(\cos\theta e_1 + \sin\theta e_2)$。
     Eigen::Vector3d dir = next - prev;
     if (dir.norm() < 1.0e-6)
     {
@@ -974,11 +1418,15 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath
     basis1.normalize();
     Eigen::Vector3d basis2 = dir.cross(basis1).normalized();
 
+    // 连续失败次数越多，扰动半径越大：$r = s(1+0.25 n_{fail})\|p_g-p_s\|$，
+    // 并限制在地图分辨率和 3m 之间，避免扰动过小无意义或过大跳出局部地图。
     const double failure_gain = 1.0 + 0.25 * std::max(0, options.continuous_failures);
     const double base_radius = std::min(3.0, std::max(voxel_map_->resolution(),
                                                       random_init_scale_ * failure_gain * path_span * 0.15));
     const int seed = std::max(0, options.attempt) + std::max(0, options.continuous_failures);
 
+    // 最多尝试 8 个候选点，角度每次转 $45^\circ$，半径逐步放大。
+    // 只有候选点自身 free，且前后两条连接线均无碰撞，才会写回 reference_path。
     for (int i = 0; i < 8; ++i)
     {
         const double angle = 0.7853981633974483 * static_cast<double>(seed + i);
@@ -998,16 +1446,20 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildOptimizationReferencePath
 
         if (has_middle_point)
         {
+            // 路径已有中间点时，直接替换这个点，保持路径点数量不变。
             reference_path[mid_id] = candidate;
         }
         else
         {
+            // 路径只有起终点时，插入一个中间点，让 corridor 至少由两段局部线段支撑。
             const size_t insert_id = preserve_prefix_size > 0 ? mutable_begin : 1;
             reference_path.insert(reference_path.begin() + static_cast<std::ptrdiff_t>(insert_id), candidate);
         }
         return reference_path;
     }
 
+    // 所有随机候选都不可行时，保留原 reference_path。
+    // 这比强行写入一个可能碰撞的点更安全，后端仍可按原始 A* 路径尝试一次。
     return reference_path;
 }
 
@@ -1110,7 +1562,7 @@ std::vector<Eigen::Vector3d> LocalPlannerManager::buildCurrentTrajReferencePath(
 }
 
 void LocalPlannerManager::updateTrajInfo(const PathOptimizer::OptimizationResult& result,
-                                         const ros::Time& time_now)
+                                         const ros::Time& start_time)
 {
     local_data_.reset();
     if (!result.has_minco || !result.minco_traj.valid())
@@ -1120,7 +1572,7 @@ void LocalPlannerManager::updateTrajInfo(const PathOptimizer::OptimizationResult
 
     // LocalTrajData 保存当前可执行 MINCO 轨迹 $p(t)$，并额外缓存采样点用于 RViz / path topic。
     local_data_.setLocalTraj(result.minco_traj.trajectory(),
-                             time_now,
+                             start_time,
                              frame_id_,
                              minco_sample_dt_);
     local_data_.corridor_ = result.corridors;

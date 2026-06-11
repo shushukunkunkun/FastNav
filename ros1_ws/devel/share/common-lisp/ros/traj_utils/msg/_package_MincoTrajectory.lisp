@@ -7,6 +7,8 @@
           ORDER
           START_TIME-VAL
           START_TIME
+          TOUCH_GOAL-VAL
+          TOUCH_GOAL
           DURATION-VAL
           DURATION
           COEF_X-VAL

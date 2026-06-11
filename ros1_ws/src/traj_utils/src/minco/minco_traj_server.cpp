@@ -34,16 +34,31 @@ ros::Subscriber traj_sub;
 ros::Subscriber heartbeat_sub;
 ros::Timer cmd_timer;
 
-std::shared_ptr<MincoTrajectory> traj;
-bool receive_traj = false;
-ros::Time start_time;
+struct ServerTrajectory
+{
+    std::shared_ptr<MincoTrajectory> traj;
+    ros::Time start_time;
+    double duration{0.0};
+    uint32_t traj_id{0};
+    std::string frame_id{"odom"};
+    bool touch_goal{true};
+
+    bool valid() const
+    {
+        return static_cast<bool>(traj) && duration > 1.0e-6;
+    }
+};
+
+ServerTrajectory current_traj;
+ServerTrajectory pending_traj;
+bool has_current_traj = false;
+bool has_pending_traj = false;
 ros::Time heartbeat_time(0);
-double traj_duration = 0.0;
-uint32_t traj_id = 0;
 std::string frame_id = "odom";
 
 double publish_rate = 100.0;
 double heartbeat_timeout = 3.0;
+double terminal_hold_timeout = 0.8;
 double time_forward = 1.0;
 double yaw_dot_limit = 2.0 * M_PI;
 double yaw_ddot_limit = 5.0 * M_PI;
@@ -99,17 +114,18 @@ bool buildTrajectory(const traj_utils::MincoTrajectory& msg, MincoTrajectory& ou
     return output.getPieceNum() > 0 && output.getTotalDuration() > 1.0e-6;
 }
 
-std::pair<double, double> calculateYaw(double t_cur,
+std::pair<double, double> calculateYaw(const ServerTrajectory& active,
+                                       double t_cur,
                                        const Eigen::Vector3d& pos,
                                        double dt)
 {
-    if (!traj)
+    if (!active.valid())
     {
         return std::make_pair(default_yaw, 0.0);
     }
 
-    const double lookahead_t = std::min(traj_duration, t_cur + std::max(0.0, time_forward));
-    const Eigen::Vector3d dir = traj->getPos(lookahead_t) - pos;
+    const double lookahead_t = std::min(active.duration, t_cur + std::max(0.0, time_forward));
+    const Eigen::Vector3d dir = active.traj->getPos(lookahead_t) - pos;
     double target_yaw = dir.head<2>().norm() > 0.1 ? std::atan2(dir.y(), dir.x()) : last_yaw;
 
     double d_yaw = target_yaw - last_yaw;
@@ -159,6 +175,8 @@ std::pair<double, double> calculateYaw(double t_cur,
 }
 
 void publishCommand(const ros::Time& stamp,
+                    const std::string& command_frame_id,
+                    uint32_t command_traj_id,
                     const Eigen::Vector3d& pos,
                     const Eigen::Vector3d& vel,
                     const Eigen::Vector3d& acc,
@@ -169,9 +187,9 @@ void publishCommand(const ros::Time& stamp,
 {
     fastnav_msgs::ControlCommand cmd;
     cmd.header.stamp = stamp;
-    cmd.header.frame_id = frame_id;
+    cmd.header.frame_id = command_frame_id;
     cmd.command_type = command_type;
-    cmd.trajectory_id = traj_id;
+    cmd.trajectory_id = command_traj_id;
     cmd.position.x = pos.x();
     cmd.position.y = pos.y();
     cmd.position.z = pos.z();
@@ -197,59 +215,104 @@ void heartbeatCallback(const std_msgs::EmptyConstPtr& /*msg*/)
     heartbeat_time = ros::Time::now();
 }
 
+bool heartbeatTimedOut(const ros::Time& now)
+{
+    return heartbeat_timeout > 0.0 &&
+           heartbeat_time.toSec() > 1.0e-5 &&
+           (now - heartbeat_time).toSec() > heartbeat_timeout;
+}
+
+ServerTrajectory makeServerTrajectory(const traj_utils::MincoTrajectory& msg,
+                                      const MincoTrajectory& source_traj)
+{
+    ServerTrajectory output;
+    output.traj.reset(new MincoTrajectory(source_traj));
+    output.start_time = msg.start_time.isZero() ? msg.header.stamp : msg.start_time;
+    if (output.start_time.isZero())
+    {
+        output.start_time = ros::Time::now();
+    }
+    output.duration = output.traj->getTotalDuration();
+    output.traj_id = msg.traj_id;
+    output.frame_id = msg.header.frame_id.empty() ? frame_id : msg.header.frame_id;
+    output.touch_goal = msg.touch_goal;
+    return output;
+}
+
+void commitTrajectory(const ServerTrajectory& next_traj, const std::string& reason)
+{
+    current_traj = next_traj;
+    has_current_traj = current_traj.valid();
+    frame_id = current_traj.frame_id;
+    if (has_current_traj)
+    {
+        last_pos = current_traj.traj->getPos(0.0);
+        ROS_INFO("[FastNav][MincoTrajServer] Commit trajectory id=%u, pieces=%d, duration=%.3f, touch_goal=%d (%s).",
+                 current_traj.traj_id,
+                 current_traj.traj->getPieceNum(),
+                 current_traj.duration,
+                 current_traj.touch_goal,
+                 reason.c_str());
+    }
+}
+
+void switchPendingTrajectoryIfReady(const ros::Time& now)
+{
+    if (!has_pending_traj || !pending_traj.valid())
+    {
+        return;
+    }
+
+    if (now + ros::Duration(1.0e-4) < pending_traj.start_time)
+    {
+        return;
+    }
+
+    commitTrajectory(pending_traj, "pending start time reached");
+    has_pending_traj = false;
+    pending_traj = ServerTrajectory();
+}
+
 void trajectoryCallback(const traj_utils::MincoTrajectoryConstPtr& msg)
 {
     MincoTrajectory new_traj;
     if (!buildTrajectory(*msg, new_traj))
     {
-        receive_traj = false;
-        return;
-    }
-
-    traj.reset(new MincoTrajectory(new_traj));
-    start_time = msg->start_time.isZero() ? msg->header.stamp : msg->start_time;
-    if (start_time.isZero())
-    {
-        start_time = ros::Time::now();
-    }
-    traj_duration = traj->getTotalDuration();
-    traj_id = msg->traj_id;
-    frame_id = msg->header.frame_id.empty() ? frame_id : msg->header.frame_id;
-    last_pos = traj->getPos(0.0);
-    receive_traj = true;
-    heartbeat_time = ros::Time::now();
-
-    ROS_INFO("[FastNav][MincoTrajServer] Received trajectory id=%u, pieces=%d, duration=%.3f.",
-             traj_id, traj->getPieceNum(), traj_duration);
-}
-
-void commandTimerCallback(const ros::TimerEvent& event)
-{
-    if (!receive_traj || !traj)
-    {
         return;
     }
 
     const ros::Time now = ros::Time::now();
+    ServerTrajectory incoming = makeServerTrajectory(*msg, new_traj);
+    heartbeat_time = ros::Time::now();
 
-    if (heartbeat_timeout > 0.0 &&
-        heartbeat_time.toSec() > 1.0e-5 &&
-        (now - heartbeat_time).toSec() > heartbeat_timeout)
+    if (has_current_traj && incoming.start_time > now + ros::Duration(0.02))
     {
-        ROS_ERROR_THROTTLE(1.0, "[FastNav][MincoTrajServer] Lost planner heartbeat, switch to hover command.");
-        publishCommand(now,
-                       last_pos,
-                       Eigen::Vector3d::Zero(),
-                       Eigen::Vector3d::Zero(),
-                       Eigen::Vector3d::Zero(),
-                       last_yaw,
-                       0.0,
-                       fastnav_msgs::ControlCommand::COMMAND_HOVER);
-        receive_traj = false;
+        pending_traj = incoming;
+        has_pending_traj = true;
+        ROS_INFO("[FastNav][MincoTrajServer] Received pending trajectory id=%u, starts in %.3fs, duration=%.3f, touch_goal=%d.",
+                 pending_traj.traj_id,
+                 (pending_traj.start_time - now).toSec(),
+                 pending_traj.duration,
+                 pending_traj.touch_goal);
         return;
     }
 
-    const double t_cur = (now - start_time).toSec();
+    commitTrajectory(incoming, "immediate trajectory message");
+    has_pending_traj = false;
+    pending_traj = ServerTrajectory();
+}
+
+void commandTimerCallback(const ros::TimerEvent& event)
+{
+    const ros::Time now = ros::Time::now();
+    switchPendingTrajectoryIfReady(now);
+
+    if (!has_current_traj || !current_traj.valid())
+    {
+        return;
+    }
+
+    const double t_cur = (now - current_traj.start_time).toSec();
     const double dt = std::max(1.0e-3, (event.current_real - event.last_real).toSec());
 
     if (t_cur < 0.0)
@@ -257,15 +320,17 @@ void commandTimerCallback(const ros::TimerEvent& event)
         return;
     }
 
-    if (t_cur <= traj_duration)
+    if (t_cur <= current_traj.duration)
     {
-        const Eigen::Vector3d pos = traj->getPos(t_cur);
-        const Eigen::Vector3d vel = traj->getVel(t_cur);
-        const Eigen::Vector3d acc = traj->getAcc(t_cur);
-        const Eigen::Vector3d jerk = traj->getJer(t_cur);
-        const std::pair<double, double> yaw = calculateYaw(t_cur, pos, dt);
+        const Eigen::Vector3d pos = current_traj.traj->getPos(t_cur);
+        const Eigen::Vector3d vel = current_traj.traj->getVel(t_cur);
+        const Eigen::Vector3d acc = current_traj.traj->getAcc(t_cur);
+        const Eigen::Vector3d jerk = current_traj.traj->getJer(t_cur);
+        const std::pair<double, double> yaw = calculateYaw(current_traj, t_cur, pos, dt);
 
         publishCommand(now,
+                       current_traj.frame_id,
+                       current_traj.traj_id,
                        pos,
                        vel,
                        acc,
@@ -276,8 +341,50 @@ void commandTimerCallback(const ros::TimerEvent& event)
         return;
     }
 
-    const Eigen::Vector3d end_pos = traj->getPos(traj_duration);
+    const double over_time = t_cur - current_traj.duration;
+    const Eigen::Vector3d end_pos = current_traj.traj->getPos(current_traj.duration);
+    const Eigen::Vector3d end_vel = current_traj.traj->getVel(current_traj.duration);
+    const Eigen::Vector3d end_acc = current_traj.traj->getAcc(current_traj.duration);
+    const Eigen::Vector3d end_jerk = current_traj.traj->getJer(current_traj.duration);
+
+    // committed trajectory 执行期间不因为 planner 正在阻塞式重规划而立刻 HOVER；
+    // 只有旧轨迹已经结束后，heartbeat 仍丢失，才认为 planner 不再能接管后续轨迹。
+    if (heartbeatTimedOut(now))
+    {
+        ROS_ERROR_THROTTLE(1.0, "[FastNav][MincoTrajServer] Lost planner heartbeat after committed trajectory ended, switch to hover command.");
+        publishCommand(now,
+                       current_traj.frame_id,
+                       current_traj.traj_id,
+                       end_pos,
+                       Eigen::Vector3d::Zero(),
+                       Eigen::Vector3d::Zero(),
+                       Eigen::Vector3d::Zero(),
+                       last_yaw,
+                       0.0,
+                       fastnav_msgs::ControlCommand::COMMAND_HOVER);
+        has_current_traj = false;
+        has_pending_traj = false;
+        return;
+    }
+
+    if (!current_traj.touch_goal && over_time <= terminal_hold_timeout)
+    {
+        publishCommand(now,
+                       current_traj.frame_id,
+                       current_traj.traj_id,
+                       end_pos,
+                       end_vel,
+                       end_acc,
+                       end_jerk,
+                       last_yaw,
+                       0.0,
+                       fastnav_msgs::ControlCommand::COMMAND_TRAJECTORY);
+        return;
+    }
+
     publishCommand(now,
+                   current_traj.frame_id,
+                   current_traj.traj_id,
                    end_pos,
                    Eigen::Vector3d::Zero(),
                    Eigen::Vector3d::Zero(),
@@ -304,6 +411,7 @@ int main(int argc, char** argv)
     pnh.param<std::string>("frame_id", frame_id, frame_id);
     pnh.param<double>("publish_rate", publish_rate, publish_rate);
     pnh.param<double>("heartbeat_timeout", heartbeat_timeout, heartbeat_timeout);
+    pnh.param<double>("terminal_hold_timeout", terminal_hold_timeout, terminal_hold_timeout);
     pnh.param<double>("time_forward", time_forward, time_forward);
     pnh.param<double>("yaw_dot_limit", yaw_dot_limit, yaw_dot_limit);
     pnh.param<double>("yaw_ddot_limit", yaw_ddot_limit, yaw_ddot_limit);
@@ -319,6 +427,7 @@ int main(int argc, char** argv)
 
     ROS_INFO("[FastNav][MincoTrajServer] trajectory topic: %s", trajectory_topic.c_str());
     ROS_INFO("[FastNav][MincoTrajServer] command topic: %s", command_topic.c_str());
+    ROS_INFO("[FastNav][MincoTrajServer] terminal hold timeout: %.3fs", terminal_hold_timeout);
 
     ros::spin();
     return 0;
