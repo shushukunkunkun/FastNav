@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
-find_package(PCL REQUIRED COMPONENTS common)
+find_package(PCL REQUIRED COMPONENTS common io)
 find_package(Eigen3 REQUIRED)
 
 catkin_package(
@@ -37,6 +37,7 @@ include_directories(
 add_definitions(${PCL_DEFINITIONS})
 
 add_library(fastnav_planner_core
+  src/debug/planner_debug_recorder.cpp
   src/frontend/astar_planner.cpp
   src/manager/local_planner_manager.cpp
   src/optimizer/path_optimizer.cpp

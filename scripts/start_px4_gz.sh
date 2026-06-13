@@ -9,8 +9,8 @@ FASTNAV_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 PX4_ROOT="${PX4_ROOT:-/home/shukun/ThirdPackages/PX4-Autopilot}"
 
 WORLD="${FASTNAV_GZ_WORLD:-forest_easy}"
-MODEL="${FASTNAV_PX4_MODEL:-x500_mid360}"
-MAKE_TARGET="${FASTNAV_PX4_MAKE_TARGET:-gz_x500}"
+MODEL="${FASTNAV_PX4_MODEL:-x250_mid360}"
+MAKE_TARGET="${FASTNAV_PX4_MAKE_TARGET:-gz_x250_mid360}"
 
 source "${FASTNAV_ROOT}/scripts/setup_env.sh"
 

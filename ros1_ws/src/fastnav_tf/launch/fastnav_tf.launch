@@ -6,7 +6,7 @@
 
     <arg name="lidar_x" default="0"/>
     <arg name="lidar_y" default="0"/>
-    <arg name="lidar_z" default="0.18"/>
+    <arg name="lidar_z" default="0.09"/>
     <arg name="lidar_yaw" default="0"/>
     <arg name="lidar_pitch" default="0"/>
     <arg name="lidar_roll" default="0"/>

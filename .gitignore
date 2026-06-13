@@ -12,3 +12,4 @@ __pycache__/
 *.pyc
 
 tools/analysis/result
+tools/debug_cases

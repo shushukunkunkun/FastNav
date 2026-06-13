@@ -8,7 +8,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FASTNAV_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 # NOTE: 修改这个文件
-PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits_high.params"
+PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits_x250.params"
 MAVROS_NS="/mavros"
 DRY_RUN=0
 
@@ -20,11 +20,11 @@ Usage:
 Examples:
   $(basename "$0") --sim
   $(basename "$0") --real
-  $(basename "$0") -f config/sim/px4/multicopter_limits.params
+  $(basename "$0") -f config/sim/px4/multicopter_limits_x250.params
   $(basename "$0") --sim --dry-run
 
 Options:
-  --sim                 Use config/sim/px4/multicopter_limits.params.
+  --sim                 Use config/sim/px4/multicopter_limits_x250.params.
   --real                Use config/real/px4/multicopter_limits.params.
   -f, --file PATH       Use a custom PX4 .params file.
   --namespace NS        MAVROS namespace, default: /mavros.
@@ -45,7 +45,7 @@ resolve_path() {
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --sim)
-      PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits.params"
+      PARAM_FILE="${FASTNAV_ROOT}/config/sim/px4/multicopter_limits_x250.params"
       shift
       ;;
     --real)

@@ -185,6 +185,9 @@ void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
 
     path_optimizer_ = std::make_shared<PathOptimizer>();
     path_optimizer_->setConfig(optimizer_config_);
+    debug_recorder_config_.frame_id = frame_id_;
+    debug_recorder_config_.minco_sample_dt = minco_sample_dt_;
+    debug_recorder_.setConfig(debug_recorder_config_);
 
     global_data_.reset();
     local_data_.reset();
@@ -194,6 +197,11 @@ void LocalPlannerManager::init(ros::NodeHandle& nh, ros::NodeHandle& pnh)
              frame_id_.c_str(),
              voxel_map_->inflationRadius(),
              frontend_voxel_map_->inflationRadius());
+    if (debug_recorder_.enabled())
+    {
+        ROS_INFO("[FastNav][LocalPlannerManager] Failure snapshot recording enabled: %s",
+                 debug_recorder_config_.output_dir.c_str());
+    }
 }
 
 // 读取局部地图、A*、优化器参数；全局 yaml 提供默认值，私有参数提供节点级覆盖入口。
@@ -370,7 +378,29 @@ void LocalPlannerManager::loadParameters(ros::NodeHandle& nh, ros::NodeHandle& p
     pnh.param<int>("optimizer/max_retry", optimizer_config_.max_retry, optimizer_config_.max_retry);
     pnh.param<double>("optimizer/random_init_scale", random_init_scale_, random_init_scale_);
 
+    bool debug_enable = false;
+    bool record_failure_cases = false;
+    nh.param<bool>("/local_planner/debug/enable", debug_enable, debug_enable);
+    nh.param<bool>("/local_planner/debug/record_failure_cases", record_failure_cases, record_failure_cases);
+    nh.param<std::string>("/local_planner/debug/failure_case_dir", debug_recorder_config_.output_dir, debug_recorder_config_.output_dir);
+    nh.param<int>("/local_planner/debug/max_failure_cases", debug_recorder_config_.max_cases, debug_recorder_config_.max_cases);
+    nh.param<bool>("/local_planner/debug/record_cloud", debug_recorder_config_.record_cloud, debug_recorder_config_.record_cloud);
+    nh.param<bool>("/local_planner/debug/record_voxel_map", debug_recorder_config_.record_voxel_map, debug_recorder_config_.record_voxel_map);
+    nh.param<bool>("/local_planner/debug/record_corridor", debug_recorder_config_.record_corridor, debug_recorder_config_.record_corridor);
+    nh.param<bool>("/local_planner/debug/record_minco_samples", debug_recorder_config_.record_minco_samples, debug_recorder_config_.record_minco_samples);
+    pnh.param<bool>("debug/enable", debug_enable, debug_enable);
+    pnh.param<bool>("debug/record_failure_cases", record_failure_cases, record_failure_cases);
+    pnh.param<std::string>("debug/failure_case_dir", debug_recorder_config_.output_dir, debug_recorder_config_.output_dir);
+    pnh.param<int>("debug/max_failure_cases", debug_recorder_config_.max_cases, debug_recorder_config_.max_cases);
+    pnh.param<bool>("debug/record_cloud", debug_recorder_config_.record_cloud, debug_recorder_config_.record_cloud);
+    pnh.param<bool>("debug/record_voxel_map", debug_recorder_config_.record_voxel_map, debug_recorder_config_.record_voxel_map);
+    pnh.param<bool>("debug/record_corridor", debug_recorder_config_.record_corridor, debug_recorder_config_.record_corridor);
+    pnh.param<bool>("debug/record_minco_samples", debug_recorder_config_.record_minco_samples, debug_recorder_config_.record_minco_samples);
+
     minco_sample_dt_ = std::max(1.0e-3, optimizer_config_.minco_sample_dt);
+    debug_recorder_config_.enable = debug_enable && record_failure_cases;
+    debug_recorder_config_.minco_sample_dt = minco_sample_dt_;
+    debug_recorder_config_.max_cases = std::max(0, debug_recorder_config_.max_cases);
     random_init_scale_ = std::max(0.0, random_init_scale_);
     astar_config_.min_clearance = std::max(0.0, astar_config_.min_clearance);
     astar_config_.min_clearance_floor = std::max(0.0, std::min(astar_config_.min_clearance_floor, astar_config_.min_clearance));
@@ -412,6 +442,8 @@ void LocalPlannerManager::updateCloud(const sensor_msgs::PointCloud2ConstPtr& ms
                           frame_id_.c_str(), msg->header.frame_id.c_str());
         return;
     }
+
+    latest_filtered_cloud_ = *msg;
 
     pcl::PointCloud<pcl::PointXYZ> cloud;
     pcl::fromROSMsg(*msg, cloud);
@@ -824,6 +856,21 @@ bool LocalPlannerManager::planToGoal(const Eigen::Vector3d& goal, const ReplanOp
         if (last_error_.empty())
         {
             last_error_ = "Path optimization failed.";
+        }
+        last_timing_.shortcut_ms = last_optimization_result_.shortcut_ms;
+        last_timing_.corridor_ms = last_optimization_result_.corridor_ms;
+        last_timing_.minco_ms = last_optimization_result_.minco_ms;
+        last_timing_.fine_check_ms = last_optimization_result_.fine_check_ms;
+        last_timing_.corridor_num = static_cast<int>(last_optimization_result_.corridors.size());
+        last_timing_.minco_retry_count = last_optimization_result_.minco_retry_count;
+        if (!preempted())
+        {
+            recordOptimizationFailure(raw_path,
+                                      optimization_reference_path,
+                                      options,
+                                      start,
+                                      goal,
+                                      actual_touch_goal);
         }
         return false;
     }
@@ -1580,6 +1627,82 @@ void LocalPlannerManager::updateTrajInfo(const PathOptimizer::OptimizationResult
     {
         local_data_.sampled_path_ = result.sampled_path;
     }
+}
+
+void LocalPlannerManager::recordOptimizationFailure(const std::vector<Eigen::Vector3d>& frontend_path,
+                                                    const std::vector<Eigen::Vector3d>& reference_path,
+                                                    const ReplanOptions& options,
+                                                    const Eigen::Vector3d& start,
+                                                    const Eigen::Vector3d& requested_goal,
+                                                    bool touch_goal)
+{
+    if (!debug_recorder_.enabled())
+    {
+        return;
+    }
+
+    PlannerDebugRecorder::Snapshot snapshot;
+    snapshot.stamp = ros::Time::now();
+    snapshot.frame_id = frame_id_;
+    snapshot.state = options.use_current_traj ? "REPLAN_TRAJ" : "GEN_NEW_TRAJ";
+    if (options.use_random_init)
+    {
+        snapshot.state += "_RANDOM";
+    }
+    snapshot.reason = last_error_;
+    snapshot.attempt = options.attempt;
+    snapshot.continuous_failures = options.continuous_failures;
+    snapshot.use_current_traj = options.use_current_traj;
+    snapshot.use_random_init = options.use_random_init;
+    snapshot.touch_goal = touch_goal;
+    snapshot.reached_requested_goal = last_plan_reached_requested_goal_;
+    snapshot.odom_pos = currentPosition();
+    snapshot.start = start;
+    snapshot.requested_goal = requested_goal;
+    snapshot.planned_target = last_planned_target_;
+
+    snapshot.timing.guide_astar_ms = last_timing_.guide_astar_ms;
+    snapshot.timing.frontend_astar_ms = last_timing_.frontend_astar_ms;
+    snapshot.timing.reference_ms = last_timing_.reference_ms;
+    snapshot.timing.shortcut_ms = last_timing_.shortcut_ms;
+    snapshot.timing.corridor_ms = last_timing_.corridor_ms;
+    snapshot.timing.minco_ms = last_timing_.minco_ms;
+    snapshot.timing.fine_check_ms = last_timing_.fine_check_ms;
+    snapshot.timing.astar_nodes = last_timing_.astar_nodes;
+    snapshot.timing.corridor_num = last_timing_.corridor_num;
+    snapshot.timing.minco_retry_count = last_timing_.minco_retry_count;
+    snapshot.timing.clearance_used = last_timing_.clearance_used;
+
+    snapshot.frontend_path = frontend_path;
+    snapshot.reference_path = reference_path;
+    snapshot.shortcut_path = last_optimization_result_.shortcut_path;
+    snapshot.sampled_path = last_optimization_result_.sampled_path;
+    snapshot.corridors = last_optimization_result_.corridors;
+    if (astar_planner_)
+    {
+        snapshot.searched_nodes = astar_planner_->searchedNodes();
+    }
+
+    snapshot.has_minco = last_optimization_result_.has_minco && last_optimization_result_.minco_traj.valid();
+    snapshot.minco_traj = last_optimization_result_.minco_traj;
+
+    snapshot.has_filtered_cloud = !latest_filtered_cloud_.data.empty();
+    snapshot.has_occupied_cloud = !debug_occupied_cloud_.data.empty();
+    snapshot.has_inflated_cloud = !debug_inflated_cloud_.data.empty();
+    if (snapshot.has_filtered_cloud)
+    {
+        snapshot.filtered_cloud = latest_filtered_cloud_;
+    }
+    if (snapshot.has_occupied_cloud)
+    {
+        snapshot.occupied_cloud = debug_occupied_cloud_;
+    }
+    if (snapshot.has_inflated_cloud)
+    {
+        snapshot.inflated_cloud = debug_inflated_cloud_;
+    }
+
+    debug_recorder_.recordMincoFailure(snapshot);
 }
 
 // 从 current_odom_ 中提取当前位置向量，作为局部地图中心和规划起点。

@@ -2,7 +2,7 @@
     FastNav simulation navigation bringup.
 
     使用方式：
-      1. 先单独启动 PX4 + Gazebo Sim：make px4_sitl gz_x500_mid360_single_obstacle
+      1. 先单独启动 PX4 + Gazebo Sim：make px4_sitl gz_x250_mid360
       2. 再启动本 launch：roslaunch fastnav_bringup fastnav_sim_navigation.launch
       3. 最后单独打开 RViz，将 Fixed Frame 设置为 odom。
 

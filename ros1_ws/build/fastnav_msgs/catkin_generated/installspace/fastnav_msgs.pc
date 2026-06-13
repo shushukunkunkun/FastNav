@@ -1,8 +1,0 @@
-prefix=/home/shukun/Project/FastNav/ros1_ws/install
-
-Name: fastnav_msgs
-Description: Description of fastnav_msgs
-Version: 0.0.1
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: std_msgs geometry_msgs sensor_msgs nav_msgs message_runtime

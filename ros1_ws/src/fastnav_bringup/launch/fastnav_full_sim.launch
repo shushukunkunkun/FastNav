@@ -2,7 +2,7 @@
     FastNav full simulation bringup.
 
     启动前先在 PX4 目录运行：
-      make px4_sitl gz_x500_mid360_single_obstacle
+      make px4_sitl gz_x250_mid360
 
     若想一键启动所有 ROS 侧模块，运行本 launch：
       roslaunch fastnav_bringup fastnav_full_sim.launch

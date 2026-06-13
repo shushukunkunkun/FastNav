@@ -1,8 +1,0 @@
-prefix=/home/shukun/Project/FastNav/ros1_ws/devel
-
-Name: fastnav_tf
-Description: Description of fastnav_tf
-Version: 0.0.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: geometry_msgs nav_msgs roscpp tf2_ros

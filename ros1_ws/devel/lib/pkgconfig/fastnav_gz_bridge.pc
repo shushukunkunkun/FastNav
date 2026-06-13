@@ -1,8 +1,0 @@
-prefix=/home/shukun/Project/FastNav/ros1_ws/devel
-
-Name: fastnav_gz_bridge
-Description: Description of fastnav_gz_bridge
-Version: 0.0.1
-Cflags: -I/home/shukun/Project/FastNav/ros1_ws/src/fastnav_gz_bridge/include
-Libs: -L${prefix}/lib -lfastnav_gz_bridge_core
-Requires: roscpp std_msgs sensor_msgs nav_msgs

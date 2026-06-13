@@ -16,12 +16,12 @@
         <rosparam file="$(arg config_root)/common/topics.yaml" command="load"/>
         <rosparam file="$(arg config_root)/common/mission.yaml" command="load"/>
         <rosparam file="$(arg config_root)/common/safety.yaml" command="load"/>
-        <rosparam file="$(arg config_root)/common/uav/x500_mid360.yaml" command="load"/>
+        <rosparam file="$(arg config_root)/common/uav/x250_mid360.yaml" command="load"/>
         <rosparam file="$(arg config_root)/common/sensor/mid360.yaml" command="load"/>
 
         <!-- Simulation-specific overrides and assets references. -->
         <group if="$(eval arg('mode') == 'sim')">
-            <rosparam file="$(arg config_root)/sim/uav/x500_mid360.yaml" command="load"/>
+            <rosparam file="$(arg config_root)/sim/uav/x250_mid360.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/px4/sitl.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/gz/gz.yaml" command="load"/>
             <rosparam file="$(arg config_root)/sim/sensor/mid360.yaml" command="load"/>

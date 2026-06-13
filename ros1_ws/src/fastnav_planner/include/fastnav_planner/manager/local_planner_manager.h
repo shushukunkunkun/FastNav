@@ -33,6 +33,7 @@
 #include <fastnav_mapping/voxel_map.h>
 #include <traj_utils/plan_container.hpp>
 
+#include "fastnav_planner/debug/planner_debug_recorder.h"
 #include "fastnav_planner/frontend/astar_planner.h"
 #include "fastnav_planner/optimizer/path_optimizer.h"
 
@@ -234,6 +235,14 @@ private:
     void updateTrajInfo(const PathOptimizer::OptimizationResult& result,
                         const ros::Time& start_time);
 
+    // debug.enable && record_failure_cases 时，保存一次后端优化失败现场，便于离线复盘。
+    void recordOptimizationFailure(const std::vector<Eigen::Vector3d>& frontend_path,
+                                   const std::vector<Eigen::Vector3d>& reference_path,
+                                   const ReplanOptions& options,
+                                   const Eigen::Vector3d& start,
+                                   const Eigen::Vector3d& requested_goal,
+                                   bool touch_goal);
+
 private:
     // 核心算法对象。voxel_map_ 是后端/fine check 使用的基础 inflated map；
     // frontend_voxel_map_ 使用更大的膨胀半径，只给 A* 做快速 O(1) 前端查询。
@@ -265,6 +274,8 @@ private:
     // A* 和路径优化配置，会在 init() 中传给对应算法对象。
     AStarPlanner::Config astar_config_;
     PathOptimizer::Config optimizer_config_;
+    PlannerDebugRecorder::Config debug_recorder_config_;
+    PlannerDebugRecorder debug_recorder_;
 
     // MINCO 采样参数。current_path_ 用于 RViz 和碰撞检查，优先保存 MINCO 采样点。
     double minco_sample_dt_{0.05};
@@ -294,6 +305,7 @@ private:
     // 规划结果和可视化缓存。
     std::vector<Eigen::Vector3d> current_path_;
     PathOptimizer::OptimizationResult last_optimization_result_;
+    sensor_msgs::PointCloud2 latest_filtered_cloud_;
     sensor_msgs::PointCloud2 debug_occupied_cloud_;
     sensor_msgs::PointCloud2 debug_inflated_cloud_;
     sensor_msgs::PointCloud2 searched_nodes_cloud_;

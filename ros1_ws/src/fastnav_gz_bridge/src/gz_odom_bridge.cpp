@@ -9,7 +9,7 @@ GzOdomBridge::GzOdomBridge(ros::NodeHandle& nh,
                            ros::NodeHandle& pnh)
     : nh_(nh),
       pnh_(pnh),
-      gz_topic_("/model/x500_mid360_0/odometry_with_covariance"),
+      gz_topic_("/model/x250_mid360_0/odometry_with_covariance"),
       ros_topic_("/fastnav/state/odom"),
       frame_id_("odom"),
       child_frame_id_("base_link"),

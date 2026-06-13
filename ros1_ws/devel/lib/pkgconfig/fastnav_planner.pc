@@ -1,8 +1,0 @@
-prefix=/home/shukun/Project/FastNav/ros1_ws/devel
-
-Name: fastnav_planner
-Description: Description of fastnav_planner
-Version: 0.0.1
-Cflags: -I/home/shukun/Project/FastNav/ros1_ws/src/fastnav_planner/include -I/usr/include/eigen3 -I/usr/include/pcl-1.12 -I/usr/include
-Libs: -L${prefix}/lib -lfastnav_planner_core /usr/lib/x86_64-linux-gnu/libpcl_common.so /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.74.0 /usr/lib/x86_64-linux-gnu/libboost_serialization.so.1.74.0
-Requires: fastnav_mapping fastnav_msgs geometry_msgs nav_msgs pcl_conversions pcl_ros roscpp sensor_msgs std_msgs traj_utils visualization_msgs
