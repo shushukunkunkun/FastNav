@@ -6,4 +6,4 @@ uav:
   model_sdf: config/sim/gz/models/x500_mid360/model.sdf
   px4_airframe: 4022_gz_x500_mid360
   px4_params:
-    - config/sim/px4/multicopter_limits.params
+    - config/sim/px4/multicopter_limits_high.params

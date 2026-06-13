@@ -1,4 +1,4 @@
-# PX4 SITL 相关启动参数。
+# PX4 SITL 启动参数：x250_mid360 轻量机体。
 px4:
   mode: sitl
   model: x250_mid360

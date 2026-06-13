@@ -3,8 +3,8 @@ sensor:
   mid360:
     frame_id: mid360_link
     parent_frame: base_link
-    mount_xyz: [0.0, 0.0, 0.1]
+    mount_xyz: [0.0, 0.0, 0.09]
     mount_rpy: [0.0, 0.0, 0.0]
-    range_min: 0.2
+    range_min: 0.1
     range_max: 40.0
     update_rate: 10.0

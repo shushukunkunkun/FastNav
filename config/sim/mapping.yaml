@@ -28,13 +28,13 @@ local_voxel_map:
   local_z_size: 4.2
 
   # z 方向边界为 $z in [c_z + local_z_min, c_z + local_z_max]$。
-  # 当前 x500_mid360 通常在 $z = 1.3m$ 到 $2.0m$ 附近飞行，这个范围覆盖地面以上障碍和可绕飞高度。
+  # 当前 x250_mid360 通常在 $z = 1.3m$ 到 $2.0m$ 附近飞行，这个范围覆盖地面以上障碍和可绕飞高度。
   local_z_min: -1.2
   local_z_max: 3.0
 
   # 膨胀半径为 $inflation_radius = drone_radius + safety_margin$。
-  drone_radius: 0.15  # NOTE: 这个参数应该严格与planner.yaml中保持一致
-  safety_margin: 0.1  # NOTE: 这个参数应该严格与planner.yaml中保持一致
+  drone_radius: 0.20  # NOTE: 这个参数应该严格与planner.yaml中保持一致
+  safety_margin: 0.08  # NOTE: 这个参数应该严格与planner.yaml中保持一致
 
   # 地图内部维护多帧 log-odds 缓存，点云命中执行 $l_i <- clamp(l_i + l_hit, l_min, l_max)$。
   # 当前不做 raycasting free-space，旧障碍通过 $l_i -> 0$ 的 temporal decay 逐渐遗忘。

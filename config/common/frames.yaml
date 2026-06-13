@@ -12,5 +12,5 @@ static_tf:
   base_link_to_lidar:
     parent: base_link
     child: mid360_link
-    xyz: [0.0, 0.0, 0.1]
+    xyz: [0.0, 0.0, 0.09]
     rpy: [0.0, 0.0, 0.0]

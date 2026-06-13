@@ -7,5 +7,5 @@ safety:
     z_max: 5.0
 
   obstacle:
-    drone_radius: 0.35
-    safety_margin: 0.15
+    drone_radius: 0.20
+    safety_margin: 0.08

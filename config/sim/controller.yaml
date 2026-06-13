@@ -4,7 +4,7 @@ control:
 takeoff:
   x: 0.0
   y: 0.0
-  z: 1.0
+  z: 0.5
   yaw: 0.0
   position_tolerance: 0.15
 

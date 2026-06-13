@@ -22,6 +22,15 @@ local_planner:
   # false: 不创建这些调试 publisher，只保留 path、minco_trajectory、heartbeat，减少通信冗余。
   debug:
     enable: true
+    # 当 debug.enable=true 且这里为 true 时，后端 MINCO / fine check 失败会落盘一次现场快照。
+    # 快照包含 filtered cloud、planner 内部 voxel debug map、A* 路径、safe corridor、MINCO 采样和失败原因。
+    record_failure_cases: true
+    failure_case_dir: "/home/shukun/Project/FastNav/tools/debug_cases"
+    max_failure_cases: 200
+    record_cloud: true
+    record_voxel_map: true
+    record_corridor: true
+    record_minco_samples: true
 
   # planner 内部 debug map 使用独立 timer 固定频率发布，类似 EGO 的 GridMap::visCallback。
   # cloud 回调只更新 VoxelMap，不直接触发 RViz 地图发布。
@@ -71,14 +80,14 @@ local_planner:
     max_retry: 3
 
     retry:
-      corridor_range_scale: 1.0
-      corridor_progress_scale: 1.0
-      weight_time_scale: 1.0
+      corridor_range_scale: 1.15
+      corridor_progress_scale: 0.85
+      weight_time_scale: 0.7
       penalty_pos_scale: 2.0
       penalty_vel_scale: 1.5
-      penalty_body_rate_scale: 1.0
-      penalty_tilt_scale: 1.0
-      penalty_thrust_scale: 1.0
+      penalty_body_rate_scale: 1.2
+      penalty_tilt_scale: 1.2
+      penalty_thrust_scale: 1.2
 
     corridor:
       # 每段走廊沿 A* shortcut 路径最多推进 progress 米，越小越稳但多面体数量更多。
@@ -88,39 +97,69 @@ local_planner:
       eps: 1.0e-6
       enable_shortcut: true
 
+    # GCOPTER/MINCO 后端优化参数。
+    # 注意：这里的约束应满足 $planner \le PX4 \le vehicle$。
+    # 如果 planner 允许的 $v,a,j$ 大于 PX4 实际限制，轨迹数学上可行，但 PX4 跟踪时会被限幅，表现为急刹、滞后或贴障。
     minco:
+      # 时间代价权重 $w_T$。越大越偏向短时间/快轨迹；越小越偏向平滑但可能拖慢。
       weight_time: 1.0
+      # 约束惩罚的平滑参数 $\epsilon$，避免 hinge penalty 在边界处不可导。
       smoothing_eps: 0.01
+      # 每段多项式上做 penalty 积分的采样数量，越大越准但优化更慢。
       integral_intervals: 16
+      # L-BFGS 相对代价收敛阈值，越小优化更充分但耗时更长。
       rel_cost_tol: 1.0e-5
+      # 按路径长度分配 MINCO piece，近似为每 $1.0m$ 一个 piece；越小自由度越多、耗时越高。
       length_per_piece: 1.0
+      # GCOPTER 速度软约束 $||v(t)|| \le v_{max}$。当前 2.5m/s 只适合 high PX4 参数。
       max_vel: 2.5
-      max_body_rate: 2.0
-      max_tilt_angle: 0.52
+      # 机体系角速度软约束，单位 rad/s；$4.0 rad/s ~= 229 deg/s$，低于 x250 PX4 的 360deg/s roll/pitch rate。
+      max_body_rate: 4.0
+      # 最大倾角，单位 rad；$0.70 rad ~= 40.1 deg$，低于 x250 PX4 的 MPC_TILTMAX_AIR=45deg。
+      max_tilt_angle: 0.70
+      # 推力上下界，单位约为 N，GCOPTER 会结合 mass/gravity 判断 thrust 约束。
       min_thrust: 2.0
-      max_thrust: 20.0
-      mass: 1.5
+      max_thrust: 11.0
+      # 无人机质量，影响平坦性模型中的 $f=m(a+g)$。
+      # x250 body + 4 rotors + Mid360 约为 $0.45 + 4*0.012 + 0.265 = 0.763kg$。
+      mass: 0.765
+      # 重力加速度。
       gravity: 9.81
+      # 简化阻力模型参数；当前设 0 表示不考虑气动阻力。
       horiz_drag: 0.0
       vert_drag: 0.0
       paras_drag: 0.0
+      # 速度平滑 epsilon，避免速度接近 0 时某些归一化项数值不稳定。
       speed_eps: 0.01
+      # 违反 corridor 的位置惩罚权重 $\lambda_p$；越大越不允许轨迹贴近/穿出走廊。
       penalty_pos: 10000.0
+      # 速度超限惩罚权重 $\lambda_v$。
       penalty_vel: 1000.0
+      # body rate 超限惩罚权重 $\lambda_\omega$。
       penalty_body_rate: 1000.0
+      # 倾角超限惩罚权重 $\lambda_theta$。
       penalty_tilt: 1000.0
+      # 推力超限惩罚权重 $\lambda_f$。
       penalty_thrust: 1000.0
 
+    # 后端输出后的硬检查参数。
+    # MINCO 中很多约束是 penalty 形式，不等价于严格满足；因此这里必须再次离散采样检查。
     feasibility:
       check_collision: true
       check_dynamics: true
+      # 轨迹采样周期，用于检查 $p(t),v(t),a(t),j(t)$；越小越安全但检查更慢。
       sample_dt: 0.03
+      # 碰撞线段检查步长，应小于等于地图 resolution 的一半左右。当前 map resolution=0.2m，因此 0.1m 合理。
       collision_check_step: 0.1
       # EGO-v2 风格 fine check：非最终 local target 只检查前 $2/3$，最终目标由代码强制检查完整轨迹。
       check_horizon_ratio: 0.6666667
+      # 硬速度检查 $||v(t)|| \le v_{max}+tol$，应与 minco.max_vel 一致或略小。
       max_vel: 2.5
-      max_acc: 2.5
-      max_jerk: 7.0
+      # 硬加速度检查 $||a(t)|| \le a_{max}+tol$，低于 x250 PX4 的 MPC_ACC_HOR=3.0。
+      max_acc: 3.0
+      # 硬 jerk 检查 $||j(t)|| \le j_{max}+tol$，低于 x250 PX4 的 MPC_JERK_AUTO=10。
+      max_jerk: 8.0
+      # 动力学检查容差，避免数值采样误差导致边界附近误判。
       tolerance: 0.05
 
   frame_id: "odom"
@@ -141,8 +180,8 @@ local_planner:
     local_z_size: 4.2
     local_z_min: -1.2
     local_z_max: 3.0
-    drone_radius: 0.15   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
-    safety_margin: 0.1  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
+    drone_radius: 0.20   # NOTE: 这个参数应该严格与mapping.yaml中保持一致
+    safety_margin: 0.08  # NOTE: 这个参数应该严格与mapping.yaml中保持一致
     # planner 内部地图采用多帧 log-odds 缓存：$l = log(p/(1-p))$。
     # 当前没有 raycasting free-space，p_miss 先作为后续接口保留；旧障碍通过 temporal_decay_log 缓慢回到未知 $l=0$。
     p_hit: 0.70

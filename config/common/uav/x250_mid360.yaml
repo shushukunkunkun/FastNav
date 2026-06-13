@@ -1,0 +1,23 @@
+# 250mm 级 FastNav 仿真/真机参考机体参数。
+uav:
+  name: x250_mid360
+  base_frame: base_link
+
+  geometry:
+    # 对角轴距约 0.25m，电机中心半径约 0.125m，5-inch 桨叶外缘半径约 0.19m。
+    wheelbase: 0.25
+    motor_center_radius: 0.125
+    prop_radius: 0.063
+    radius: 0.20
+    height: 0.16
+
+  physical_limits:
+    mass: 0.765
+    max_total_thrust: 12.1
+    planner_max_thrust: 11.0
+    hover_thrust: 7.5
+    hover_throttle: 0.62
+    max_vel: 2.5
+    max_acc: 3.0
+    max_jerk: 8.0
+    feasibility_tolerance: 0.05

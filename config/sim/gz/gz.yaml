@@ -4,10 +4,14 @@ gz:
   model_resource_path: config/sim/gz/models
   world_resource_path: config/sim/gz/worlds
 
-  default_model: x500_mid360
+  default_model: x250_mid360
   default_world: forest_easy
 
   models:
+    x250_mid360:
+      model_dir: config/sim/gz/models/x250_mid360
+      model_sdf: config/sim/gz/models/x250_mid360/model.sdf
+      model_config: config/sim/gz/models/x250_mid360/model.config
     x500_mid360:
       model_dir: config/sim/gz/models/x500_mid360
       model_sdf: config/sim/gz/models/x500_mid360/model.sdf
